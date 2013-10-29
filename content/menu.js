@@ -1,16 +1,7 @@
-const domWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-	.getInterface(Components.interfaces.nsIWebNavigation)
-	.QueryInterface(Components.interfaces.nsIDocShellTreeItem)
-	.rootTreeItem
-	.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-	.getInterface(Components.interfaces.nsIDOMWindow)
-	.wrappedJSObject;
-const domDocument = domWindow.document;
-
 Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("chrome://menufilter/content/menu.jsm");
 
-let windowURL, menuID;
+let windowURL, windowType, menuID;
 let menuIDList = document.getElementById("menuid");
 let menuItemList = document.getElementById("menu");
 let showButton = document.getElementById("show");
@@ -18,10 +9,12 @@ let hideButton = document.getElementById("hide");
 
 if (Services.appinfo.name == "Firefox") {
 	windowURL = "chrome://browser/content/browser.xul";
+	windowType = "navigator:browser";
 	document.documentElement.classList.add("isfirefox");
 	menuIDList.selectedItem = menuIDList.querySelector(".firefox");
 } else {
 	windowURL = "chrome://messenger/content/messenger.xul";
+	windowType = "mail:3pane";
 	document.documentElement.classList.add("isthunderbird");
 }
 
@@ -41,6 +34,8 @@ function displayMenu() {
 }
 
 function _displayMenu(aList) {
+	let domWindow = Services.wm.getMostRecentWindow(windowType);
+	let domDocument = domWindow.document;
 	let menu = domDocument.getElementById(menuID);
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {

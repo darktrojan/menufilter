@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://menufilter/content/menu.css" type="text/css"?>
 
 <!DOCTYPE page SYSTEM "chrome://menufilter/locale/strings.dtd">
-<page title="&page.title;" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<page title="&page.title;" width="800" height="600" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<hbox flex="1" pack="center">
 		<vbox>
 			<menulist id="menuid" oncommand="menuChosen(this.value)">
