@@ -1,0 +1,11 @@
+<!ENTITY page.title "Menu Filter">
+
+<!ENTITY menuid.list.contentcontext.label "Main Context Menu">
+<!ENTITY menuid.list.tabcontext.label "Tab Context Menu">
+<!ENTITY menuid.list.placescontext.label "History/Bookmarks Context Menu">
+
+<!ENTITY show.button.label "Show Selected">
+<!ENTITY hide.button.label "Hide Selected">
+
+<!ENTITY donate.label.text "Menu Filter is only possible because people like you donate.">
+<!ENTITY donate.button.label "Donate">

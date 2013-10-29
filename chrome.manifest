@@ -1,0 +1,4 @@
+# component {4895bc0b-72f3-48a3-ab89-ff079f51b32d} components/about-menufilter.js
+# contract @mozilla.org/network/protocol/about;1?what=menufilter {4895bc0b-72f3-48a3-ab89-ff079f51b32d}
+content menufilter content/
+locale menufilter en-US locale/en-US/

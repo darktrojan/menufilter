@@ -1,0 +1,28 @@
+page {
+	margin: 1em;
+}
+page.isfirefox .thunderbird,
+page.isthunderbird .firefox {
+	display: none;
+}
+listbox#menu {
+	width: 25em;
+}
+listitem {
+	padding: 2px;
+}
+listitem.menu {
+	-moz-binding: url("chrome://menufilter/content/menu.xml#listmenu");
+}
+listitem.separator {
+	-moz-binding: url("chrome://menufilter/content/menu.xml#listseparator");
+}
+listitem.separator hbox {
+	 border-top: 1px windowtext solid;
+}
+listitem.hidden {
+	color: graytext;
+}
+listitem.hidden.separator hbox {
+	border-top: 1px graytext solid;
+}

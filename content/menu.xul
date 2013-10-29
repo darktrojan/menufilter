@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://menufilter/content/menu.css" type="text/css"?>
+
+<!DOCTYPE page SYSTEM "chrome://menufilter/locale/strings.dtd">
+<page title="&page.title;" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<hbox flex="1" pack="center">
+		<vbox>
+			<menulist id="menuid" oncommand="menuChosen(this.value)">
+				<menupopup>
+					<menuitem value="mailContext" class="thunderbird" label="&menuid.list.contentcontext.label;" />
+					<menuitem value="contentAreaContextMenu" class="firefox" label="&menuid.list.contentcontext.label;" />
+					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabcontext.label;" />
+				</menupopup>
+			</menulist>
+		</vbox>
+		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" />
+		<vbox>
+			<button id="show" onclick="showSelection()" label="&show.button.label;" />
+			<button id="hide" onclick="hideSelection()" label="&hide.button.label;" />
+		</vbox>
+	</hbox>
+	<script src="chrome://menufilter/content/menu.js" type="application/javascript" />
+</page>
