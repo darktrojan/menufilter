@@ -10,7 +10,7 @@
 	<binding id="listmenu" extends="chrome://global/content/bindings/listbox.xml#listitem">
 		<content>
 			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
-				<xul:label flex="1" xbl:inherits="value=label" />
+				<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
 				<xul:hbox style="-moz-appearance: menuarrow; height: 16px; width: 16px" />
 			</xul:listcell>
 		</content>
