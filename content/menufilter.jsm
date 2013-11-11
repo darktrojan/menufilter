@@ -1,4 +1,4 @@
-const EXPORTED_SYMBOLS = ["HiddenMenuItems", "MenuFilter"];
+const EXPORTED_SYMBOLS = ["MenuFilter"];
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 const KEY_PROFILEDIR = "ProfD";
@@ -40,7 +40,7 @@ function ensureList() {
 	return deferred.promise;
 }
 
-let HiddenMenuItems = {
+let _hiddenItems = {
 	add: function(aWindowURL, aMenuID, aIDs) {
 		return this.getList(aWindowURL, aMenuID).then(function(aList) {
 			for (let id of aIDs) {
@@ -112,5 +112,6 @@ let MenuFilter = {
 				}
 			}
 		}
-	}
+	},
+	hiddenItems: _hiddenItems
 };

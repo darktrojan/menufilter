@@ -13,8 +13,8 @@ function install(aParams, aReason) {
 function uninstall(aParams, aReason) {
 }
 function startup(aParams, aReason) {
-	Components.utils.import("chrome://menufilter/content/menu.jsm");
-	HiddenMenuItems.registerListener(refreshItems);
+	Components.utils.import("chrome://menufilter/content/menufilter.jsm");
+	MenuFilter.hiddenItems.registerListener(refreshItems);
 
 	enumerateWindows(paint);
 	Services.ww.registerNotification(windowObserver);
@@ -70,7 +70,7 @@ function enumerateWindows(aCallback) {
 	}
 }
 function hideItems(aDocument) {
-	HiddenMenuItems.getList(aDocument.location).then(function(aList) {
+	MenuFilter.hiddenItems.getList(aDocument.location).then(function(aList) {
 		for (let [id, list] in Iterator(aList)) {
 			let menu = aDocument.getElementById(id);
 			if (!menu) {

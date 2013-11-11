@@ -1,5 +1,5 @@
 Components.utils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("chrome://menufilter/content/menu.jsm");
+Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 
 let windowURL, windowType, menuID;
 let menuIDList = document.getElementById("menuid");
@@ -30,7 +30,7 @@ function displayMenu() {
 	while (menuItemList.lastElementChild) {
 		menuItemList.removeChild(menuItemList.lastElementChild);
 	}
-	HiddenMenuItems.getList(windowURL, menuID).then(_displayMenu);
+	MenuFilter.hiddenItems.getList(windowURL, menuID).then(_displayMenu);
 }
 
 function _displayMenu(aList) {
@@ -87,7 +87,7 @@ function showSelection() {
 			option.classList.remove("hidden");
 		}
 	}
-	HiddenMenuItems.remove(windowURL, menuID, toShow);
+	MenuFilter.hiddenItems.remove(windowURL, menuID, toShow);
 	selectionChanged();
 	menuItemList.focus();
 }
@@ -100,7 +100,7 @@ function hideSelection() {
 			option.classList.add("hidden");
 		}
 	}
-	HiddenMenuItems.add(windowURL, menuID, toHide);
+	MenuFilter.hiddenItems.add(windowURL, menuID, toHide);
 	selectionChanged();
 	menuItemList.focus();
 }
