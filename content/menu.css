@@ -18,7 +18,7 @@ listitem.separator {
 	-moz-binding: url("chrome://menufilter/content/menu.xml#listseparator");
 }
 listitem.separator hbox {
-	 border-top: 1px windowtext solid;
+	border-top: 1px windowtext solid;
 }
 listitem.hidden {
 	color: graytext;
