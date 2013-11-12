@@ -6,7 +6,7 @@
 		<em:type>2</em:type>
 		<em:bootstrap>true</em:bootstrap>
 		<em:name>Menu Filter</em:name>
-		<em:description></em:description>
+		<em:description>Keep your menus in check by filtering out items you never use.</em:description>
 		<em:creator>Geoff Lankow</em:creator>
 		<em:optionsURL>about:menufilter</em:optionsURL>
 		<em:optionsType>3</em:optionsType>
