@@ -1,9 +1,13 @@
 page {
 	margin: 1em;
 }
-page.isfirefox .thunderbird,
-page.isthunderbird .firefox {
+.firefox,
+.thunderbird {
 	display: none;
+}
+page.isfirefox .firefox,
+page.isthunderbird .thunderbird {
+	display: initial;
 }
 listbox#menu {
 	width: 25em;

@@ -12,6 +12,15 @@
 					<menuitem value="mailContext" class="thunderbird" label="&menuid.list.contentcontext.label;" />
 					<menuitem value="contentAreaContextMenu" class="firefox" label="&menuid.list.contentcontext.label;" />
 					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabcontext.label;" />
+					<menuitem value="menu_FilePopup" class="firefox thunderbird" label="&menuid.list.file.label;" />
+					<menuitem value="menu_EditPopup" class="firefox thunderbird" label="&menuid.list.edit.label;" />
+					<menuitem value="menu_viewPopup" class="firefox" label="&menuid.list.view.label;" />
+					<menuitem value="menu_View_Popup" class="thunderbird" label="&menuid.list.view.label;" />
+					<menuitem value="menu_GoPopup" class="thunderbird" label="&menuid.list.go.label;" />
+					<menuitem value="messageMenuPopup" class="thunderbird" label="&menuid.list.message.label;" />
+					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
+					<menuitem value="taskPopup" class="thunderbird" label="&menuid.list.tools.label;" />
+					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
 				</menupopup>
 			</menulist>
 		</vbox>
