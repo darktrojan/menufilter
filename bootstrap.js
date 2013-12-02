@@ -3,10 +3,10 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 const cssData = 'href="data:text/css,' + encodeURIComponent(".menufilter-hidden { display: none; }") + '" type="text/css"';
 
 let aboutPage = {};
-let WINDOW_URLS = [
-	"chrome://browser/content/browser.xul",
-	"chrome://messenger/content/messenger.xul"
-];
+let ABOUT_PAGE_URL = "about:menufilter";
+let BROWSER_URL = "chrome://browser/content/browser.xul";
+let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
+let WINDOW_URLS = [BROWSER_URL, MESSENGER_URL];
 
 function install(aParams, aReason) {
 }
@@ -34,7 +34,21 @@ function shutdown(aParams, aReason) {
 		return;
 	}
 
-	enumerateWindows(unpaint);
+	enumerateWindows(function(aWindow) {
+		unpaint(aWindow);
+		switch (aWindow.location.href) {
+		case ABOUT_PAGE_URL:
+			aWindow.close();
+			break;
+		case BROWSER_URL:
+			for (let tab of aWindow.gBrowser.tabs) {
+				if (tab.linkedBrowser.currentURI.spec == ABOUT_PAGE_URL) {
+					aWindow.gBrowser.removeTab(tab);
+				}
+			}
+			break;
+		}
+	});
 
 	let registrar = Components.manager.QueryInterface(Components.interfaces.nsIComponentRegistrar);
 	registrar.unregisterFactory(
