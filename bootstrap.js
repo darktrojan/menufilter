@@ -55,6 +55,8 @@ function shutdown(aParams, aReason) {
 		aboutPage.MenuFilterAboutHandler.prototype.classID,
 		aboutPage.NSGetFactory(aboutPage.MenuFilterAboutHandler.prototype.classID)
 	);
+
+	Components.utils.unload("chrome://menufilter/content/menufilter.jsm");
 }
 
 function paint(aWindow) {
