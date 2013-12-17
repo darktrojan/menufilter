@@ -7,15 +7,25 @@ let menuItemList = document.getElementById("menu");
 let showButton = document.getElementById("show");
 let hideButton = document.getElementById("hide");
 
-if (Services.appinfo.name == "Firefox") {
+switch (Services.appinfo.name) {
+case "Firefox":
 	windowURL = "chrome://browser/content/browser.xul";
 	windowType = "navigator:browser";
 	document.documentElement.classList.add("isfirefox");
 	menuIDList.selectedItem = menuIDList.querySelector(".firefox");
-} else {
+	break;
+case "Thunderbird":
 	windowURL = "chrome://messenger/content/messenger.xul";
 	windowType = "mail:3pane";
 	document.documentElement.classList.add("isthunderbird");
+	menuIDList.selectedItem = menuIDList.querySelector(".thunderbird");
+	break;
+case "SeaMonkey":
+	windowURL = "chrome://navigator/content/navigator.xul";
+	windowType = "navigator:browser";
+	document.documentElement.classList.add("isseamonkey");
+	menuIDList.selectedItem = menuIDList.querySelector(".seamonkey");
+	break;
 }
 
 showButton.disabled = hideButton.disabled = true;

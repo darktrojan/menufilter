@@ -8,7 +8,8 @@ let strings = Services.strings.createBundle("chrome://menufilter/locale/strings.
 let ABOUT_PAGE_URL = "about:menufilter";
 let BROWSER_URL = "chrome://browser/content/browser.xul";
 let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
-let WINDOW_URLS = [BROWSER_URL, MESSENGER_URL];
+let NAVIGATOR_URL = "chrome://navigator/content/navigator.xul";
+let WINDOW_URLS = [BROWSER_URL, MESSENGER_URL, NAVIGATOR_URL];
 
 function install(aParams, aReason) {
 }

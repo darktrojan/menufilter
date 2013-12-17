@@ -25,5 +25,12 @@
 				<em:maxVersion>29.0a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+		<em:targetApplication>
+			<Description>
+				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+				<em:minVersion>2.23</em:minVersion>
+				<em:maxVersion>2.24.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
 	</Description>
 </RDF>

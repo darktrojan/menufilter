@@ -13,6 +13,7 @@
 <!ENTITY menuid.list.bookmarks.label "Bookmarks Menu">
 <!ENTITY menuid.list.lightning.label "Events and Tasks Menu">
 <!ENTITY menuid.list.tools.label "Tools Menu">
+<!ENTITY menuid.list.window.label "Window Menu">
 <!ENTITY menuid.list.help.label "Help Menu">
 
 <!ENTITY show.button.label "Show Selected">

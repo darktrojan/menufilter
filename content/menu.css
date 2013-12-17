@@ -2,11 +2,13 @@ page {
 	margin: 1em;
 }
 .firefox,
-.thunderbird {
+.thunderbird,
+.seamonkey {
 	display: none;
 }
 page.isfirefox .firefox,
-page.isthunderbird .thunderbird {
+page.isthunderbird .thunderbird,
+page.isseamonkey .seamonkey {
 	display: initial;
 }
 listbox#menu {
