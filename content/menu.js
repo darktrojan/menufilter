@@ -62,7 +62,7 @@ function _displayMenu(aList) {
 	let menu = domDocument.getElementById(menuID);
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
-		if (menuitem.classList.contains("bookmark-item")) {
+		if (menuitem.classList.contains("bookmark-item") || menuitem.getAttribute("type") == "radio") {
 			break;
 		}
 		let item = document.createElement("listitem");

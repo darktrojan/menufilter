@@ -17,13 +17,14 @@
 					<menuitem value="menu_viewPopup" class="firefox" label="&menuid.list.view.label;" />
 					<menuitem value="menu_View_Popup" class="thunderbird seamonkey" label="&menuid.list.view.label;" />
 					<menuitem value="menu_GoPopup" class="thunderbird" label="&menuid.list.go.label;" />
+					<menuitem value="goPopup" class="seamonkey" label="&menuid.list.go.label;" />
 					<menuitem value="goPopup" class="firefox" label="&menuid.list.history.label;" />
 					<menuitem value="messageMenuPopup" class="thunderbird" label="&menuid.list.message.label;" />
-					<menuitem value="bookmarksMenuPopup" class="firefox" label="&menuid.list.bookmarks.label;" />
+					<menuitem value="bookmarksMenuPopup" class="firefox seamonkey" label="&menuid.list.bookmarks.label;" />
 					<menuitem value="menu_Event_Task_Popup" class="thunderbird" label="&menuid.list.lightning.label;" />
 					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
 					<menuitem value="taskPopup" class="thunderbird seamonkey" label="&menuid.list.tools.label;" />
-					<!-- <menuitem value="windowPopup" class="seamonkey" label="&menuid.list.window.label;" /> -->
+					<menuitem value="windowPopup" class="seamonkey" label="&menuid.list.window.label;" />
 					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
 					<menuitem value="helpPopup" class="seamonkey" label="&menuid.list.help.label;" />
 				</menupopup>
