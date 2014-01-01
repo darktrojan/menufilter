@@ -19,7 +19,20 @@ if (Services.appinfo.name == "Firefox") {
 }
 
 showButton.disabled = hideButton.disabled = true;
+updateMenuIDList();
 menuChosen(menuIDList.value);
+
+function updateMenuIDList() {
+	let domWindow = Services.wm.getMostRecentWindow(windowType);
+	let domDocument = domWindow.document;
+	for (let i = 0; i < menuIDList.itemCount; i++) {
+		let item = menuIDList.getItemAtIndex(i);
+		let menuID = item.value;
+		if (!domDocument.getElementById(menuID)) {
+			item.disabled = true;
+		}
+	}
+}
 
 function menuChosen(aID) {
 	menuID = aID;

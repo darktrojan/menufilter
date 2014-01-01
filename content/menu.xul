@@ -20,6 +20,7 @@
 					<menuitem value="goPopup" class="firefox" label="History Menu" />
 					<menuitem value="messageMenuPopup" class="thunderbird" label="&menuid.list.message.label;" />
 					<menuitem value="bookmarksMenuPopup" class="firefox" label="Bookmarks Menu" />
+					<menuitem value="menu_Event_Task_Popup" class="thunderbird" label="Events and Tasks Menu" />
 					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
 					<menuitem value="taskPopup" class="thunderbird" label="&menuid.list.tools.label;" />
 					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
