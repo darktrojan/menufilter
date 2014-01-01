@@ -8,7 +8,10 @@
 <!ENTITY menuid.list.edit.label "Edit Menu">
 <!ENTITY menuid.list.view.label "View Menu">
 <!ENTITY menuid.list.go.label "Go Menu">
+<!ENTITY menuid.list.history.label "History Menu">
 <!ENTITY menuid.list.message.label "Message Menu">
+<!ENTITY menuid.list.bookmarks.label "Bookmarks Menu">
+<!ENTITY menuid.list.lightning.label "Events and Tasks Menu">
 <!ENTITY menuid.list.tools.label "Tools Menu">
 <!ENTITY menuid.list.help.label "Help Menu">
 
