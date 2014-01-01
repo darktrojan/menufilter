@@ -39,6 +39,9 @@ function _displayMenu(aList) {
 	let menu = domDocument.getElementById(menuID);
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
+		if (menuitem.classList.contains("bookmark-item")) {
+			break;
+		}
 		let item = document.createElement("listitem");
 		switch (menuitem.localName) {
 		case "menuitem":
