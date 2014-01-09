@@ -3,6 +3,8 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 const cssData = 'href="data:text/css,' + encodeURIComponent(".menufilter-hidden { display: none; }") + '" type="text/css"';
 
 let aboutPage = {};
+let strings = Services.strings.createBundle("chrome://menufilter/locale/strings.properties");
+
 let ABOUT_PAGE_URL = "about:menufilter";
 let BROWSER_URL = "chrome://browser/content/browser.xul";
 let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
@@ -67,6 +69,28 @@ function paint(aWindow) {
 		document.menuCSSNode = pi;
 
 		hideItems(document);
+
+		let menuitem = document.createElement("menuitem");
+		menuitem.id = "tools-menufilter";
+		menuitem.className = "menuitem-iconic";
+		menuitem.setAttribute("label", strings.GetStringFromName("toolsmenuitem.label"));
+
+		let toolsPopup;
+		if (toolsPopup = document.getElementById("menu_ToolsPopup")) {
+			menuitem.addEventListener("command", function() {
+				aWindow.switchToTabHavingURI(ABOUT_PAGE_URL, true);
+			});
+			toolsPopup.appendChild(menuitem);
+		} else if (toolsPopup = document.getElementById("taskPopup")) {
+			menuitem.addEventListener("command", function() {
+				let whitelist = aWindow.contentTabBaseType.inContentWhitelist;
+				if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
+					whitelist.push(ABOUT_PAGE_URL);
+				}
+				aWindow.openContentTab(ABOUT_PAGE_URL);
+			});
+			toolsPopup.appendChild(menuitem);
+		}
 	}
 }
 function unpaint(aWindow) {
@@ -77,6 +101,11 @@ function unpaint(aWindow) {
 		}
 
 		unhideItems(document);
+
+		let menuitem = document.getElementById("tools-menufilter");
+		if (menuitem) {
+			menuitem.remove();
+		}
 	}
 }
 function enumerateWindows(aCallback) {
