@@ -105,6 +105,9 @@ let MenuFilter = {
 	ensureItemsHaveIDs: function(aMenu) {
 		let i = 1;
 		for (let menuitem of aMenu.children) {
+			if (menuitem.classList.contains("bookmark-item")) {
+				break;
+			}
 			if (!menuitem.id) {
 				if (menuitem.localName == "menuseparator") {
 					let previous = menuitem.previousElementSibling;
