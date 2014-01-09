@@ -69,29 +69,28 @@ function paint(aWindow) {
 		document.insertBefore(pi, document.documentElement);
 		document.menuCSSNode = pi;
 
-		hideItems(document);
-
 		let menuitem = document.createElement("menuitem");
 		menuitem.id = "tools-menufilter";
 		menuitem.className = "menuitem-iconic";
 		menuitem.setAttribute("label", strings.GetStringFromName("toolsmenuitem.label"));
-
-		let toolsPopup;
-		if (toolsPopup = document.getElementById("menu_ToolsPopup")) {
-			menuitem.addEventListener("command", function() {
+		menuitem.addEventListener("command", function() {
+			if ("switchToTabHavingURI" in aWindow) {
 				aWindow.switchToTabHavingURI(ABOUT_PAGE_URL, true);
-			});
-			toolsPopup.appendChild(menuitem);
-		} else if (toolsPopup = document.getElementById("taskPopup")) {
-			menuitem.addEventListener("command", function() {
+			} else if ("contentTabBaseType" in aWindow) {
 				let whitelist = aWindow.contentTabBaseType.inContentWhitelist;
 				if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
 					whitelist.push(ABOUT_PAGE_URL);
 				}
 				aWindow.openContentTab(ABOUT_PAGE_URL);
-			});
+			}
+		});
+
+		let toolsPopup = document.getElementById("menu_ToolsPopup") || document.getElementById("taskPopup");
+		if (toolsPopup) {
 			toolsPopup.appendChild(menuitem);
 		}
+
+		hideItems(document);
 	}
 }
 function unpaint(aWindow) {
