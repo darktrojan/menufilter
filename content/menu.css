@@ -1,6 +1,9 @@
 page {
 	margin: 1em;
 }
+#menuid > menupopup > menuitem[disabled] {
+	display: none;
+}
 .firefox,
 .thunderbird,
 .seamonkey {

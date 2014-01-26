@@ -3,23 +3,40 @@
 <?xml-stylesheet href="chrome://menufilter/content/menu.css" type="text/css"?>
 
 <!DOCTYPE page SYSTEM "chrome://menufilter/locale/strings.dtd">
-<page title="&page.title;" width="800" height="600" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<page title="&page.title;" width="800" height="600"
+		onunload="unload()"
+		onerror="console.error(event)"
+		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	<hbox flex="1" pack="center">
 		<vbox>
+			<label control="windowtype" value="XXX Window:" />
+			<menulist id="windowtype" oncommand="windowTypeChosen(this.selectedItem)">
+				<menupopup>
+					<menuitem class="firefox" label="XXX Main window"
+						value="navigator:browser" url="chrome://browser/content/browser.xul" />
+					<menuitem class="seamonkey" label="XXX Main window"
+						value="navigator:browser" url="chrome://navigator/content/navigator.xul" />
+					<menuitem class="firefox" label="XXX Library"
+						value="Places:Organizer" url="chrome://browser/content/places/places.xul" />
+					<menuitem class="thunderbird seamonkey" label="XXX Mail window"
+						value="mail:3pane" url="chrome://messenger/content/messenger.xul" />
+				</menupopup>
+			</menulist>
 			<label control="menuid" value="&menuid.list.label;" />
 			<menulist id="menuid" oncommand="menuChosen(this.value)">
 				<menupopup>
-					<menuitem value="mailContext" class="thunderbird" label="&menuid.list.contentcontext.label;" />
+					<menuitem value="mailContext" class="thunderbird XXX seamonkey" label="&menuid.list.contentcontext.label;" />
 					<menuitem value="contentAreaContextMenu" class="firefox seamonkey" label="&menuid.list.contentcontext.label;" />
 					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabcontext.label;" />
 					<menuitem value="menu_FilePopup" class="firefox thunderbird seamonkey" label="&menuid.list.file.label;" />
 					<menuitem value="menu_EditPopup" class="firefox thunderbird seamonkey" label="&menuid.list.edit.label;" />
 					<menuitem value="menu_viewPopup" class="firefox" label="&menuid.list.view.label;" />
 					<menuitem value="menu_View_Popup" class="thunderbird seamonkey" label="&menuid.list.view.label;" />
-					<menuitem value="menu_GoPopup" class="thunderbird" label="&menuid.list.go.label;" />
+					<menuitem value="menu_GoPopup" class="thunderbird XXX seamonkey" label="&menuid.list.go.label;" />
 					<menuitem value="goPopup" class="seamonkey" label="&menuid.list.go.label;" />
 					<menuitem value="goPopup" class="firefox" label="&menuid.list.history.label;" />
-					<menuitem value="messageMenuPopup" class="thunderbird" label="&menuid.list.message.label;" />
+					<menuitem value="messageMenuPopup" class="thunderbird XXX seamonkey" label="&menuid.list.message.label;" />
 					<menuitem value="bookmarksMenuPopup" class="firefox seamonkey" label="&menuid.list.bookmarks.label;" />
 					<menuitem value="menu_Event_Task_Popup" class="thunderbird" label="&menuid.list.lightning.label;" />
 					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
@@ -27,6 +44,7 @@
 					<menuitem value="windowPopup" class="seamonkey" label="&menuid.list.window.label;" />
 					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
 					<menuitem value="helpPopup" class="seamonkey" label="&menuid.list.help.label;" />
+					<menuitem value="placesContext" class="firefox" label="XXX Places context" />
 				</menupopup>
 			</menulist>
 		</vbox>

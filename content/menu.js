@@ -2,6 +2,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 
 let windowURL, windowType, menuID;
+let windowTypeList = document.getElementById("windowtype");
 let menuIDList = document.getElementById("menuid");
 let menuItemList = document.getElementById("menu");
 let showButton = document.getElementById("show");
@@ -12,19 +13,19 @@ case "Firefox":
 	windowURL = "chrome://browser/content/browser.xul";
 	windowType = "navigator:browser";
 	document.documentElement.classList.add("isfirefox");
-	menuIDList.selectedItem = menuIDList.querySelector(".firefox");
+	windowTypeList.selectedItem = windowTypeList.querySelector(".firefox");
 	break;
 case "Thunderbird":
 	windowURL = "chrome://messenger/content/messenger.xul";
 	windowType = "mail:3pane";
 	document.documentElement.classList.add("isthunderbird");
-	menuIDList.selectedItem = menuIDList.querySelector(".thunderbird");
+	windowTypeList.selectedItem = windowTypeList.querySelector(".thunderbird");
 	break;
 case "SeaMonkey":
 	windowURL = "chrome://navigator/content/navigator.xul";
 	windowType = "navigator:browser";
 	document.documentElement.classList.add("isseamonkey");
-	menuIDList.selectedItem = menuIDList.querySelector(".seamonkey");
+	windowTypeList.selectedItem = windowTypeList.querySelector(".seamonkey");
 	break;
 }
 
@@ -32,16 +33,48 @@ showButton.disabled = hideButton.disabled = true;
 updateMenuIDList();
 menuChosen(menuIDList.value);
 
+let windowObserver = {
+	observe: function(aSubject, aTopic, aData) {
+		if (aTopic == "domwindowopened") {
+			aSubject.addEventListener("load", function() {
+				aSubject.removeEventListener("load", arguments.callee);
+				windowObserver.iterate();
+			});
+		} else {
+			this.iterate();
+		}
+	},
+	iterate: function() {
+		for (let i = 0; i < windowTypeList.itemCount; i++) {
+			let item = windowTypeList.getItemAtIndex(i);
+			item.disabled = !Services.wm.getMostRecentWindow(item.value);
+		}
+	}
+}
+
+windowObserver.iterate();
+Services.ww.registerNotification(windowObserver);
+
+function unload() {
+	Services.ww.unregisterNotification(windowObserver);
+}
+
+function windowTypeChosen(aItem) {
+	windowType = aItem.value;
+	windowURL = aItem.getAttribute("url");
+	updateMenuIDList();
+	menuChosen(menuIDList.value);
+}
+
 function updateMenuIDList() {
 	let domWindow = Services.wm.getMostRecentWindow(windowType);
 	let domDocument = domWindow.document;
 	for (let i = 0; i < menuIDList.itemCount; i++) {
 		let item = menuIDList.getItemAtIndex(i);
 		let menuID = item.value;
-		if (!domDocument.getElementById(menuID)) {
-			item.disabled = true;
-		}
+		item.disabled = !domDocument.getElementById(menuID);
 	}
+	menuIDList.selectedItem = menuIDList.querySelector("." + Services.appinfo.name.toLowerCase() + ":not([disabled])");
 }
 
 function menuChosen(aID) {
