@@ -13,19 +13,17 @@ case "Firefox":
 	windowURL = "chrome://browser/content/browser.xul";
 	windowType = "navigator:browser";
 	document.documentElement.classList.add("isfirefox");
-	windowTypeList.selectedItem = windowTypeList.querySelector(".firefox");
 	break;
 case "Thunderbird":
 	windowURL = "chrome://messenger/content/messenger.xul";
 	windowType = "mail:3pane";
 	document.documentElement.classList.add("isthunderbird");
-	windowTypeList.selectedItem = windowTypeList.querySelector(".thunderbird");
 	break;
 case "SeaMonkey":
 	windowURL = "chrome://navigator/content/navigator.xul";
 	windowType = "navigator:browser";
 	document.documentElement.classList.add("isseamonkey");
-	windowTypeList.selectedItem = windowTypeList.querySelector(".seamonkey");
+	windowTypeList.selectedItem = windowTypeList.getItemAtIndex(0);
 	break;
 }
 
@@ -95,9 +93,13 @@ function _displayMenu(aList) {
 	let menu = domDocument.getElementById(menuID);
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
-		if (menuitem.classList.contains("bookmark-item") || menuitem.getAttribute("type") == "radio") {
+		if (menuitem.classList.contains("bookmark-item")) {
 			break;
 		}
+		if ((menuID == "goPopup" || menuID == "windowPopup") && menuitem.getAttribute("type") == "radio") {
+			break;
+		}
+
 		let item = document.createElement("listitem");
 		switch (menuitem.localName) {
 		case "menuitem":
