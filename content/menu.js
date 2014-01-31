@@ -165,3 +165,18 @@ function hideSelection() {
 	selectionChanged();
 	menuItemList.focus();
 }
+
+function doDonate() {
+	let uri = "https://addons.mozilla.org/addon/menu-filter/developers";
+
+	let browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
+	if (browserWindow) {
+		browserWindow.switchToTabHavingURI(uri, true);
+		return;
+	}
+
+	let mailWindow = Services.wm.getMostRecentWindow("mail:3pane");
+	if (mailWindow) {
+		mailWindow.openLinkExternally(uri);
+	}
+}

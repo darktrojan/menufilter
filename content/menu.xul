@@ -48,6 +48,11 @@
 					<menuitem value="helpPopup" class="seamonkey" label="&menuid.list.help.label;" />
 				</menupopup>
 			</menulist>
+			<spacer flex="1" />
+			<description id="donatelabel">&donate.label.text;</description>
+			<hbox pack="center">
+				<button label="&donate.button.label;" oncommand="doDonate();" />
+			</hbox>
 		</vbox>
 		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" />
 		<vbox>

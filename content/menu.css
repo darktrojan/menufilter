@@ -14,6 +14,10 @@ page.isthunderbird .thunderbird,
 page.isseamonkey .seamonkey {
 	display: initial;
 }
+#donatelabel {
+	 white-space: pre-wrap;
+	 width: 0;
+}
 listbox#menu {
 	width: 25em;
 }
