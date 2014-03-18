@@ -167,7 +167,7 @@ function hideSelection() {
 }
 
 function doDonate() {
-	let uri = "https://addons.mozilla.org/addon/menu-filter/developers";
+	let uri = "https://addons.mozilla.org/addon/menu-filter/contribute/installed/";
 
 	let browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
 	if (browserWindow) {
