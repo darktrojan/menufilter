@@ -7,9 +7,10 @@ let strings = Services.strings.createBundle("chrome://menufilter/locale/strings.
 
 let ABOUT_PAGE_URL = "about:menufilter";
 let BROWSER_URL = "chrome://browser/content/browser.xul";
+let MESSAGE_WINDOW_URL = "chrome://messenger/content/messageWindow.xul";
 let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
 let NAVIGATOR_URL = "chrome://navigator/content/navigator.xul";
-let WINDOW_URLS = [BROWSER_URL, MESSENGER_URL, NAVIGATOR_URL];
+let WINDOW_URLS = [BROWSER_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
 function install(aParams, aReason) {
 }
@@ -63,38 +64,48 @@ function shutdown(aParams, aReason) {
 }
 
 function paint(aWindow) {
-	if (WINDOW_URLS.indexOf(aWindow.location.href) >= 0) {
+	let location = aWindow.location.href;
+	if (location == MESSAGE_WINDOW_URL) {
+		location = MESSENGER_URL;
+	}
+	if (WINDOW_URLS.indexOf(location) >= 0) {
 		let document = aWindow.document;
 		let pi = document.createProcessingInstruction("xml-stylesheet", cssData);
 		document.insertBefore(pi, document.documentElement);
 		document.menuCSSNode = pi;
 
-		let menuitem = document.createElement("menuitem");
-		menuitem.id = "tools-menufilter";
-		menuitem.className = "menuitem-iconic";
-		menuitem.setAttribute("label", strings.GetStringFromName("toolsmenuitem.label"));
-		menuitem.addEventListener("command", function() {
-			if ("switchToTabHavingURI" in aWindow) {
-				aWindow.switchToTabHavingURI(ABOUT_PAGE_URL, true);
-			} else if ("contentTabBaseType" in aWindow) {
-				let whitelist = aWindow.contentTabBaseType.inContentWhitelist;
-				if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
-					whitelist.push(ABOUT_PAGE_URL);
+		if ("switchToTabHavingURI" in aWindow || "contentTabBaseType" in aWindow) {
+			let menuitem = document.createElement("menuitem");
+			menuitem.id = "tools-menufilter";
+			menuitem.className = "menuitem-iconic";
+			menuitem.setAttribute("label", strings.GetStringFromName("toolsmenuitem.label"));
+			menuitem.addEventListener("command", function() {
+				if ("switchToTabHavingURI" in aWindow) {
+					aWindow.switchToTabHavingURI(ABOUT_PAGE_URL, true);
+				} else if ("contentTabBaseType" in aWindow) {
+					let whitelist = aWindow.contentTabBaseType.inContentWhitelist;
+					if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
+						whitelist.push(ABOUT_PAGE_URL);
+					}
+					aWindow.openContentTab(ABOUT_PAGE_URL);
 				}
-				aWindow.openContentTab(ABOUT_PAGE_URL);
-			}
-		});
+			});
 
-		let toolsPopup = document.getElementById("menu_ToolsPopup") || document.getElementById("taskPopup");
-		if (toolsPopup) {
-			toolsPopup.appendChild(menuitem);
+			let toolsPopup = document.getElementById("menu_ToolsPopup") || document.getElementById("taskPopup");
+			if (toolsPopup) {
+				toolsPopup.appendChild(menuitem);
+			}
 		}
 
 		hideItems(document);
 	}
 }
 function unpaint(aWindow) {
-	if (WINDOW_URLS.indexOf(aWindow.location.href) >= 0) {
+	let location = aWindow.location.href;
+	if (location == MESSAGE_WINDOW_URL) {
+		location = MESSENGER_URL;
+	}
+	if (WINDOW_URLS.indexOf(location) >= 0) {
 		let document = aWindow.document;
 		if (!!document.menuCSSNode) {
 			document.removeChild(document.menuCSSNode);
@@ -115,7 +126,11 @@ function enumerateWindows(aCallback) {
 	}
 }
 function hideItems(aDocument) {
-	MenuFilter.hiddenItems.getList(aDocument.location).then(function(aList) {
+	let location = aDocument.location;
+	if (location == MESSAGE_WINDOW_URL) {
+		location = MESSENGER_URL;
+	}
+	MenuFilter.hiddenItems.getList(location).then(function(aList) {
 		for (let [id, list] in Iterator(aList)) {
 			let menu = aDocument.getElementById(id);
 			if (!menu) {
