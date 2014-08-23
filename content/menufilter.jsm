@@ -8,11 +8,7 @@ const FILE_DATABASE = "menufilter.json";
 XPCOMUtils.defineLazyModuleGetter(this, "FileUtils", "resource://gre/modules/FileUtils.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "Promise", "resource://gre/modules/Promise.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "OS", "resource://gre/modules/osfile.jsm");
-if (Services.vc.compare(Services.appinfo.platformVersion, "25.0") < 0) {
-	XPCOMUtils.defineLazyModuleGetter(this, "DeferredSave", "chrome://menufilter/content/DeferredSave.jsm");
-} else {
-	XPCOMUtils.defineLazyModuleGetter(this, "DeferredSave", "resource://gre/modules/DeferredSave.jsm");
-}
+XPCOMUtils.defineLazyModuleGetter(this, "DeferredSave", "resource://gre/modules/DeferredSave.jsm");
 
 let jsonFile = FileUtils.getFile(KEY_PROFILEDIR, [FILE_DATABASE], true);
 let _list = null;
