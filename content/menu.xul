@@ -26,6 +26,7 @@
 				<menupopup>
 					<menuitem value="mailContext" class="thunderbird seamonkey" label="&menuid.list.contentcontext.label;" />
 					<menuitem value="contentAreaContextMenu" class="firefox seamonkey" label="&menuid.list.contentcontext.label;" />
+					<menuitem value="folderPaneContext" class="thunderbird seamonkey" label="&menuid.list.folderPaneContext.label;" />
 					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabcontext.label;" />
 					<menuitem value="placesContext" class="firefox" label="&menuid.list.placescontext.label;" />
 					<menuitem value="menu_FilePopup" class="firefox thunderbird seamonkey" label="&menuid.list.file.label;" />

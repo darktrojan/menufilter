@@ -9,6 +9,7 @@
 <!ENTITY menuid.list.contentcontext.label "Main Context Menu">
 <!ENTITY menuid.list.tabcontext.label "Tab Context Menu">
 <!ENTITY menuid.list.placescontext.label "Bookmarks Context Menu">
+<!ENTITY menuid.list.folderPaneContext.label "Folder Pane Context Menu">
 <!ENTITY menuid.list.file.label "File Menu">
 <!ENTITY menuid.list.edit.label "Edit Menu">
 <!ENTITY menuid.list.view.label "View Menu">
