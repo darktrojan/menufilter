@@ -1,5 +1,10 @@
 Components.utils.import("resource://gre/modules/Services.jsm");
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 Components.utils.import("chrome://menufilter/content/menufilter.jsm");
+
+XPCOMUtils.defineLazyGetter(this, "strings", function() {
+	return Services.strings.createBundle("chrome://menufilter/locale/strings.properties");
+});
 
 let windowURL, windowType, menuID;
 let windowTypeList = document.getElementById("windowtype");
@@ -111,6 +116,11 @@ function _displayMenu(aList) {
 			break;
 		case "menuseparator":
 			item.classList.add("separator");
+			break;
+		case "menugroup":
+			if (menuitem.id == "context-navigation") {
+				item.setAttribute("label", strings.GetStringFromName("context-navigation.label"));
+			}
 			break;
 		}
 		if (menuitem.id) {
