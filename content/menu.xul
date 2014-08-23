@@ -52,10 +52,10 @@
 			<spacer flex="1" />
 			<description id="donatelabel">&donate.label.text;</description>
 			<hbox pack="center">
-				<label class="text-link" value="&donate.button.label;" onclick="doDonate();" />
+				<label class="text-link" value="&donate.button.label;" onclick="doDonate()" />
 			</hbox>
 		</vbox>
-		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" />
+		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" ondblclick="toggleItem(event.target)" />
 		<vbox>
 			<button id="show" onclick="showSelection()" label="&show.button.label;" />
 			<button id="hide" onclick="hideSelection()" label="&hide.button.label;" />

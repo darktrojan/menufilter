@@ -176,6 +176,20 @@ function hideSelection() {
 	menuItemList.focus();
 }
 
+function toggleItem(aTarget) {
+	if (aTarget.localName != "listitem") {
+		return;
+	}
+	if (aTarget.classList.contains("hidden")) {
+		MenuFilter.hiddenItems.remove(windowURL, menuID, [aTarget.value]);
+		aTarget.classList.remove("hidden");
+	} else {
+		MenuFilter.hiddenItems.add(windowURL, menuID, [aTarget.value]);
+		aTarget.classList.add("hidden");
+	}
+	selectionChanged();
+}
+
 function doDonate() {
 	let uri = "https://addons.mozilla.org/addon/menu-filter/contribute/installed/";
 
