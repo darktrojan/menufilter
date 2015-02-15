@@ -96,6 +96,11 @@ function _displayMenu(aList) {
 	let domWindow = Services.wm.getMostRecentWindow(windowType);
 	let domDocument = domWindow.document;
 	let menu = domDocument.getElementById(menuID);
+
+	if (menu.id == "PanelUI-bookmarks" || menu.id == "PanelUI-history") {
+		menu = menu.querySelector(".panel-subview-body");
+	}
+
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
 		if (menuitem.classList.contains("bookmark-item")) {
@@ -108,6 +113,7 @@ function _displayMenu(aList) {
 		let item = document.createElement("listitem");
 		switch (menuitem.localName) {
 		case "menuitem":
+		case "toolbarbutton":
 			item.setAttribute("label", menuitem.label || menuitem.id);
 			break;
 		case "menu":
@@ -122,6 +128,8 @@ function _displayMenu(aList) {
 				item.setAttribute("label", strings.GetStringFromName("context-navigation.label"));
 			}
 			break;
+		default:
+			continue;
 		}
 		if (menuitem.id) {
 			item.setAttribute("value", menuitem.id);

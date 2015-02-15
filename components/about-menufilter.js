@@ -6,7 +6,7 @@ function MenuFilterAboutHandler() {
 
 MenuFilterAboutHandler.prototype = {
 	newChannel: function(aURI) {
-		if (!aURI.spec == "about:menufilter")
+		if (aURI.spec != "about:menufilter")
 			return;
 
 		let channel = Services.io.newChannel("chrome://menufilter/content/menu.xul", null, null);

@@ -24,11 +24,11 @@
 			<label control="menuid" value="&menuid.list.label;" />
 			<menulist id="menuid" oncommand="menuChosen(this.value)">
 				<menupopup>
-					<menuitem value="mailContext" class="thunderbird seamonkey" label="&menuid.list.contentcontext.label;" />
-					<menuitem value="contentAreaContextMenu" class="firefox seamonkey" label="&menuid.list.contentcontext.label;" />
+					<menuitem value="mailContext" class="thunderbird seamonkey" label="&menuid.list.contentContext.label;" />
+					<menuitem value="contentAreaContextMenu" class="firefox seamonkey" label="&menuid.list.contentContext.label;" />
 					<menuitem value="folderPaneContext" class="thunderbird seamonkey" label="&menuid.list.folderPaneContext.label;" />
-					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabcontext.label;" />
-					<menuitem value="placesContext" class="firefox" label="&menuid.list.placescontext.label;" />
+					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabContext.label;" />
+					<menuitem value="placesContext" class="firefox" label="&menuid.list.placesContext.label;" />
 					<menuitem value="menu_FilePopup" class="firefox thunderbird seamonkey" label="&menuid.list.file.label;" />
 					<menuitem value="menu_EditPopup" class="firefox thunderbird seamonkey" label="&menuid.list.edit.label;" />
 					<menuitem value="menu_viewPopup" class="firefox" label="&menuid.list.view.label;" />
@@ -43,10 +43,14 @@
 					<menuitem value="formatMenuPopup" class="seamonkey" label="&menuid.list.format.label;" />
 					<menuitem value="tableMenuPopup" class="seamonkey" label="&menuid.list.table.label;" />
 					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
+					<menuitem value="menuWebDeveloperPopup" class="firefox" label="&menuid.list.developer.label;" />
 					<menuitem value="taskPopup" class="thunderbird seamonkey" label="&menuid.list.tools.label;" />
 					<menuitem value="windowPopup" class="seamonkey" label="&menuid.list.window.label;" />
 					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
 					<menuitem value="helpPopup" class="seamonkey" label="&menuid.list.help.label;" />
+					<menuitem value="PanelUI-history" class="firefox" label="&menuid.list.historyPanel.label;" />
+					<menuitem value="PanelUI-bookmarks" class="firefox" label="&menuid.list.bookmarksPanel.label;" />
+					<menuitem value="BMB_bookmarksPopup" class="firefox" label="&menuid.list.bookmarksToolbarPanel.label;" />
 				</menupopup>
 			</menulist>
 			<spacer flex="1" />

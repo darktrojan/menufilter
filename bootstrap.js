@@ -136,6 +136,9 @@ function hideItems(aDocument) {
 			if (!menu) {
 				continue;
 			}
+			if (menu.id == "PanelUI-bookmarks" || menu.id == "PanelUI-history") {
+				menu = menu.querySelector(".panel-subview-body");
+			}
 			MenuFilter.ensureItemsHaveIDs(menu);
 			for (let item of list) {
 				let menuitem = aDocument.getElementById(item);
