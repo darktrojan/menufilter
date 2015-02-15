@@ -17,6 +17,18 @@ function install(aParams, aReason) {
 function uninstall(aParams, aReason) {
 }
 function startup(aParams, aReason) {
+	if (aReason == APP_STARTUP && Services.appinfo.name == "Firefox") {
+		Services.obs.addObserver({
+			observe: function(aSubject, aTopic, aData) {
+				Services.obs.removeObserver(this, "browser-delayed-startup-finished");
+				realStartup(aParams, aReason);
+			}
+		}, "browser-delayed-startup-finished", false);
+	} else {
+		realStartup(aParams, aReason);
+	}
+}
+function realStartup(aParams, aReason) {
 	Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 	MenuFilter.hiddenItems.registerListener(refreshItems);
 
