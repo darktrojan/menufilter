@@ -7,8 +7,22 @@
 				<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
 			</xul:listcell>
 		</content>
+		<implementation>
+			<field name="eyeball">document.getAnonymousElementByAttribute(this, "class", "eyeball")</field>
+		</implementation>
+		<handlers>
+			<handler event="click" button="0"><![CDATA[
+				if (event.screenX - this.eyeball.boxObject.screenX < this.eyeball.boxObject.width + 2) {
+					if (this.classList.toggle("hidden")) {
+						MenuFilter.hiddenItems.add(windowURL, menuID, this.value);
+					} else {
+						MenuFilter.hiddenItems.remove(windowURL, menuID, this.value);
+					}
+				}
+			]]></handler>
+		</handlers>
 	</binding>
-	<binding id="listseparator" extends="chrome://global/content/bindings/listbox.xml#listitem">
+	<binding id="listseparator" extends="#listitem">
 		<content>
 			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
 				<xul:image class="eyeball" />
@@ -16,7 +30,7 @@
 			</xul:listcell>
 		</content>
 	</binding>
-	<binding id="listmenu" extends="chrome://global/content/bindings/listbox.xml#listitem">
+	<binding id="listmenu" extends="#listitem">
 		<content>
 			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
 				<xul:image class="eyeball" />

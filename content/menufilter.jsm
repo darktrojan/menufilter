@@ -43,6 +43,14 @@ function ensureList() {
 
 let _hiddenItems = {
 	add: function(aWindowURL, aMenuID, aIDs) {
+		if (!Array.isArray(aIDs)) {
+			if (typeof aIDs == "string") {
+				aIDs = [aIDs];
+			} else {
+				Components.utils.reportError("Argument should be a string or an array.");
+				return;
+			}
+		}
 		return this.getList(aWindowURL, aMenuID).then(function(aList) {
 			for (let id of aIDs) {
 				if (aList.indexOf(id) < 0) {
@@ -60,6 +68,14 @@ let _hiddenItems = {
 		}).then(null, Components.utils.reportError);
 	},
 	remove: function(aWindowURL, aMenuID, aIDs) {
+		if (!Array.isArray(aIDs)) {
+			if (typeof aIDs == "string") {
+				aIDs = [aIDs];
+			} else {
+				Components.utils.reportError("Argument should be a string or an array.");
+				return;
+			}
+		}
 		return this.getList(aWindowURL, aMenuID).then(function(aList) {
 			for (let id of aIDs) {
 				let index = aList.indexOf(id);
