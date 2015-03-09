@@ -23,6 +23,7 @@ listbox#menu {
 }
 listitem {
 	padding: 2px;
+	-moz-binding: url("chrome://menufilter/content/menu.xml#listitem");
 }
 listitem.menu {
 	-moz-binding: url("chrome://menufilter/content/menu.xml#listmenu");
@@ -38,4 +39,15 @@ listitem.hidden {
 }
 listitem.hidden.separator hbox {
 	border-top: 1px graytext solid;
+}
+.eyeball {
+	width: 16px;
+	height: 16px;
+	list-style-image: url("chrome://menufilter/content/eyeball.svg");
+	-moz-image-region: rect(0, 32px, 32px, 0);
+	background-size: 16px auto;
+	-moz-margin-end: 4px;
+}
+.hidden .eyeball {
+	-moz-image-region: rect(0, 64px, 32px, 32px);
 }
