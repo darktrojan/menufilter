@@ -14,9 +14,18 @@ page.isthunderbird .thunderbird,
 page.isseamonkey .seamonkey {
 	display: initial;
 }
+#donatewrapper {
+	margin: 2px 4px;
+	padding: 4px;
+	background-color: threedface;
+	border: 1px solid -moz-nativehyperlinktext;
+}
 #donatelabel {
-	 white-space: pre-wrap;
-	 width: 0;
+	white-space: pre-wrap;
+	width: 0;
+}
+#donatebutton {
+	text-align: center;
 }
 listbox#menu {
 	width: 25em;

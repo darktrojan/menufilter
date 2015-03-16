@@ -54,10 +54,11 @@
 				</menupopup>
 			</menulist>
 			<spacer flex="1" />
-			<description id="donatelabel">&donate.label.text;</description>
-			<hbox pack="center">
-				<label class="text-link" value="&donate.button.label;" onclick="doDonate()" />
-			</hbox>
+			<vbox id="donatewrapper">
+				<description id="donatelabel">&donate.label.text;</description>
+				<label id="donatebutton" class="text-link" flex="1"
+					value="&donate.button.label;" onclick="doDonate()" />
+			</vbox>
 		</vbox>
 		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" ondblclick="toggleItem(event.target)" />
 		<vbox>
