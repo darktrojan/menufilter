@@ -177,7 +177,7 @@ function refreshItems() {
 			unhideItems(document);
 			hideItems(document);
 		}
-	})
+	});
 }
 
 let windowObserver = {
