@@ -1,0 +1,32 @@
+<!ENTITY page.title "Menu Filter">
+
+<!ENTITY windowtype.list.label "Wähle ein Fenste ausr:">
+<!ENTITY windowtype.list.browser "Browser Fenster">
+<!ENTITY windowtype.list.mail "E-Mail Fenster">
+<!ENTITY windowtype.list.composer "Verfassen Fenster">
+
+<!ENTITY menuid.list.label "Wähle ein zu filterndes Menü aus:">
+<!ENTITY menuid.list.contentcontext.label "Haupt Rechtsklick Menü">
+<!ENTITY menuid.list.tabcontext.label "Tab Rechtsklick Menü">
+<!ENTITY menuid.list.placescontext.label "Lesezeichen Rechtsklick Menü">
+<!ENTITY menuid.list.folderPaneContext.label "Ordnerliste Rechtsklick Menü">
+<!ENTITY menuid.list.file.label "Datei Menü">
+<!ENTITY menuid.list.edit.label "Bearbeiten Menü">
+<!ENTITY menuid.list.view.label "Ansichts Menü">
+<!ENTITY menuid.list.go.label "Navigations Menü">
+<!ENTITY menuid.list.history.label "Verlaufs Menü">
+<!ENTITY menuid.list.message.label "Nachrichts Menü">
+<!ENTITY menuid.list.bookmarks.label "Lesezeichen Menü">
+<!ENTITY menuid.list.lightning.label "Ereignisse und Aufgaben Menü">
+<!ENTITY menuid.list.insert.label "Einfügen Menü">
+<!ENTITY menuid.list.format.label "Formatieren Menü">
+<!ENTITY menuid.list.table.label "Tabellen Menü">
+<!ENTITY menuid.list.tools.label "Extras Menü">
+<!ENTITY menuid.list.window.label "Fenster Menü">
+<!ENTITY menuid.list.help.label "Hilfe Menü">
+
+<!ENTITY show.button.label "Zeige ausgewählte">
+<!ENTITY hide.button.label "Verstecke ausgewählte">
+
+<!ENTITY donate.label.text "Menu Filter ist nur möglich, weil Leute wie du spenden.">
+<!ENTITY donate.button.label "Hier klicken zum Spenden">
