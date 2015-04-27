@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>menufilter@darktrojan.net</em:id>
@@ -32,5 +32,13 @@
 				<em:maxVersion>2.31.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+
+		<em:localized>
+			<Description>
+				<em:locale>de</em:locale>
+				<em:name>Menu Filter</em:name>
+				<em:description>Halte deine Menüs in Schach, indem du Einträge entfernst, die du nie benutzt.</em:description>
+			</Description>
+		</em:localized>
 	</Description>
 </RDF>
