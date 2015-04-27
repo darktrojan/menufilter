@@ -6,9 +6,9 @@
 <!ENTITY windowtype.list.composer "Verfassen Fenster">
 
 <!ENTITY menuid.list.label "Wähle ein zu filterndes Menü aus:">
-<!ENTITY menuid.list.contentcontext.label "Haupt Rechtsklick Menü">
-<!ENTITY menuid.list.tabcontext.label "Tab Rechtsklick Menü">
-<!ENTITY menuid.list.placescontext.label "Lesezeichen Rechtsklick Menü">
+<!ENTITY menuid.list.contentContext.label "Main Context Menu">
+<!ENTITY menuid.list.tabContext.label "Tab Context Menu">
+<!ENTITY menuid.list.placesContext.label "Bookmarks Context Menu">
 <!ENTITY menuid.list.folderPaneContext.label "Ordnerliste Rechtsklick Menü">
 <!ENTITY menuid.list.file.label "Datei Menü">
 <!ENTITY menuid.list.edit.label "Bearbeiten Menü">
@@ -24,6 +24,10 @@
 <!ENTITY menuid.list.tools.label "Extras Menü">
 <!ENTITY menuid.list.window.label "Fenster Menü">
 <!ENTITY menuid.list.help.label "Hilfe Menü">
+<!ENTITY menuid.list.historyPanel.label "Toolbar/Panel History Menu">
+<!ENTITY menuid.list.bookmarksToolbarPanel.label "Toolbar Bookmarks Menu">
+<!ENTITY menuid.list.bookmarksPanel.label "Panel Bookmarks Menu">
+<!ENTITY menuid.list.developer.label "Developer Tools Menu">
 
 <!ENTITY show.button.label "Zeige ausgewählte">
 <!ENTITY hide.button.label "Verstecke ausgewählte">
