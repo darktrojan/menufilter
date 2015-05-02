@@ -39,8 +39,8 @@ menuChosen(menuIDList.value);
 let windowObserver = {
 	observe: function(aSubject, aTopic, aData) {
 		if (aTopic == "domwindowopened") {
-			aSubject.addEventListener("load", function() {
-				aSubject.removeEventListener("load", arguments.callee);
+			aSubject.addEventListener("load", function windowLoad() {
+				aSubject.removeEventListener("load", windowLoad);
 				windowObserver.iterate();
 			});
 		} else {

@@ -183,7 +183,8 @@ function refreshItems() {
 let windowObserver = {
 	observe: function(aSubject, aTopic, aData) {
 		if (aTopic == "domwindowopened") {
-			aSubject.addEventListener("load", function() {
+			aSubject.addEventListener("load", function windowLoad() {
+				aSubject.removeEventListener("load", windowLoad, false);
 				paint(aSubject);
 			}, false);
 		} else {
