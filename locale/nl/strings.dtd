@@ -1,0 +1,36 @@
+<!ENTITY page.title "Menufilter">
+
+<!ENTITY windowtype.list.label "Selecteer een venster:">
+<!ENTITY windowtype.list.browser "Browservenster">
+<!ENTITY windowtype.list.mail "E-mailvenster">
+<!ENTITY windowtype.list.composer "Opstelvenster">
+
+<!ENTITY menuid.list.label "Selecteer een menu om te filteren:">
+<!ENTITY menuid.list.contentContext.label "Hoofd-contextmenu">
+<!ENTITY menuid.list.tabContext.label "Tabblad-contextmenu">
+<!ENTITY menuid.list.placesContext.label "Bladwijzers-contextmenu">
+<!ENTITY menuid.list.folderPaneContext.label "Mappenpaneel-contextmenu">
+<!ENTITY menuid.list.file.label "Bestand-menu">
+<!ENTITY menuid.list.edit.label "Bewerken-menu">
+<!ENTITY menuid.list.view.label "Beeld-menu">
+<!ENTITY menuid.list.go.label "Ga-menu">
+<!ENTITY menuid.list.history.label "Geschiedenis-menu">
+<!ENTITY menuid.list.message.label "Bericht-menu">
+<!ENTITY menuid.list.bookmarks.label "Bladwijzers-menu">
+<!ENTITY menuid.list.lightning.label "Evenementen en taken-menu">
+<!ENTITY menuid.list.insert.label "Invoegen-menu">
+<!ENTITY menuid.list.format.label "Opmaak-menu">
+<!ENTITY menuid.list.table.label "Tafelmenu">
+<!ENTITY menuid.list.tools.label "Hulpmiddelenmenu">
+<!ENTITY menuid.list.window.label "Venstermenu">
+<!ENTITY menuid.list.help.label "Helpmenu">
+<!ENTITY menuid.list.historyPanel.label "Werkbalk/Paneel-geschiedenismenu">
+<!ENTITY menuid.list.bookmarksToolbarPanel.label "Werkbalk-bladwijzersmenu">
+<!ENTITY menuid.list.bookmarksPanel.label "Paneel-bladwijzersmenu">
+<!ENTITY menuid.list.developer.label "Ontwikkelaarshulpmiddelen-menu">
+
+<!ENTITY show.button.label "Geselecteerde weergeven">
+<!ENTITY hide.button.label "Geselecteerde verbergen">
+
+<!ENTITY donate.label.text "Menufilter bestaat alleen omdat mensen zoals u doneren.">
+<!ENTITY donate.button.label "Klik hier om te doneren">

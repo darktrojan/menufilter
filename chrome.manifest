@@ -1,3 +1,4 @@
 content menufilter content/
 locale menufilter en-US locale/en-US/
 locale menufilter de locale/de/
+locale menufilter nl locale/nl/

@@ -40,5 +40,13 @@
 				<em:description>Halte deine Menüs in Schach, indem du Einträge entfernst, die du nie benutzt.</em:description>
 			</Description>
 		</em:localized>
+
+		<em:localized>
+			<Description>
+				<em:locale>nl</em:locale>
+				<em:name>Menufilter</em:name>
+				<em:description>Houdt uw menu's schoon door items te filteren die u nooit gebruikt.</em:description>
+			</Description>
+		</em:localized>
 	</Description>
 </RDF>
