@@ -117,7 +117,11 @@ let MenuFilter = {
 	ensureItemsHaveIDs: function(aMenu) {
 		let i = 1;
 		for (let menuitem of aMenu.children) {
-			if (menuitem.classList.contains("bookmark-item") || menuitem.getAttribute("type") == "radio") {
+			if (menuitem.classList.contains("bookmark-item") &&
+					!menuitem.id.startsWith("BMB_") && !menuitem.hasAttribute("query")) {
+				break;
+			}
+			if (menuitem.getAttribute("type") == "radio") {
 				break;
 			}
 			if (!menuitem.id) {

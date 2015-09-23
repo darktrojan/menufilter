@@ -103,7 +103,8 @@ function _displayMenu(aList) {
 
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
-		if (menuitem.classList.contains("bookmark-item")) {
+		if (menuitem.classList.contains("bookmark-item") &&
+				!menuitem.id.startsWith("BMB_") && !menuitem.hasAttribute("query")) {
 			break;
 		}
 		if ((menuID == "goPopup" || menuID == "windowPopup") && menuitem.getAttribute("type") == "radio") {
