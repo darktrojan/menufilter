@@ -47,5 +47,12 @@
 				<em:description>Houdt uw menu's schoon door items te filteren die u nooit gebruikt.</em:description>
 			</Description>
 		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>zh-CN</em:locale>
+				<em:name>菜单过滤器</em:name>
+				<em:description>过滤掉从不使用的菜单，保持菜单清洁。</em:description>
+			</Description>
+		</em:localized>
 	</Description>
 </RDF>
