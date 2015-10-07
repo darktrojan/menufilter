@@ -54,5 +54,12 @@
 				<em:description>过滤掉从不使用的菜单，保持菜单清洁。</em:description>
 			</Description>
 		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>zh-TW</em:locale>
+				<em:name>Menu Filter</em:name>
+				<em:description>過濾掉您從不使用的選項來保持選單的整潔。</em:description>
+			</Description>
+		</em:localized>
 	</Description>
 </RDF>

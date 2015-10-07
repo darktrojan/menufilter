@@ -1,0 +1,36 @@
+<!ENTITY page.title "Menu Filter">
+
+<!ENTITY windowtype.list.label "選擇視窗:">
+<!ENTITY windowtype.list.browser "瀏覽器視窗">
+<!ENTITY windowtype.list.mail "郵件視窗">
+<!ENTITY windowtype.list.composer "郵件編輯視窗">
+
+<!ENTITY menuid.list.label "選擇要過濾的選單:">
+<!ENTITY menuid.list.contentContext.label "主要右鍵選單">
+<!ENTITY menuid.list.tabContext.label "分頁右鍵選單">
+<!ENTITY menuid.list.placesContext.label "書籤右鍵選單">
+<!ENTITY menuid.list.folderPaneContext.label "資料夾側邊欄右鍵選單">
+<!ENTITY menuid.list.file.label "檔案選單">
+<!ENTITY menuid.list.edit.label "編輯選單">
+<!ENTITY menuid.list.view.label "檢視選單">
+<!ENTITY menuid.list.go.label "前往選單">
+<!ENTITY menuid.list.history.label "歷史選單">
+<!ENTITY menuid.list.message.label "訊息選單">
+<!ENTITY menuid.list.bookmarks.label "書籤選單">
+<!ENTITY menuid.list.lightning.label "事件與工作選單">
+<!ENTITY menuid.list.insert.label "插入選單">
+<!ENTITY menuid.list.format.label "格式選單">
+<!ENTITY menuid.list.table.label "表格選單">
+<!ENTITY menuid.list.tools.label "工具選單">
+<!ENTITY menuid.list.window.label "視窗選單">
+<!ENTITY menuid.list.help.label "說明選單">
+<!ENTITY menuid.list.historyPanel.label "工具列/面板歷史選單">
+<!ENTITY menuid.list.bookmarksToolbarPanel.label "工具列書籤選單">
+<!ENTITY menuid.list.bookmarksPanel.label "面板書籤選單">
+<!ENTITY menuid.list.developer.label "開發者工具選單">
+
+<!ENTITY show.button.label "顯示選取的項目">
+<!ENTITY hide.button.label "隱藏選取的項目">
+
+<!ENTITY donate.label.text "因為像您這樣的人的贊助，Menu Filter 才成為可能。">
+<!ENTITY donate.button.label "今天就贊助！">
