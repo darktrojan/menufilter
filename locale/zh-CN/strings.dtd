@@ -1,0 +1,36 @@
+<!ENTITY page.title "菜单过滤器">
+
+<!ENTITY windowtype.list.label "选择一个窗口：">
+<!ENTITY windowtype.list.browser "浏览器窗口">
+<!ENTITY windowtype.list.mail "主窗口">
+<!ENTITY windowtype.list.composer "撰写窗口">
+
+<!ENTITY menuid.list.label "选择要过滤的菜单：">
+<!ENTITY menuid.list.contentContext.label "主要右键菜单">
+<!ENTITY menuid.list.tabContext.label "标签页右键菜单">
+<!ENTITY menuid.list.placesContext.label "书签右键菜单">
+<!ENTITY menuid.list.folderPaneContext.label "文件夹面板右键菜单">
+<!ENTITY menuid.list.file.label "文件菜单">
+<!ENTITY menuid.list.edit.label "编辑菜单">
+<!ENTITY menuid.list.view.label "查看菜单">
+<!ENTITY menuid.list.go.label "转到菜单">
+<!ENTITY menuid.list.history.label "历史菜单">
+<!ENTITY menuid.list.message.label "消息菜单">
+<!ENTITY menuid.list.bookmarks.label "书签菜单">
+<!ENTITY menuid.list.lightning.label "事件和任务菜单">
+<!ENTITY menuid.list.insert.label "插入菜单">
+<!ENTITY menuid.list.format.label "格式菜单">
+<!ENTITY menuid.list.table.label "表格菜单">
+<!ENTITY menuid.list.tools.label "工具菜单">
+<!ENTITY menuid.list.window.label "窗口菜单">
+<!ENTITY menuid.list.help.label "帮助菜单">
+<!ENTITY menuid.list.historyPanel.label "工具栏/面板历史菜单">
+<!ENTITY menuid.list.bookmarksToolbarPanel.label "工具栏书签菜单">
+<!ENTITY menuid.list.bookmarksPanel.label "面板书签菜单">
+<!ENTITY menuid.list.developer.label "开发者工具菜单">
+
+<!ENTITY show.button.label "显示选中">
+<!ENTITY hide.button.label "隐藏选中">
+
+<!ENTITY donate.label.text "Menu Filter 因人们的喜爱而成为可能。">
+<!ENTITY donate.button.label "捐助！">
