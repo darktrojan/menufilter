@@ -58,6 +58,12 @@ let windowObserver = {
 windowObserver.iterate();
 Services.ww.registerNotification(windowObserver);
 
+function resize() {
+	let first = menuItemList.listBoxObject.getIndexOfFirstVisibleRow();
+	menuItemList.scrollToIndex(first + 1);
+	menuItemList.scrollToIndex(first);
+}
+
 function unload() {
 	Services.ww.unregisterNotification(windowObserver);
 }
@@ -142,6 +148,9 @@ function _displayMenu(aList) {
 		}
 		menuItemList.appendChild(item);
 	}
+
+	menuItemList.scrollToIndex(1);
+	menuItemList.scrollToIndex(0);
 }
 
 function selectionChanged() {

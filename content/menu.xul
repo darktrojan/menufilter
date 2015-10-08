@@ -4,7 +4,7 @@
 
 <!DOCTYPE page SYSTEM "chrome://menufilter/locale/strings.dtd">
 <page title="&page.title;" width="800" height="600"
-		onunload="unload()"
+		onresize="resize()" onunload="unload()"
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	<hbox flex="1" pack="center">
