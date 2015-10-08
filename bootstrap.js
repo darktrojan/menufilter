@@ -1,5 +1,8 @@
-/* globals Components, Services, Iterator */
+/* globals Components, Services, XPCOMUtils, Iterator */
 Components.utils.import("resource://gre/modules/Services.jsm");
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+/* globals idleService */
+XPCOMUtils.defineLazyServiceGetter(this, "idleService", "@mozilla.org/widget/idleservice;1", "nsIIdleService");
 
 const cssData = "href=\"data:text/css," + encodeURIComponent(".menufilter-hidden { display: none; }") + "\" type=\"text/css\"";
 
@@ -8,16 +11,23 @@ let strings = Services.strings.createBundle("chrome://menufilter/locale/strings.
 
 let ABOUT_PAGE_URL = "about:menufilter";
 let BROWSER_URL = "chrome://browser/content/browser.xul";
+let DONATE_URL = "https://addons.mozilla.org/addon/menu-filter/contribute/installed/";
+let IDLE_TIMEOUT = 9;
 let MESSAGE_WINDOW_URL = "chrome://messenger/content/messageWindow.xul";
 let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
 let NAVIGATOR_URL = "chrome://navigator/content/navigator.xul";
+let PREF_REMINDER = "extensions.menufilter.donationreminder";
+let PREF_VERSION = "extensions.menufilter.version";
 let WINDOW_URLS = [BROWSER_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
-let windowObserver;
+let donationReminder, windowObserver;
 
 /* exported install, uninstall, startup, shutdown */
-/* globals APP_STARTUP, APP_SHUTDOWN */
-function install() {
+/* globals APP_STARTUP, APP_SHUTDOWN, ADDON_INSTALL, ADDON_UPGRADE */
+function install(aParams, aReason) {
+	if (aReason == ADDON_UPGRADE && !Services.prefs.prefHasUserValue(PREF_VERSION)) {
+		Services.prefs.setCharPref(PREF_VERSION, aParams.oldVersion);
+	}
 }
 function uninstall() {
 }
@@ -33,7 +43,7 @@ function startup(aParams, aReason) {
 		realStartup(aParams, aReason);
 	}
 }
-function realStartup(aParams) {
+function realStartup(aParams, aReason) {
 	/* globals MenuFilter */
 	Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 	MenuFilter.hiddenItems.registerListener(refreshItems);
@@ -49,6 +59,12 @@ function realStartup(aParams) {
 		aboutPage.MenuFilterAboutHandler.prototype.contractID,
 		aboutPage.NSGetFactory(aboutPage.MenuFilterAboutHandler.prototype.classID)
 	);
+
+	Services.prefs.getDefaultBranch("").setCharPref(PREF_VERSION, "0");
+	if (aReason != ADDON_INSTALL) {
+		donationReminder.run(aParams.version);
+	}
+	Services.prefs.setCharPref(PREF_VERSION, aParams.version);
 }
 function shutdown(aParams, aReason) {
 	Services.ww.unregisterNotification(windowObserver);
@@ -186,6 +202,67 @@ function refreshItems() {
 	});
 }
 
+donationReminder = {
+	currentVersion: 0,
+	run: function(aVersion) {
+		// Truncate version numbers to floats
+		let oldVersion = parseFloat(Services.prefs.getCharPref(PREF_VERSION), 10);
+		if (!oldVersion) {
+			return;
+		}
+
+		this.currentVersion = parseFloat(aVersion, 10);
+		let shouldRemind = true;
+
+		if (Services.prefs.getPrefType(PREF_REMINDER) == Components.interfaces.nsIPrefBranch.PREF_INT) {
+			let lastReminder = Services.prefs.getIntPref(PREF_REMINDER) * 1000;
+			shouldRemind = Date.now() - lastReminder > 604800000;
+		}
+
+		if (shouldRemind && Services.vc.compare(oldVersion, this.currentVersion) == -1) {
+			idleService.addIdleObserver(this, IDLE_TIMEOUT);
+		}
+	},
+	observe: function(aSubject, aTopic) {
+		if (aTopic != "idle") {
+			return;
+		}
+
+		idleService.removeIdleObserver(this, IDLE_TIMEOUT);
+
+		let message = strings.formatStringFromName("donate.message1", [this.currentVersion], 1);
+		let label = strings.GetStringFromName("donate.button.label");
+		let accessKey = strings.GetStringFromName("donate.button.accesskey");
+		let notificationBox, callback;
+
+		let recentWindow = Services.wm.getMostRecentWindow("navigator:browser");
+		if (recentWindow) {
+			let browser = recentWindow.gBrowser;
+			notificationBox = browser.getNotificationBox();
+			callback = function() {
+				browser.selectedTab = browser.addTab(DONATE_URL);
+			};
+		} else {
+			recentWindow = Services.wm.getMostRecentWindow("mail:3pane");
+			if (recentWindow) {
+				notificationBox = recentWindow.document.getElementById("mail-notification-box");
+				callback = function() {
+					recentWindow.openLinkExternally(DONATE_URL);
+				};
+			}
+		}
+
+		if (notificationBox) {
+			notificationBox.appendNotification(
+				message, "menufilter-donate", "chrome://menufilter/content/icon16.png",
+				notificationBox.PRIORITY_INFO_MEDIUM,
+				[{ label: label, accessKey: accessKey, callback: callback }]
+			);
+		}
+
+		Services.prefs.setIntPref(PREF_REMINDER, Date.now() / 1000);
+	}
+};
 windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {
