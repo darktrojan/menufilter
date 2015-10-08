@@ -1,3 +1,4 @@
+/* jshint browser:true */
 /* globals Components, Services, XPCOMUtils, MenuFilter */
 Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
@@ -34,10 +35,6 @@ case "SeaMonkey":
 	break;
 }
 
-showButton.disabled = hideButton.disabled = true;
-updateMenuIDList();
-menuChosen(menuIDList.value);
-
 let windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {
@@ -57,20 +54,26 @@ let windowObserver = {
 	}
 };
 
-windowObserver.iterate();
-Services.ww.registerNotification(windowObserver);
+onload = function() {
+	showButton.disabled = hideButton.disabled = true;
+	updateMenuIDList();
+	menuChosen(menuIDList.value);
 
-/* exported resize, unload, windowTypeChosen */
-function resize() {
+	windowObserver.iterate();
+	Services.ww.registerNotification(windowObserver);
+};
+
+onresize = function() {
 	let first = menuItemList.listBoxObject.getIndexOfFirstVisibleRow();
 	menuItemList.scrollToIndex(first + 1);
 	menuItemList.scrollToIndex(first);
-}
+};
 
-function unload() {
+onunload = function() {
 	Services.ww.unregisterNotification(windowObserver);
-}
+};
 
+/* exported windowTypeChosen */
 function windowTypeChosen(aItem) {
 	windowType = aItem.value;
 	windowURL = aItem.getAttribute("url");
