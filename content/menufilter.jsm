@@ -1,12 +1,13 @@
+/* exported EXPORTED_SYMBOLS, MenuFilter */
 const EXPORTED_SYMBOLS = ["MenuFilter"];
+/* globals Components, XPCOMUtils, TextDecoder */
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-Components.utils.import("resource://gre/modules/Services.jsm");
 
 const KEY_PROFILEDIR = "ProfD";
 const FILE_DATABASE = "menufilter.json";
 
+/* globals FileUtils, OS, DeferredSave */
 XPCOMUtils.defineLazyModuleGetter(this, "FileUtils", "resource://gre/modules/FileUtils.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "Promise", "resource://gre/modules/Promise.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "OS", "resource://gre/modules/osfile.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "DeferredSave", "resource://gre/modules/DeferredSave.jsm");
 
@@ -18,27 +19,25 @@ let _saver = new DeferredSave(jsonFile.path, function() {
 let listener = null;
 
 function ensureList() {
-	let deferred = Promise.defer();
-
-	if (_list != null) {
-		deferred.resolve(_list);
-	} else {
-		OS.File.exists(jsonFile.path).then(function(aExists) {
-			if (aExists) {
-				OS.File.read(jsonFile.path).then(function(aArray) {
-					let decoder = new TextDecoder();
-					let text = decoder.decode(aArray);
-					_list = JSON.parse(text);
-					deferred.resolve(_list);
-				});
-			} else {
-				_list = {};
-				deferred.resolve(_list);
-			}
-		});
-	}
-
-	return deferred.promise;
+	return new Promise(function(resolve) {
+		if (_list !== null) {
+			resolve(_list);
+		} else {
+			OS.File.exists(jsonFile.path).then(function(aExists) {
+				if (aExists) {
+					OS.File.read(jsonFile.path).then(function(aArray) {
+						let decoder = new TextDecoder();
+						let text = decoder.decode(aArray);
+						_list = JSON.parse(text);
+						resolve(_list);
+					});
+				} else {
+					_list = {};
+					resolve(_list);
+				}
+			});
+		}
+	});
 }
 
 let _hiddenItems = {
@@ -130,7 +129,7 @@ let MenuFilter = {
 					menuitem.id = "menufilter-after-" + previous.id;
 				} else if (menuitem.label || menuitem.hasAttribute("label")) {
 					let label = menuitem.label || menuitem.getAttribute("label");
-					menuitem.id = "menufilter-" + label.replace(/\W/g, '-');
+					menuitem.id = "menufilter-" + label.replace(/\W/g, "-");
 				} else {
 					menuitem.id = "menufilter-item-" + i++;
 				}

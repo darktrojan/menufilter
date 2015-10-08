@@ -1,6 +1,7 @@
+/* globals Components, Services, Iterator */
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-const cssData = 'href="data:text/css,' + encodeURIComponent(".menufilter-hidden { display: none; }") + '" type="text/css"';
+const cssData = "href=\"data:text/css," + encodeURIComponent(".menufilter-hidden { display: none; }") + "\" type=\"text/css\"";
 
 let aboutPage = {};
 let strings = Services.strings.createBundle("chrome://menufilter/locale/strings.properties");
@@ -12,14 +13,18 @@ let MESSENGER_URL = "chrome://messenger/content/messenger.xul";
 let NAVIGATOR_URL = "chrome://navigator/content/navigator.xul";
 let WINDOW_URLS = [BROWSER_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
-function install(aParams, aReason) {
+let windowObserver;
+
+/* exported install, uninstall, startup, shutdown */
+/* globals APP_STARTUP, APP_SHUTDOWN */
+function install() {
 }
-function uninstall(aParams, aReason) {
+function uninstall() {
 }
 function startup(aParams, aReason) {
 	if (aReason == APP_STARTUP && Services.appinfo.name == "Firefox") {
 		Services.obs.addObserver({
-			observe: function(aSubject, aTopic, aData) {
+			observe: function() {
 				Services.obs.removeObserver(this, "browser-delayed-startup-finished");
 				realStartup(aParams, aReason);
 			}
@@ -28,7 +33,8 @@ function startup(aParams, aReason) {
 		realStartup(aParams, aReason);
 	}
 }
-function realStartup(aParams, aReason) {
+function realStartup(aParams) {
+	/* globals MenuFilter */
 	Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 	MenuFilter.hiddenItems.registerListener(refreshItems);
 
@@ -180,8 +186,8 @@ function refreshItems() {
 	});
 }
 
-let windowObserver = {
-	observe: function(aSubject, aTopic, aData) {
+windowObserver = {
+	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {
 			aSubject.addEventListener("load", function windowLoad() {
 				aSubject.removeEventListener("load", windowLoad, false);

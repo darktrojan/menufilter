@@ -1,3 +1,4 @@
+/* globals Components, Services, XPCOMUtils */
 Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
@@ -13,7 +14,7 @@ MenuFilterAboutHandler.prototype = {
 		channel.originalURI = aURI;
 		return channel;
 	},
-	getURIFlags: function(aURI) {
+	getURIFlags: function() {
 		return Components.interfaces.nsIAboutModule.ALLOW_SCRIPT;
 	},
 	classDescription: "About MenuFilter Page",
@@ -22,4 +23,5 @@ MenuFilterAboutHandler.prototype = {
 	QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIAboutModule])
 };
 
+/* exported NSGetFactory */
 let NSGetFactory = XPCOMUtils.generateNSGetFactory([MenuFilterAboutHandler]);

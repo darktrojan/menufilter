@@ -1,7 +1,9 @@
+/* globals Components, Services, XPCOMUtils, MenuFilter */
 Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 Components.utils.import("chrome://menufilter/content/menufilter.jsm");
 
+/* globals strings */
 XPCOMUtils.defineLazyGetter(this, "strings", function() {
 	return Services.strings.createBundle("chrome://menufilter/locale/strings.properties");
 });
@@ -37,7 +39,7 @@ updateMenuIDList();
 menuChosen(menuIDList.value);
 
 let windowObserver = {
-	observe: function(aSubject, aTopic, aData) {
+	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {
 			aSubject.addEventListener("load", function windowLoad() {
 				aSubject.removeEventListener("load", windowLoad);
@@ -53,11 +55,12 @@ let windowObserver = {
 			item.disabled = !Services.wm.getMostRecentWindow(item.value);
 		}
 	}
-}
+};
 
 windowObserver.iterate();
 Services.ww.registerNotification(windowObserver);
 
+/* exported resize, unload, windowTypeChosen */
 function resize() {
 	let first = menuItemList.listBoxObject.getIndexOfFirstVisibleRow();
 	menuItemList.scrollToIndex(first + 1);
@@ -168,6 +171,7 @@ function selectionChanged() {
 	hideButton.disabled = !hideEnabled;
 }
 
+/* exported showSelection, hideSelection, toggleItem, doDonate */
 function showSelection() {
 	let toShow = [];
 	for (let option of menuItemList.selectedItems) {
