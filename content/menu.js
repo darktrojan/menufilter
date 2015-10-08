@@ -35,6 +35,10 @@ case "SeaMonkey":
 	break;
 }
 
+if (Services.appinfo.OS == "Darwin") {
+	document.documentElement.classList.add("isosx");
+}
+
 let windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {
@@ -141,7 +145,10 @@ function _displayMenu(aList) {
 			}
 			break;
 		case "vbox":
-			if (menuitem.id == "PanelUI-recentlyClosedTabs" || menuitem.id == "PanelUI-recentlyClosedWindows") {
+			if (
+				(menuitem.id == "PanelUI-recentlyClosedTabs" || menuitem.id == "PanelUI-recentlyClosedWindows") &&
+				!!menuitem.firstElementChild
+			) {
 				item.setAttribute("label", menuitem.firstElementChild.getAttribute("label"));
 				break;
 			}
