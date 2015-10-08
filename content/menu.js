@@ -125,13 +125,12 @@ function _displayMenu(aList) {
 
 		let item = document.createElement("listitem");
 		switch (menuitem.localName) {
+		case "menu":
+			item.classList.add("menu");
+			/* falls through */
 		case "menuitem":
 		case "toolbarbutton":
-			item.setAttribute("label", menuitem.label || menuitem.id);
-			break;
-		case "menu":
 			item.setAttribute("label", menuitem.label || menuitem.getAttribute("label") || menuitem.id);
-			item.classList.add("menu");
 			break;
 		case "menuseparator":
 			item.classList.add("separator");
@@ -141,6 +140,12 @@ function _displayMenu(aList) {
 				item.setAttribute("label", strings.GetStringFromName("context-navigation.label"));
 			}
 			break;
+		case "vbox":
+			if (menuitem.id == "PanelUI-recentlyClosedTabs" || menuitem.id == "PanelUI-recentlyClosedWindows") {
+				item.setAttribute("label", menuitem.firstElementChild.getAttribute("label"));
+				break;
+			}
+			/* falls through */
 		default:
 			continue;
 		}
