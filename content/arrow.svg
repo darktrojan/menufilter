@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+<svg width="32" height="16" xmlns="http://www.w3.org/2000/svg">
 	<path fill="windowtext" d="M 12.5,8 5,12.33 5,3.67 Z" />
+	<path fill="graytext" d="M 28.5,8 21,12.33 21,3.67 Z" />
 </svg>

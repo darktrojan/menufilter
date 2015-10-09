@@ -60,3 +60,12 @@ listitem.hidden.separator hbox {
 .hidden .eyeball {
 	-moz-image-region: rect(0, 64px, 32px, 32px);
 }
+.menuarrow {
+	width: 16px;
+	height: 16px;
+	list-style-image: url("chrome://menufilter/content/arrow.svg");
+	-moz-image-region: rect(0, 16px, 16px, 0);
+}
+.hidden .menuarrow {
+	-moz-image-region: rect(0, 32px, 16px, 16px);
+}
