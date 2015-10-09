@@ -136,5 +136,10 @@ let MenuFilter = {
 			}
 		}
 	},
-	hiddenItems: _hiddenItems
+	hiddenItems: _hiddenItems,
+	osXSpecialItems: [
+		"menu_FileQuitSeparator", "menu_FileQuitItem", "menu_PrefsSeparator", "menu_preferences",
+		"aboutSeparator", "aboutName", "menu_mac_services", "menu_mac_hide_app",
+		"menu_mac_hide_others", "menu_mac_show_all", "checkForUpdates"
+	]
 };

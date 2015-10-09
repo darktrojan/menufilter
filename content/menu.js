@@ -122,6 +122,9 @@ function _displayMenu(aList) {
 		if ((menuID == "goPopup" || menuID == "windowPopup") && menuitem.getAttribute("type") == "radio") {
 			break;
 		}
+		if (MenuFilter.osXSpecialItems.indexOf(menuitem.id) >= 0) {
+			continue;
+		}
 
 		let item = document.createElement("listitem");
 		switch (menuitem.localName) {

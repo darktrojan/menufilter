@@ -20,6 +20,8 @@ let PREF_REMINDER = "extensions.menufilter.donationreminder";
 let PREF_VERSION = "extensions.menufilter.version";
 let WINDOW_URLS = [BROWSER_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
+let IS_OSX = Services.appinfo.OS == "Darwin";
+
 let donationReminder, windowObserver;
 
 /* exported install, uninstall, startup, shutdown */
@@ -178,6 +180,9 @@ function hideItems(aDocument) {
 				let menuitem = aDocument.getElementById(item);
 				if (menuitem) {
 					menuitem.classList.add("menufilter-hidden");
+					if (IS_OSX) {
+						menuitem.collapsed = true;
+					}
 				}
 			}
 		}
@@ -190,6 +195,9 @@ function unhideItems(aDocument) {
 	}
 	for (let menuitem of items) {
 		menuitem.classList.remove("menufilter-hidden");
+		if (IS_OSX) {
+			menuitem.collapsed = false;
+		}
 	}
 }
 function refreshItems() {
