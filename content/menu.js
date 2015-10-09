@@ -35,10 +35,6 @@ case "SeaMonkey":
 	break;
 }
 
-if (Services.appinfo.OS == "Darwin") {
-	document.documentElement.classList.add("isosx");
-}
-
 let windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == "domwindowopened") {

@@ -14,9 +14,6 @@ page.isthunderbird .thunderbird,
 page.isseamonkey .seamonkey {
 	display: initial;
 }
-page.isosx .realmenu {
-	display: none !important;
-}
 #donatewrapper {
 	margin: 2px 4px;
 	padding: 4px;
