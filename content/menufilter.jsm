@@ -1,5 +1,4 @@
-/* exported EXPORTED_SYMBOLS, MenuFilter */
-const EXPORTED_SYMBOLS = ["MenuFilter"];
+this.EXPORTED_SYMBOLS = ["MenuFilter"];
 /* globals Components, XPCOMUtils, TextDecoder */
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
@@ -112,6 +111,7 @@ let _hiddenItems = {
 	}
 };
 
+/* exported MenuFilter */
 let MenuFilter = {
 	ensureItemsHaveIDs: function(aMenu) {
 		let i = 1;

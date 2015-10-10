@@ -23,5 +23,4 @@ MenuFilterAboutHandler.prototype = {
 	QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIAboutModule])
 };
 
-/* exported NSGetFactory */
-let NSGetFactory = XPCOMUtils.generateNSGetFactory([MenuFilterAboutHandler]);
+this.NSGetFactory = XPCOMUtils.generateNSGetFactory([MenuFilterAboutHandler]);
