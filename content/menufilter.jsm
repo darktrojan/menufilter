@@ -1,14 +1,14 @@
-this.EXPORTED_SYMBOLS = ["MenuFilter"];
+this.EXPORTED_SYMBOLS = ['MenuFilter'];
 /* globals Components, XPCOMUtils, TextDecoder */
-Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 
-const KEY_PROFILEDIR = "ProfD";
-const FILE_DATABASE = "menufilter.json";
+const KEY_PROFILEDIR = 'ProfD';
+const FILE_DATABASE = 'menufilter.json';
 
 /* globals FileUtils, OS, DeferredSave */
-XPCOMUtils.defineLazyModuleGetter(this, "FileUtils", "resource://gre/modules/FileUtils.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "OS", "resource://gre/modules/osfile.jsm");
-XPCOMUtils.defineLazyModuleGetter(this, "DeferredSave", "resource://gre/modules/DeferredSave.jsm");
+XPCOMUtils.defineLazyModuleGetter(this, 'FileUtils', 'resource://gre/modules/FileUtils.jsm');
+XPCOMUtils.defineLazyModuleGetter(this, 'OS', 'resource://gre/modules/osfile.jsm');
+XPCOMUtils.defineLazyModuleGetter(this, 'DeferredSave', 'resource://gre/modules/DeferredSave.jsm');
 
 let jsonFile = FileUtils.getFile(KEY_PROFILEDIR, [FILE_DATABASE], true);
 let _list = null;
@@ -42,10 +42,10 @@ function ensureList() {
 let _hiddenItems = {
 	add: function(aWindowURL, aMenuID, aIDs) {
 		if (!Array.isArray(aIDs)) {
-			if (typeof aIDs == "string") {
+			if (typeof aIDs == 'string') {
 				aIDs = [aIDs];
 			} else {
-				Components.utils.reportError("Argument should be a string or an array.");
+				Components.utils.reportError('Argument should be a string or an array.');
 				return;
 			}
 		}
@@ -67,10 +67,10 @@ let _hiddenItems = {
 	},
 	remove: function(aWindowURL, aMenuID, aIDs) {
 		if (!Array.isArray(aIDs)) {
-			if (typeof aIDs == "string") {
+			if (typeof aIDs == 'string') {
 				aIDs = [aIDs];
 			} else {
-				Components.utils.reportError("Argument should be a string or an array.");
+				Components.utils.reportError('Argument should be a string or an array.');
 				return;
 			}
 		}
@@ -116,30 +116,30 @@ let MenuFilter = {
 	ensureItemsHaveIDs: function(aMenu) {
 		let i = 1;
 		for (let menuitem of aMenu.children) {
-			if (menuitem.classList.contains("bookmark-item") &&
-					!menuitem.id.startsWith("BMB_") && !menuitem.hasAttribute("query")) {
+			if (menuitem.classList.contains('bookmark-item') &&
+					!menuitem.id.startsWith('BMB_') && !menuitem.hasAttribute('query')) {
 				break;
 			}
-			if (menuitem.getAttribute("type") == "radio") {
+			if (menuitem.getAttribute('type') == 'radio') {
 				break;
 			}
 			if (!menuitem.id) {
-				if (menuitem.localName == "menuseparator") {
+				if (menuitem.localName == 'menuseparator') {
 					let previous = menuitem.previousElementSibling;
-					menuitem.id = "menufilter-after-" + previous.id;
-				} else if (menuitem.label || menuitem.hasAttribute("label")) {
-					let label = menuitem.label || menuitem.getAttribute("label");
-					menuitem.id = "menufilter-" + label.replace(/\W/g, "-");
+					menuitem.id = 'menufilter-after-' + previous.id;
+				} else if (menuitem.label || menuitem.hasAttribute('label')) {
+					let label = menuitem.label || menuitem.getAttribute('label');
+					menuitem.id = 'menufilter-' + label.replace(/\W/g, '-');
 				} else {
-					menuitem.id = "menufilter-item-" + i++;
+					menuitem.id = 'menufilter-item-' + i++;
 				}
 			}
 		}
 	},
 	hiddenItems: _hiddenItems,
 	osXSpecialItems: [
-		"menu_FileQuitSeparator", "menu_FileQuitItem", "menu_PrefsSeparator", "menu_preferences",
-		"aboutSeparator", "aboutName", "menu_mac_services", "menu_mac_hide_app",
-		"menu_mac_hide_others", "menu_mac_show_all", "checkForUpdates"
+		'menu_FileQuitSeparator', 'menu_FileQuitItem', 'menu_PrefsSeparator', 'menu_preferences',
+		'aboutSeparator', 'aboutName', 'menu_mac_services', 'menu_mac_hide_app',
+		'menu_mac_hide_others', 'menu_mac_show_all', 'checkForUpdates'
 	]
 };
