@@ -246,7 +246,8 @@ donationReminder = {
 		let recentWindow = Services.wm.getMostRecentWindow('navigator:browser');
 		if (recentWindow) {
 			let browser = recentWindow.gBrowser;
-			notificationBox = browser.getNotificationBox();
+			notificationBox = recentWindow.document.getElementById('global-notificationbox') ||
+				browser.getNotificationBox();
 			callback = function() {
 				browser.selectedTab = browser.addTab(DONATE_URL);
 			};
