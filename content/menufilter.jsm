@@ -126,7 +126,11 @@ let MenuFilter = {
 			if (!menuitem.id) {
 				if (menuitem.localName == 'menuseparator') {
 					let previous = menuitem.previousElementSibling;
-					menuitem.id = 'menufilter-after-' + previous.id;
+					if (previous) {
+						menuitem.id = 'menufilter-after-' + previous.id;
+					} else {
+						menuitem.id = 'menufilter-first';
+					}
 				} else if (menuitem.label || menuitem.hasAttribute('label')) {
 					let label = menuitem.label || menuitem.getAttribute('label');
 					menuitem.id = 'menufilter-' + label.replace(/\W/g, '-');
