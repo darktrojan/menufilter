@@ -1,5 +1,5 @@
 this.EXPORTED_SYMBOLS = ['MenuFilter'];
-/* globals Components, XPCOMUtils, TextDecoder */
+/* globals Components, XPCOMUtils, TextDecoder, Iterator */
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 
 const KEY_PROFILEDIR = 'ProfD';
@@ -13,6 +13,13 @@ XPCOMUtils.defineLazyModuleGetter(this, 'DeferredSave', 'resource://gre/modules/
 let jsonFile = FileUtils.getFile(KEY_PROFILEDIR, [FILE_DATABASE], true);
 let _list = null;
 let _saver = new DeferredSave(jsonFile.path, function() {
+	for (let [, menus] of Iterator(_list)) {
+		for (let [menuID, items] of Iterator(menus)) {
+			if (items.length === 0) {
+				delete menus[menuID];
+			}
+		}
+	}
 	return JSON.stringify(_list);
 });
 let listener = null;
