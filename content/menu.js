@@ -9,12 +9,12 @@ XPCOMUtils.defineLazyGetter(this, 'strings', function() {
 	return Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
 });
 
-let windowURL, windowType, menuID;
-let windowTypeList = document.getElementById('windowtype');
-let menuIDList = document.getElementById('menuid');
-let menuItemList = document.getElementById('menu');
-let showButton = document.getElementById('show');
-let hideButton = document.getElementById('hide');
+var windowURL, windowType, menuID;
+var windowTypeList = document.getElementById('windowtype');
+var menuIDList = document.getElementById('menuid');
+var menuItemList = document.getElementById('menu');
+var showButton = document.getElementById('show');
+var hideButton = document.getElementById('hide');
 
 switch (Services.appinfo.name) {
 case 'Firefox':
@@ -35,7 +35,7 @@ case 'SeaMonkey':
 	break;
 }
 
-let windowObserver = {
+var windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == 'domwindowopened') {
 			aSubject.addEventListener('load', function windowLoad() {
