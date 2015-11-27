@@ -13,12 +13,13 @@ let ABOUT_PAGE_URL = 'about:menufilter';
 let BROWSER_URL = 'chrome://browser/content/browser.xul';
 let DONATE_URL = 'https://addons.mozilla.org/addon/menu-filter/contribute/installed/';
 let IDLE_TIMEOUT = 9;
+let LIBRARY_URL = 'chrome://browser/content/places/places.xul';
 let MESSAGE_WINDOW_URL = 'chrome://messenger/content/messageWindow.xul';
 let MESSENGER_URL = 'chrome://messenger/content/messenger.xul';
 let NAVIGATOR_URL = 'chrome://navigator/content/navigator.xul';
 let PREF_REMINDER = 'extensions.menufilter.donationreminder';
 let PREF_VERSION = 'extensions.menufilter.version';
-let WINDOW_URLS = [BROWSER_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
+let WINDOW_URLS = [BROWSER_URL, LIBRARY_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
 let IS_OSX = Services.appinfo.OS == 'Darwin';
 
@@ -101,7 +102,9 @@ function shutdown(aParams, aReason) {
 
 function paint(aWindow) {
 	let location = aWindow.location.href;
-	if (location == MESSAGE_WINDOW_URL) {
+	if (location == LIBRARY_URL) {
+		location = BROWSER_URL;
+	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.indexOf(location) >= 0) {
@@ -138,7 +141,9 @@ function paint(aWindow) {
 }
 function unpaint(aWindow) {
 	let location = aWindow.location.href;
-	if (location == MESSAGE_WINDOW_URL) {
+	if (location == LIBRARY_URL) {
+		location = BROWSER_URL;
+	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.indexOf(location) >= 0) {
@@ -163,7 +168,9 @@ function enumerateWindows(aCallback) {
 }
 function hideItems(aDocument) {
 	let location = aDocument.location;
-	if (location == MESSAGE_WINDOW_URL) {
+	if (location == LIBRARY_URL) {
+		location = BROWSER_URL;
+	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	MenuFilter.hiddenItems.getList(location).then(function(aList) {
