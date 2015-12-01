@@ -166,6 +166,16 @@ function _displayMenu(aList) {
 		menuItemList.appendChild(item);
 	}
 
+	if (Services.appinfo.name == 'Firefox' && ['bookmarksMenuPopup', 'BMB_bookmarksPopup'].indexOf(menuID) >= 0) {
+		let item = document.createElement('listitem');
+		item.setAttribute('label', domWindow.gNavigatorBundle.getString('menuOpenAllInTabs.label'));
+		item.setAttribute('value', 'openintabs-menuitem');
+		if (aList.indexOf('openintabs-menuitem') >= 0) {
+			item.classList.add('hidden');
+		}
+		menuItemList.appendChild(item);
+	}
+
 	menuItemList.scrollToIndex(1);
 	menuItemList.scrollToIndex(0);
 }

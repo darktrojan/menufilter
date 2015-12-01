@@ -4,7 +4,14 @@ Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 /* globals idleService */
 XPCOMUtils.defineLazyServiceGetter(this, 'idleService', '@mozilla.org/widget/idleservice;1', 'nsIIdleService');
 
-const cssData = 'href="data:text/css,' + encodeURIComponent('.menufilter-hidden { display: none; }') + '" type="text/css"';
+const cssData =
+	'href="data:text/css,' + encodeURIComponent(
+		'.menufilter-hidden, ' +
+		'menupopup[menufilter-openintabs-hidden] .bookmarks-actions-menuseparator, ' +
+		'menupopup[menufilter-openintabs-hidden] .openintabs-menuitem {' +
+		' display: none; ' +
+		'}'
+	) + '" type="text/css"';
 
 let aboutPage = {};
 let strings = Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
@@ -184,6 +191,13 @@ function hideItems(aDocument) {
 			}
 			MenuFilter.ensureItemsHaveIDs(menu);
 			for (let item of list) {
+				if (item == 'openintabs-menuitem') {
+					// TODO:
+					// #BMB_bookmarksPopup doesn't exist if Bookmarks is not on the toolbar
+					// and this attribute won't get added if that changes.
+					menu.setAttribute('menufilter-openintabs-hidden', 'true');
+					continue;
+				}
 				let menuitem = aDocument.getElementById(item);
 				if (menuitem) {
 					menuitem.classList.add('menufilter-hidden');
@@ -205,6 +219,9 @@ function unhideItems(aDocument) {
 		if (IS_OSX) {
 			menuitem.collapsed = false;
 		}
+	}
+	for (let menupopup of aDocument.querySelectorAll('[menufilter-openintabs-hidden]')) {
+		menupopup.removeAttribute('menufilter-openintabs-hidden');
 	}
 }
 function refreshItems() {
