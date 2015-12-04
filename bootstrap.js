@@ -205,6 +205,12 @@ function hideItems(aDocument) {
 						menuitem.collapsed = true;
 					}
 				}
+				if (location == MESSENGER_URL) {
+					let appmenuitem = aDocument.getElementById(item.replace(/^(\w+_)?/, 'appmenu_'));
+					if (appmenuitem) {
+						appmenuitem.classList.add('menufilter-hidden');
+					}
+				}
 			}
 		}
 	}).then(null, Components.utils.reportError);
