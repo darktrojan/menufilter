@@ -205,8 +205,22 @@ function hideItems(aDocument) {
 						menuitem.collapsed = true;
 					}
 				}
-				if (location == MESSENGER_URL) {
-					let appmenuitem = aDocument.getElementById(item.replace(/^(\w+_)?/, 'appmenu_'));
+				if (location == MESSENGER_URL && ['mailContext', 'folderPaneContext'].indexOf(id) < 0) {
+					let idReplacements = new Map([
+						['appmenu_getAllNewMsg', 'appmenu_getNewMsgFor'],
+						['appmenu_getnextnmsg', 'appmenu_getNextNMsgs'],
+						['appmenu_sendunsentmsgs', 'appmenu_sendUnsentMsgs'],
+						['appmenu_trashMenuSeparator', 'appmenu_fileMenuAfterCompactSeparator'],
+						['appmenu_offlineMenuItem', 'appmenu_offline'],
+						['appmenu_viewheadersmenu', 'appmenu_viewHeadersMenu'],
+						['appmenu_addonsManager', 'appmenu_addons']
+					]);
+
+					let newID = item.replace(/^(\w+_)?/, 'appmenu_');
+					if (idReplacements.has(newID)) {
+						newID = idReplacements.get(newID);
+					}
+					let appmenuitem = aDocument.getElementById(newID);
 					if (appmenuitem) {
 						appmenuitem.classList.add('menufilter-hidden');
 					}
