@@ -9,6 +9,8 @@ XPCOMUtils.defineLazyGetter(this, 'strings', function() {
 	return Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
 });
 
+var IS_OSX = Services.appinfo.OS == 'Darwin';
+
 var windowURL, windowType, menuID;
 var windowTypeList = document.getElementById('windowtype');
 var menuIDList = document.getElementById('menuid');
@@ -122,7 +124,7 @@ function _displayMenu(aList) {
 		if ((menuID == 'goPopup' || menuID == 'windowPopup') && menuitem.getAttribute('type') == 'radio') {
 			break;
 		}
-		if (MenuFilter.osXSpecialItems.indexOf(menuitem.id) >= 0) {
+		if (IS_OSX && MenuFilter.osXSpecialItems.indexOf(menuitem.id) >= 0) {
 			continue;
 		}
 

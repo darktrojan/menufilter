@@ -1,3 +1,4 @@
+/* jshint browser: false */
 /* globals Components, Services, XPCOMUtils, Iterator */
 Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
@@ -6,7 +7,7 @@ XPCOMUtils.defineLazyServiceGetter(this, 'idleService', '@mozilla.org/widget/idl
 
 const cssData =
 	'href="data:text/css,' + encodeURIComponent(
-		'.menufilter-hidden, ' +
+		'.menufilter-hidden, .menufilter-separator-hidden, ' +
 		'menupopup[menufilter-openintabs-hidden] .bookmarks-actions-menuseparator, ' +
 		'menupopup[menufilter-openintabs-hidden] .openintabs-menuitem {' +
 		' display: none; ' +
@@ -29,8 +30,6 @@ let PREF_VERSION = 'extensions.menufilter.version';
 let WINDOW_URLS = [BROWSER_URL, LIBRARY_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
 
 let IS_OSX = Services.appinfo.OS == 'Darwin';
-
-let donationReminder, windowObserver;
 
 /* exported install, uninstall, startup, shutdown */
 /* globals APP_STARTUP, APP_SHUTDOWN, ADDON_INSTALL, ADDON_UPGRADE */
@@ -190,6 +189,8 @@ function hideItems(aDocument) {
 				menu = menu.querySelector('.panel-subview-body');
 			}
 			MenuFilter.ensureItemsHaveIDs(menu);
+			menu.addEventListener('popupshowing', popupShowingListener, true);
+			menu.setAttribute('menufilter-listeneradded', true);
 			for (let item of list) {
 				if (item == 'openintabs-menuitem') {
 					// TODO:
@@ -230,11 +231,7 @@ function hideItems(aDocument) {
 	}).then(null, Components.utils.reportError);
 }
 function unhideItems(aDocument) {
-	let items = [];
-	for (let menuitem of aDocument.getElementsByClassName('menufilter-hidden')) {
-		items.push(menuitem);
-	}
-	for (let menuitem of items) {
+	for (let menuitem of aDocument.querySelectorAll('.menufilter-hidden')) {
 		menuitem.classList.remove('menufilter-hidden');
 		if (IS_OSX) {
 			menuitem.collapsed = false;
@@ -242,6 +239,10 @@ function unhideItems(aDocument) {
 	}
 	for (let menupopup of aDocument.querySelectorAll('[menufilter-openintabs-hidden]')) {
 		menupopup.removeAttribute('menufilter-openintabs-hidden');
+	}
+	for (let menupopup of aDocument.querySelectorAll('[menufilter-listeneradded]')) {
+		menupopup.removeEventListener('popupshowing', popupShowingListener, true);
+		menupopup.removeAttribute('menufilter-listeneradded');
 	}
 }
 function refreshItems() {
@@ -253,8 +254,37 @@ function refreshItems() {
 		}
 	});
 }
+function popupShowingListener(event) {
+	let shownItems =
+		[for (i of event.originalTarget.children) if (!i.hidden && !i.classList.contains('menufilter-hidden')) i];
 
-donationReminder = {
+	let seen = false;
+	for (let item of shownItems) {
+		item.classList.remove('menufilter-separator-hidden');
+		if (item.localName == 'menuseparator') {
+			if (!seen) {
+				item.classList.add('menufilter-separator-hidden');
+			} else {
+				seen = false;
+			}
+		} else {
+			seen = true;
+		}
+	}
+
+	if (!seen) {
+		// There's either nothing here or the last item is a visible separator. Hide it.
+		for (let i = shownItems.length - 1; i >= 0; i--) {
+			let item = shownItems[i];
+			if (!item.classList.contains('menufilter-separator-hidden')) {
+				item.classList.add('menufilter-separator-hidden');
+				break;
+			}
+		}
+	}
+}
+
+var donationReminder = {
 	currentVersion: 0,
 	run: function(aVersion) {
 		// Truncate version numbers to floats
@@ -316,7 +346,7 @@ donationReminder = {
 		Services.prefs.setIntPref(PREF_REMINDER, Date.now() / 1000);
 	}
 };
-windowObserver = {
+var windowObserver = {
 	observe: function(aSubject, aTopic) {
 		if (aTopic == 'domwindowopened') {
 			aSubject.addEventListener('load', function windowLoad() {
