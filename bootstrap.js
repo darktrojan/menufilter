@@ -1,5 +1,5 @@
 /* jshint browser: false */
-/* globals Components, Services, XPCOMUtils, Iterator */
+/* globals Components, Services, XPCOMUtils */
 Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 /* globals idleService */
@@ -180,7 +180,8 @@ function hideItems(aDocument) {
 		location = MESSENGER_URL;
 	}
 	MenuFilter.hiddenItems.getList(location).then(function(aList) {
-		for (let [id, list] in Iterator(aList)) {
+		for (let id of Object.keys(aList)) {
+			let list = aList[id];
 			let menu = aDocument.getElementById(id);
 			if (!menu) {
 				continue;
