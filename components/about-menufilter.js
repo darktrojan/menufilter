@@ -6,12 +6,13 @@ function MenuFilterAboutHandler() {
 }
 
 MenuFilterAboutHandler.prototype = {
-	newChannel: function(aURI) {
-		if (aURI.spec != 'about:menufilter')
+	newChannel: function(uri, loadInfo) {
+		if (uri.spec != 'about:menufilter')
 			return;
 
-		let channel = Services.io.newChannel('chrome://menufilter/content/menu.xul', null, null);
-		channel.originalURI = aURI;
+		let newURI = Services.io.newURI('chrome://menufilter/content/menu.xul', null, null);
+		let channel = Services.io.newChannelFromURIWithLoadInfo(newURI, loadInfo);
+		channel.originalURI = uri;
 		return channel;
 	},
 	getURIFlags: function() {
