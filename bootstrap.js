@@ -256,8 +256,9 @@ function refreshItems() {
 	});
 }
 function popupShowingListener(event) {
-	let shownItems =
-		[for (i of event.originalTarget.children) if (!i.hidden && !i.classList.contains('menufilter-hidden')) i];
+	let shownItems = Array.filter(event.originalTarget.children, function(i) {
+		return !i.hidden && !i.classList.contains('menufilter-hidden');
+	});
 
 	let seen = false;
 	for (let item of shownItems) {
