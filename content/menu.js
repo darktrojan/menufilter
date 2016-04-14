@@ -1,4 +1,5 @@
 /* jshint browser:true */
+/* eslint-env browser */
 /* globals Components, Services, XPCOMUtils, MenuFilter */
 Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
@@ -38,10 +39,10 @@ case 'SeaMonkey':
 }
 
 var windowObserver = {
-	observe: function(aSubject, aTopic) {
-		if (aTopic == 'domwindowopened') {
-			aSubject.addEventListener('load', function windowLoad() {
-				aSubject.removeEventListener('load', windowLoad);
+	observe: function(subject, topic) {
+		if (topic == 'domwindowopened') {
+			subject.addEventListener('load', function windowLoad() {
+				subject.removeEventListener('load', windowLoad);
 				windowObserver.iterate();
 			});
 		} else {
@@ -76,9 +77,9 @@ onunload = function() {
 };
 
 /* exported windowTypeChosen */
-function windowTypeChosen(aItem) {
-	windowType = aItem.value;
-	windowURL = aItem.getAttribute('url');
+function windowTypeChosen(item) {
+	windowType = item.value;
+	windowURL = item.getAttribute('url');
 	updateMenuIDList();
 	menuChosen(menuIDList.value);
 }
@@ -88,14 +89,13 @@ function updateMenuIDList() {
 	let domDocument = domWindow.document;
 	for (let i = 0; i < menuIDList.itemCount; i++) {
 		let item = menuIDList.getItemAtIndex(i);
-		let menuID = item.value;
-		item.disabled = !domDocument.getElementById(menuID);
+		item.disabled = !domDocument.getElementById(item.value);
 	}
 	menuIDList.selectedItem = menuIDList.querySelector('.' + Services.appinfo.name.toLowerCase() + ':not([disabled])');
 }
 
-function menuChosen(aID) {
-	menuID = aID;
+function menuChosen(id) {
+	menuID = id;
 	displayMenu();
 }
 
@@ -106,7 +106,7 @@ function displayMenu() {
 	MenuFilter.hiddenItems.getList(windowURL, menuID).then(_displayMenu);
 }
 
-function _displayMenu(aList) {
+function _displayMenu(list) {
 	let domWindow = Services.wm.getMostRecentWindow(windowType);
 	let domDocument = domWindow.document;
 	let menu = domDocument.getElementById(menuID);
@@ -159,7 +159,7 @@ function _displayMenu(aList) {
 		}
 		if (menuitem.id) {
 			item.setAttribute('value', menuitem.id);
-			if (aList.indexOf(menuitem.id) >= 0) {
+			if (list.indexOf(menuitem.id) >= 0) {
 				item.classList.add('hidden');
 			}
 		} else {
@@ -172,7 +172,7 @@ function _displayMenu(aList) {
 		let item = document.createElement('listitem');
 		item.setAttribute('label', domWindow.gNavigatorBundle.getString('menuOpenAllInTabs.label'));
 		item.setAttribute('value', 'openintabs-menuitem');
-		if (aList.indexOf('openintabs-menuitem') >= 0) {
+		if (list.indexOf('openintabs-menuitem') >= 0) {
 			item.classList.add('hidden');
 		}
 		menuItemList.appendChild(item);
@@ -224,16 +224,16 @@ function hideSelection() {
 	menuItemList.focus();
 }
 
-function toggleItem(aTarget) {
-	if (aTarget.localName != 'listitem') {
+function toggleItem(target) {
+	if (target.localName != 'listitem') {
 		return;
 	}
-	if (aTarget.classList.contains('hidden')) {
-		MenuFilter.hiddenItems.remove(windowURL, menuID, [aTarget.value]);
-		aTarget.classList.remove('hidden');
+	if (target.classList.contains('hidden')) {
+		MenuFilter.hiddenItems.remove(windowURL, menuID, [target.value]);
+		target.classList.remove('hidden');
 	} else {
-		MenuFilter.hiddenItems.add(windowURL, menuID, [aTarget.value]);
-		aTarget.classList.add('hidden');
+		MenuFilter.hiddenItems.add(windowURL, menuID, [target.value]);
+		target.classList.add('hidden');
 	}
 	selectionChanged();
 }

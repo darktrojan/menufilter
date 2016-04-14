@@ -7,8 +7,9 @@ function MenuFilterAboutHandler() {
 
 MenuFilterAboutHandler.prototype = {
 	newChannel: function(uri, loadInfo) {
-		if (uri.spec != 'about:menufilter')
-			return;
+		if (uri.spec != 'about:menufilter') {
+			return null;
+		}
 
 		let newURI = Services.io.newURI('chrome://menufilter/content/menu.xul', null, null);
 		let channel = Services.io.newChannelFromURIWithLoadInfo(newURI, loadInfo);

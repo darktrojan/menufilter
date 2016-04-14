@@ -24,18 +24,18 @@ let _saver = new DeferredSave(jsonFile.path, function() {
 	}
 	return JSON.stringify(_list);
 });
-let listener = null;
+let _listener = null;
 
 function ensureList() {
 	return new Promise(function(resolve) {
 		if (_list !== null) {
 			resolve(_list);
 		} else {
-			OS.File.exists(jsonFile.path).then(function(aExists) {
-				if (aExists) {
-					OS.File.read(jsonFile.path).then(function(aArray) {
+			OS.File.exists(jsonFile.path).then(function(exists) {
+				if (exists) {
+					OS.File.read(jsonFile.path).then(function(array) {
 						let decoder = new TextDecoder();
-						let text = decoder.decode(aArray);
+						let text = decoder.decode(array);
 						_list = JSON.parse(text);
 						resolve(_list);
 					});
@@ -49,82 +49,81 @@ function ensureList() {
 }
 
 let _hiddenItems = {
-	add: function(aWindowURL, aMenuID, aIDs) {
-		if (!Array.isArray(aIDs)) {
-			if (typeof aIDs == 'string') {
-				aIDs = [aIDs];
+	add: function(windowURL, menuID, ids) {
+		if (!Array.isArray(ids)) {
+			if (typeof ids == 'string') {
+				ids = [ids];
 			} else {
 				Components.utils.reportError('Argument should be a string or an array.');
 				return;
 			}
 		}
-		return this.getList(aWindowURL, aMenuID).then(function(aList) {
-			for (let id of aIDs) {
-				if (aList.indexOf(id) < 0) {
-					aList.push(id);
+		this.getList(windowURL, menuID).then(function(list) {
+			for (let id of ids) {
+				if (list.indexOf(id) < 0) {
+					list.push(id);
 				}
 			}
-			if (!(aWindowURL in _list)) {
-				_list[aWindowURL] = {};
+			if (!(windowURL in _list)) {
+				_list[windowURL] = {};
 			}
-			if (!(aMenuID in _list[aWindowURL])) {
-				_list[aWindowURL][aMenuID] = aList;
+			if (!(menuID in _list[windowURL])) {
+				_list[windowURL][menuID] = list;
 			}
-			listener();
+			_listener();
 			_saver.saveChanges();
 		}).then(null, Components.utils.reportError);
 	},
-	remove: function(aWindowURL, aMenuID, aIDs) {
-		if (!Array.isArray(aIDs)) {
-			if (typeof aIDs == 'string') {
-				aIDs = [aIDs];
+	remove: function(windowURL, menuID, ids) {
+		if (!Array.isArray(ids)) {
+			if (typeof ids == 'string') {
+				ids = [ids];
 			} else {
 				Components.utils.reportError('Argument should be a string or an array.');
 				return;
 			}
 		}
-		return this.getList(aWindowURL, aMenuID).then(function(aList) {
-			for (let id of aIDs) {
-				let index = aList.indexOf(id);
+		this.getList(windowURL, menuID).then(function(list) {
+			for (let id of ids) {
+				let index = list.indexOf(id);
 				if (index >= 0) {
-					aList.splice(index, 1);
+					list.splice(index, 1);
 				}
 			}
-			listener();
+			_listener();
 			_saver.saveChanges();
 		}).then(null, Components.utils.reportError);
 	},
-	getList: function(aWindowURL, aMenuID) {
-		return ensureList().then(function(aList) {
-			if (aWindowURL) {
-				if (aWindowURL in aList) {
-					if (aMenuID) {
-						if (aMenuID in aList[aWindowURL]) {
-							return aList[aWindowURL][aMenuID];
+	getList: function(windowURL, menuID) {
+		return ensureList().then(function(list) {
+			if (windowURL) {
+				if (windowURL in list) {
+					if (menuID) {
+						if (menuID in list[windowURL]) {
+							return list[windowURL][menuID];
 						}
 						return [];
 					}
-					return aList[aWindowURL];
-				} else {
-					if (aMenuID) {
-						return [];
-					}
-					return {};
+					return list[windowURL];
 				}
+				if (menuID) {
+					return [];
+				}
+				return {};
 			}
-			return aList;
+			return list;
 		});
 	},
-	registerListener: function(aListener) {
-		listener = aListener;
+	registerListener: function(listener) {
+		_listener = listener;
 	}
 };
 
 /* exported MenuFilter */
 let MenuFilter = {
-	ensureItemsHaveIDs: function(aMenu) {
+	ensureItemsHaveIDs: function(menu) {
 		let i = 1;
-		for (let menuitem of aMenu.children) {
+		for (let menuitem of menu.children) {
 			if (menuitem.classList.contains('bookmark-item') &&
 					!menuitem.id.startsWith('BMB_') && !menuitem.hasAttribute('query')) {
 				break;

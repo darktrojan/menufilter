@@ -1,4 +1,3 @@
-/* jshint browser: false */
 /* globals Components, Services, XPCOMUtils */
 Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
@@ -33,26 +32,26 @@ let IS_OSX = Services.appinfo.OS == 'Darwin';
 
 /* exported install, uninstall, startup, shutdown */
 /* globals APP_STARTUP, APP_SHUTDOWN, ADDON_INSTALL, ADDON_UPGRADE */
-function install(aParams, aReason) {
-	if (aReason == ADDON_UPGRADE && !Services.prefs.prefHasUserValue(PREF_VERSION)) {
-		Services.prefs.setCharPref(PREF_VERSION, aParams.oldVersion);
+function install(params, reason) {
+	if (reason == ADDON_UPGRADE && !Services.prefs.prefHasUserValue(PREF_VERSION)) {
+		Services.prefs.setCharPref(PREF_VERSION, params.oldVersion);
 	}
 }
 function uninstall() {
 }
-function startup(aParams, aReason) {
-	if (aReason == APP_STARTUP && Services.appinfo.name == 'Firefox') {
+function startup(params, reason) {
+	if (reason == APP_STARTUP && Services.appinfo.name == 'Firefox') {
 		Services.obs.addObserver({
 			observe: function() {
 				Services.obs.removeObserver(this, 'browser-delayed-startup-finished');
-				realStartup(aParams, aReason);
+				realStartup(params, reason);
 			}
 		}, 'browser-delayed-startup-finished', false);
 	} else {
-		realStartup(aParams, aReason);
+		realStartup(params, reason);
 	}
 }
-function realStartup(aParams, aReason) {
+function realStartup(params, reason) {
 	/* globals MenuFilter */
 	Components.utils.import('chrome://menufilter/content/menufilter.jsm');
 	MenuFilter.hiddenItems.registerListener(refreshItems);
@@ -60,7 +59,7 @@ function realStartup(aParams, aReason) {
 	enumerateWindows(paint);
 	Services.ww.registerNotification(windowObserver);
 
-	Services.scriptloader.loadSubScript(aParams.resourceURI.spec + 'components/about-menufilter.js', aboutPage);
+	Services.scriptloader.loadSubScript(params.resourceURI.spec + 'components/about-menufilter.js', aboutPage);
 	let registrar = Components.manager.QueryInterface(Components.interfaces.nsIComponentRegistrar);
 	registrar.registerFactory(
 		aboutPage.MenuFilterAboutHandler.prototype.classID,
@@ -70,27 +69,27 @@ function realStartup(aParams, aReason) {
 	);
 
 	Services.prefs.getDefaultBranch('').setCharPref(PREF_VERSION, '0');
-	if (aReason != ADDON_INSTALL) {
-		donationReminder.run(aParams.version);
+	if (reason != ADDON_INSTALL) {
+		donationReminder.run(params.version);
 	}
-	Services.prefs.setCharPref(PREF_VERSION, aParams.version);
+	Services.prefs.setCharPref(PREF_VERSION, params.version);
 }
-function shutdown(aParams, aReason) {
+function shutdown(params, reason) {
 	Services.ww.unregisterNotification(windowObserver);
-	if (aReason == APP_SHUTDOWN) {
+	if (reason == APP_SHUTDOWN) {
 		return;
 	}
 
-	enumerateWindows(function(aWindow) {
-		unpaint(aWindow);
-		switch (aWindow.location.href) {
+	enumerateWindows(function(window) {
+		unpaint(window);
+		switch (window.location.href) {
 		case ABOUT_PAGE_URL:
-			aWindow.close();
+			window.close();
 			break;
 		case BROWSER_URL:
-			for (let tab of aWindow.gBrowser.tabs) {
+			for (let tab of window.gBrowser.tabs) {
 				if (tab.linkedBrowser.currentURI.spec == ABOUT_PAGE_URL) {
-					aWindow.gBrowser.removeTab(tab);
+					window.gBrowser.removeTab(tab);
 				}
 			}
 			break;
@@ -106,33 +105,33 @@ function shutdown(aParams, aReason) {
 	Components.utils.unload('chrome://menufilter/content/menufilter.jsm');
 }
 
-function paint(aWindow) {
-	let location = aWindow.location.href;
+function paint(window) {
+	let location = window.location.href;
 	if (location == LIBRARY_URL) {
 		location = BROWSER_URL;
 	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.indexOf(location) >= 0) {
-		let document = aWindow.document;
+		let document = window.document;
 		let pi = document.createProcessingInstruction('xml-stylesheet', cssData);
 		document.insertBefore(pi, document.documentElement);
 		document.menuCSSNode = pi;
 
-		if ('switchToTabHavingURI' in aWindow || 'contentTabBaseType' in aWindow) {
+		if ('switchToTabHavingURI' in window || 'contentTabBaseType' in window) {
 			let menuitem = document.createElement('menuitem');
 			menuitem.id = 'tools-menufilter';
 			menuitem.className = 'menuitem-iconic';
 			menuitem.setAttribute('label', strings.GetStringFromName('toolsmenuitem.label'));
 			menuitem.addEventListener('command', function() {
-				if ('switchToTabHavingURI' in aWindow) {
-					aWindow.switchToTabHavingURI(ABOUT_PAGE_URL, true);
-				} else if ('contentTabBaseType' in aWindow) {
-					let whitelist = aWindow.contentTabBaseType.inContentWhitelist;
+				if ('switchToTabHavingURI' in window) {
+					window.switchToTabHavingURI(ABOUT_PAGE_URL, true);
+				} else if ('contentTabBaseType' in window) {
+					let whitelist = window.contentTabBaseType.inContentWhitelist;
 					if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
 						whitelist.push(ABOUT_PAGE_URL);
 					}
-					aWindow.openContentTab(ABOUT_PAGE_URL);
+					window.openContentTab(ABOUT_PAGE_URL);
 				}
 			});
 
@@ -145,16 +144,16 @@ function paint(aWindow) {
 		hideItems(document);
 	}
 }
-function unpaint(aWindow) {
-	let location = aWindow.location.href;
+function unpaint(window) {
+	let location = window.location.href;
 	if (location == LIBRARY_URL) {
 		location = BROWSER_URL;
 	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.indexOf(location) >= 0) {
-		let document = aWindow.document;
-		if (!!document.menuCSSNode) {
+		let document = window.document;
+		if (document.menuCSSNode) {
 			document.removeChild(document.menuCSSNode);
 		}
 
@@ -166,23 +165,23 @@ function unpaint(aWindow) {
 		}
 	}
 }
-function enumerateWindows(aCallback) {
+function enumerateWindows(callback) {
 	let windowEnum = Services.ww.getWindowEnumerator();
 	while (windowEnum.hasMoreElements()) {
-		aCallback(windowEnum.getNext());
+		callback(windowEnum.getNext());
 	}
 }
-function hideItems(aDocument) {
-	let location = aDocument.location;
+function hideItems(document) {
+	let location = document.location;
 	if (location == LIBRARY_URL) {
 		location = BROWSER_URL;
 	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
-	MenuFilter.hiddenItems.getList(location).then(function(aList) {
-		for (let id of Object.keys(aList)) {
-			let list = aList[id];
-			let menu = aDocument.getElementById(id);
+	MenuFilter.hiddenItems.getList(location).then(function(menus) {
+		for (let id of Object.keys(menus)) {
+			let list = menus[id];
+			let menu = document.getElementById(id);
 			if (!menu) {
 				continue;
 			}
@@ -200,7 +199,7 @@ function hideItems(aDocument) {
 					menu.setAttribute('menufilter-openintabs-hidden', 'true');
 					continue;
 				}
-				let menuitem = aDocument.getElementById(item);
+				let menuitem = document.getElementById(item);
 				if (menuitem) {
 					menuitem.classList.add('menufilter-hidden');
 					if (IS_OSX) {
@@ -222,7 +221,7 @@ function hideItems(aDocument) {
 					if (idReplacements.has(newID)) {
 						newID = idReplacements.get(newID);
 					}
-					let appmenuitem = aDocument.getElementById(newID);
+					let appmenuitem = document.getElementById(newID);
 					if (appmenuitem) {
 						appmenuitem.classList.add('menufilter-hidden');
 					}
@@ -231,25 +230,25 @@ function hideItems(aDocument) {
 		}
 	}).then(null, Components.utils.reportError);
 }
-function unhideItems(aDocument) {
-	for (let menuitem of aDocument.querySelectorAll('.menufilter-hidden')) {
+function unhideItems(document) {
+	for (let menuitem of document.querySelectorAll('.menufilter-hidden')) {
 		menuitem.classList.remove('menufilter-hidden');
 		if (IS_OSX) {
 			menuitem.collapsed = false;
 		}
 	}
-	for (let menupopup of aDocument.querySelectorAll('[menufilter-openintabs-hidden]')) {
+	for (let menupopup of document.querySelectorAll('[menufilter-openintabs-hidden]')) {
 		menupopup.removeAttribute('menufilter-openintabs-hidden');
 	}
-	for (let menupopup of aDocument.querySelectorAll('[menufilter-listeneradded]')) {
+	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		menupopup.removeEventListener('popupshowing', popupShowingListener, true);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
 }
 function refreshItems() {
-	enumerateWindows(function(aWindow) {
-		if (WINDOW_URLS.indexOf(aWindow.location.href) >= 0) {
-			let document = aWindow.document;
+	enumerateWindows(function(window) {
+		if (WINDOW_URLS.indexOf(window.location.href) >= 0) {
+			let document = window.document;
 			unhideItems(document);
 			hideItems(document);
 		}
@@ -288,14 +287,14 @@ function popupShowingListener(event) {
 
 var donationReminder = {
 	currentVersion: 0,
-	run: function(aVersion) {
+	run: function(version) {
 		// Truncate version numbers to floats
 		let oldVersion = parseFloat(Services.prefs.getCharPref(PREF_VERSION), 10);
 		if (!oldVersion) {
 			return;
 		}
 
-		this.currentVersion = parseFloat(aVersion, 10);
+		this.currentVersion = parseFloat(version, 10);
 		let shouldRemind = true;
 
 		if (Services.prefs.getPrefType(PREF_REMINDER) == Components.interfaces.nsIPrefBranch.PREF_INT) {
@@ -307,8 +306,8 @@ var donationReminder = {
 			idleService.addIdleObserver(this, IDLE_TIMEOUT);
 		}
 	},
-	observe: function(aSubject, aTopic) {
-		if (aTopic != 'idle') {
+	observe: function(subject, topic) {
+		if (topic != 'idle') {
 			return;
 		}
 
@@ -349,14 +348,14 @@ var donationReminder = {
 	}
 };
 var windowObserver = {
-	observe: function(aSubject, aTopic) {
-		if (aTopic == 'domwindowopened') {
-			aSubject.addEventListener('load', function windowLoad() {
-				aSubject.removeEventListener('load', windowLoad, false);
-				paint(aSubject);
+	observe: function(subject, topic) {
+		if (topic == 'domwindowopened') {
+			subject.addEventListener('load', function windowLoad() {
+				subject.removeEventListener('load', windowLoad, false);
+				paint(subject);
 			}, false);
 		} else {
-			unpaint(aSubject);
+			unpaint(subject);
 		}
 	}
 };
