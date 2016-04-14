@@ -189,6 +189,7 @@ function hideItems(document) {
 				menu = menu.querySelector('.panel-subview-body');
 			}
 			MenuFilter.ensureItemsHaveIDs(menu);
+			menu._menufilter_list = list;
 			menu.addEventListener('popupshowing', popupShowingListener, true);
 			menu.setAttribute('menufilter-listeneradded', true);
 			for (let item of list) {
@@ -198,13 +199,6 @@ function hideItems(document) {
 					// and this attribute won't get added if that changes.
 					menu.setAttribute('menufilter-openintabs-hidden', 'true');
 					continue;
-				}
-				let menuitem = document.getElementById(item);
-				if (menuitem) {
-					menuitem.classList.add('menufilter-hidden');
-					if (IS_OSX) {
-						menuitem.collapsed = true;
-					}
 				}
 				if (location == MESSENGER_URL && ['mailContext', 'folderPaneContext'].indexOf(id) < 0) {
 					let idReplacements = new Map([
@@ -255,7 +249,18 @@ function refreshItems() {
 	});
 }
 function popupShowingListener(event) {
-	let shownItems = Array.filter(event.originalTarget.children, function(i) {
+	let menu = event.originalTarget;
+	for (let id of menu._menufilter_list) {
+		let menuitem = menu.querySelector('#' + id);
+		if (menuitem) {
+			menuitem.classList.add('menufilter-hidden');
+			if (IS_OSX) {
+				menuitem.collapsed = true;
+			}
+		}
+	}
+
+	let shownItems = Array.filter(menu.children, function(i) {
 		return !i.hidden && !i.classList.contains('menufilter-hidden');
 	});
 
@@ -351,9 +356,9 @@ var windowObserver = {
 	observe: function(subject, topic) {
 		if (topic == 'domwindowopened') {
 			subject.addEventListener('load', function windowLoad() {
-				subject.removeEventListener('load', windowLoad, false);
+				subject.removeEventListener('load', windowLoad);
 				paint(subject);
-			}, false);
+			});
 		} else {
 			unpaint(subject);
 		}
