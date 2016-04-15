@@ -181,6 +181,10 @@ function hideItems(document) {
 	MenuFilter.hiddenItems.getList(location).then(function(menus) {
 		for (let id of Object.keys(menus)) {
 			let list = menus[id];
+			if (!list.length) {
+				// This shouldn't happen, but it does because async. Just go with it.
+				continue;
+			}
 			let menu = document.getElementById(id);
 			if (!menu) {
 				continue;
@@ -235,6 +239,7 @@ function unhideItems(document) {
 		menupopup.removeAttribute('menufilter-openintabs-hidden');
 	}
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
+		delete menupopup._menufilter_list;
 		menupopup.removeEventListener('popupshowing', popupShowingListener, true);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
