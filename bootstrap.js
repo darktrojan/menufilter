@@ -225,6 +225,12 @@ function hideItems(document) {
 					}
 				}
 			}
+
+			if (id == 'menuWebDeveloperPopup') {
+				// The toolbar Developer Tools panel is cloned from this menu when opened,
+				// so make sure we've already hidden items.
+				popupShowingListener({originalTarget: menu});
+			}
 		}
 	}).then(null, Components.utils.reportError);
 }
@@ -253,8 +259,7 @@ function refreshItems() {
 		}
 	});
 }
-function popupShowingListener(event) {
-	let menu = event.originalTarget;
+function popupShowingListener({originalTarget: menu}) {
 	for (let id of menu._menufilter_list) {
 		let menuitem = menu.querySelector('#' + id);
 		if (menuitem) {
