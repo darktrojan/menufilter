@@ -18,6 +18,7 @@ let strings = Services.strings.createBundle('chrome://menufilter/locale/strings.
 
 let ABOUT_PAGE_URL = 'about:menufilter';
 let BROWSER_URL = 'chrome://browser/content/browser.xul';
+let CHANGELOG_URL = 'https://addons.mozilla.org/addon/menu-filter/versions/';
 let DONATE_URL = 'https://darktrojan.github.io/donate.html?menufilter';
 let IDLE_TIMEOUT = 9;
 let LIBRARY_URL = 'chrome://browser/content/places/places.xul';
@@ -302,6 +303,7 @@ function popupShowingListener({originalTarget: menu}) {
 
 var donationReminder = {
 	currentVersion: 0,
+	currentVersionFull: 0,
 	run: function(version) {
 		// Truncate version numbers to floats
 		let oldVersion = parseFloat(Services.prefs.getCharPref(PREF_VERSION), 10);
@@ -310,6 +312,7 @@ var donationReminder = {
 		}
 
 		this.currentVersion = parseFloat(version, 10);
+		this.currentVersionFull = version;
 		let shouldRemind = true;
 
 		if (Services.prefs.getPrefType(PREF_REMINDER) == Components.interfaces.nsIPrefBranch.PREF_INT) {
@@ -329,8 +332,10 @@ var donationReminder = {
 		idleService.removeIdleObserver(this, IDLE_TIMEOUT);
 
 		let message = strings.formatStringFromName('donate.message1', [this.currentVersion], 1);
-		let label = strings.GetStringFromName('donate.button.label');
-		let accessKey = strings.GetStringFromName('donate.button.accesskey');
+		let changelogLabel = strings.GetStringFromName('changelog.button.label');
+		let changelogAccessKey = strings.GetStringFromName('changelog.button.accesskey');
+		let donateLabel = strings.GetStringFromName('donate.button.label');
+		let donateAccessKey = strings.GetStringFromName('donate.button.accesskey');
 		let notificationBox, callback;
 
 		let recentWindow = Services.wm.getMostRecentWindow('navigator:browser');
@@ -338,15 +343,19 @@ var donationReminder = {
 			let browser = recentWindow.gBrowser;
 			notificationBox = recentWindow.document.getElementById('global-notificationbox') ||
 				browser.getNotificationBox();
-			callback = function() {
-				browser.selectedTab = browser.addTab(DONATE_URL);
+			callback = function(url) {
+				return function() {
+					browser.selectedTab = browser.addTab(url);
+				};
 			};
 		} else {
 			recentWindow = Services.wm.getMostRecentWindow('mail:3pane');
 			if (recentWindow) {
 				notificationBox = recentWindow.document.getElementById('mail-notification-box');
-				callback = function() {
-					recentWindow.openLinkExternally(DONATE_URL);
+				callback = function(url) {
+					return function() {
+						recentWindow.openLinkExternally(url);
+					};
 				};
 			}
 		}
@@ -355,7 +364,15 @@ var donationReminder = {
 			notificationBox.appendNotification(
 				message, 'menufilter-donate', 'chrome://menufilter/content/icon16.png',
 				notificationBox.PRIORITY_INFO_MEDIUM,
-				[{ label: label, accessKey: accessKey, callback: callback }]
+				[{
+					label: changelogLabel,
+					accessKey: changelogAccessKey,
+					callback: callback(CHANGELOG_URL + this.currentVersionFull)
+				}, {
+					label: donateLabel,
+					accessKey: donateAccessKey,
+					callback: callback(DONATE_URL)
+				}]
 			);
 		}
 
