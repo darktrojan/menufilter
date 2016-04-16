@@ -18,7 +18,7 @@ let strings = Services.strings.createBundle('chrome://menufilter/locale/strings.
 
 let ABOUT_PAGE_URL = 'about:menufilter';
 let BROWSER_URL = 'chrome://browser/content/browser.xul';
-let DONATE_URL = 'https://addons.mozilla.org/addon/menu-filter/contribute/installed/';
+let DONATE_URL = 'https://darktrojan.github.io/donate.html?menufilter';
 let IDLE_TIMEOUT = 9;
 let LIBRARY_URL = 'chrome://browser/content/places/places.xul';
 let MESSAGE_WINDOW_URL = 'chrome://messenger/content/messageWindow.xul';

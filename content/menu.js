@@ -239,7 +239,7 @@ function toggleItem(target) {
 }
 
 function doDonate() {
-	let uri = 'https://addons.mozilla.org/addon/menu-filter/contribute/installed/';
+	let uri = 'https://darktrojan.github.io/donate.html?menufilter';
 
 	let browserWindow = Services.wm.getMostRecentWindow('navigator:browser');
 	if (browserWindow) {
