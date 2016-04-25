@@ -191,12 +191,15 @@ function hideItems(document) {
 				continue;
 			}
 			if (menu.id == 'PanelUI-bookmarks' || menu.id == 'PanelUI-history') {
+				menu.addEventListener('ViewShowing', viewShowingListener, true);
+				menu.setAttribute('menufilter-listeneradded', true);
 				menu = menu.querySelector('.panel-subview-body');
+			} else {
+				menu.addEventListener('popupshowing', popupShowingListener, true);
+				menu.setAttribute('menufilter-listeneradded', true);
 			}
 			MenuFilter.ensureItemsHaveIDs(menu);
 			menu._menufilter_list = list;
-			menu.addEventListener('popupshowing', popupShowingListener, true);
-			menu.setAttribute('menufilter-listeneradded', true);
 			for (let item of list) {
 				if (item == 'openintabs-menuitem') {
 					// TODO:
@@ -247,6 +250,7 @@ function unhideItems(document) {
 	}
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
+		menupopup.removeEventListener('ViewShowing', viewShowingListener, true);
 		menupopup.removeEventListener('popupshowing', popupShowingListener, true);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
@@ -258,6 +262,11 @@ function refreshItems() {
 			unhideItems(document);
 			hideItems(document);
 		}
+	});
+}
+function viewShowingListener(event) {
+	popupShowingListener({
+		originalTarget: event.originalTarget.querySelector('.panel-subview-body')
 	});
 }
 function popupShowingListener({originalTarget: menu}) {
