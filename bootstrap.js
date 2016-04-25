@@ -261,8 +261,12 @@ function refreshItems() {
 	});
 }
 function popupShowingListener({originalTarget: menu}) {
+	if (!menu._menufilter_list) {
+		return;
+	}
+
 	for (let id of menu._menufilter_list) {
-		let menuitem = menu.querySelector('#' + id);
+		let menuitem = menu.querySelector('#' + id.replace(/:/g, '\\:'));
 		if (menuitem) {
 			menuitem.classList.add('menufilter-hidden');
 			if (IS_OSX) {
