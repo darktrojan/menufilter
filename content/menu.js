@@ -5,7 +5,10 @@ Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 Components.utils.import('chrome://menufilter/content/menufilter.jsm');
 
-/* globals strings */
+/* globals browserStrings, strings */
+XPCOMUtils.defineLazyGetter(this, 'browserStrings', function() {
+	return Services.strings.createBundle('chrome://browser/locale/browser.properties');
+});
 XPCOMUtils.defineLazyGetter(this, 'strings', function() {
 	return Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
 });
@@ -146,11 +149,11 @@ function _displayMenu(list) {
 			}
 			break;
 		case 'vbox':
-			if (
-				(menuitem.id == 'PanelUI-recentlyClosedTabs' || menuitem.id == 'PanelUI-recentlyClosedWindows') &&
-				!!menuitem.firstElementChild
-			) {
-				item.setAttribute('label', menuitem.firstElementChild.getAttribute('label'));
+			if (menuitem.id == 'PanelUI-recentlyClosedTabs') {
+				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllTabsSubview.label'));
+				break;
+			} else if (menuitem.id == 'PanelUI-recentlyClosedWindows') {
+				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllWindowsSubview.label'));
 				break;
 			}
 			/* falls through */
