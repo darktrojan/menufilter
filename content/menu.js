@@ -177,7 +177,7 @@ function _displayMenu(list) {
 		case 'bookmarksMenuPopup':
 		case 'BMB_bookmarksPopup':
 			item = document.createElement('listitem');
-			item.setAttribute('label', browserStrings.getString('menuOpenAllInTabs.label'));
+			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
 			item.setAttribute('value', 'openintabs-menuitem');
 			if (list.indexOf('openintabs-menuitem') >= 0) {
 				item.classList.add('hidden');
