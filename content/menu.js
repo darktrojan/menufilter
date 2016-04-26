@@ -171,14 +171,29 @@ function _displayMenu(list) {
 		menuItemList.appendChild(item);
 	}
 
-	if (Services.appinfo.name == 'Firefox' && ['bookmarksMenuPopup', 'BMB_bookmarksPopup'].indexOf(menuID) >= 0) {
-		let item = document.createElement('listitem');
-		item.setAttribute('label', domWindow.gNavigatorBundle.getString('menuOpenAllInTabs.label'));
-		item.setAttribute('value', 'openintabs-menuitem');
-		if (list.indexOf('openintabs-menuitem') >= 0) {
-			item.classList.add('hidden');
+	if (Services.appinfo.name == 'Firefox') {
+		let item;
+		switch (menuID) {
+		case 'bookmarksMenuPopup':
+		case 'BMB_bookmarksPopup':
+			item = document.createElement('listitem');
+			item.setAttribute('label', browserStrings.getString('menuOpenAllInTabs.label'));
+			item.setAttribute('value', 'openintabs-menuitem');
+			if (list.indexOf('openintabs-menuitem') >= 0) {
+				item.classList.add('hidden');
+			}
+			menuItemList.appendChild(item);
+			break;
+		case 'PanelUI-history':
+			item = document.createElement('listitem');
+			item.setAttribute('label', domDocument.getElementById('PanelUI-historyMore').getAttribute('label'));
+			item.setAttribute('value', 'PanelUI-historyMore');
+			if (list.indexOf('PanelUI-historyMore') >= 0) {
+				item.classList.add('hidden');
+			}
+			menuItemList.appendChild(item);
+			break;
 		}
-		menuItemList.appendChild(item);
 	}
 
 	menuItemList.scrollToIndex(1);

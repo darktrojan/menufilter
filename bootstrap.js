@@ -265,9 +265,14 @@ function refreshItems() {
 	});
 }
 function viewShowingListener({originalTarget: view}) {
-	popupShowingListener({
-		originalTarget: view.querySelector('.panel-subview-body')
-	});
+	let menu = view.querySelector('.panel-subview-body');
+	popupShowingListener({originalTarget: menu});
+	if (menu._menufilter_list && menu._menufilter_list.indexOf('PanelUI-historyMore') >= 0) {
+		let menuitem = view.querySelector('#PanelUI-historyMore');
+		if (menuitem) {
+			menuitem.classList.add('menufilter-hidden');
+		}
+	}
 }
 function popupShowingListener({originalTarget: menu}) {
 	if (!menu._menufilter_list) {
