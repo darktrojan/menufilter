@@ -126,7 +126,7 @@ let MenuFilter = {
 		for (let menuitem of menu.children) {
 			if (menuitem.classList.contains('bookmark-item') &&
 					!menuitem.id.startsWith('BMB_') && !menuitem.hasAttribute('query')) {
-				break;
+				continue;
 			}
 			if (menuitem.getAttribute('type') == 'radio') {
 				break;

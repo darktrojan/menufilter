@@ -264,9 +264,9 @@ function refreshItems() {
 		}
 	});
 }
-function viewShowingListener(event) {
+function viewShowingListener({originalTarget: view}) {
 	popupShowingListener({
-		originalTarget: event.originalTarget.querySelector('.panel-subview-body')
+		originalTarget: view.querySelector('.panel-subview-body')
 	});
 }
 function popupShowingListener({originalTarget: menu}) {
@@ -274,6 +274,7 @@ function popupShowingListener({originalTarget: menu}) {
 		return;
 	}
 
+	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let id of menu._menufilter_list) {
 		let menuitem = menu.querySelector('#' + id.replace(/:/g, '\\:'));
 		if (menuitem) {
