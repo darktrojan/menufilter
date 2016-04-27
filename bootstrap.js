@@ -191,12 +191,12 @@ function hideItems(document) {
 				continue;
 			}
 			if (menu.id == 'PanelUI-bookmarks' || menu.id == 'PanelUI-history') {
-				menu.addEventListener('ViewShowing', viewShowingListener, true);
-				menu.setAttribute('menufilter-listeneradded', true);
+				menu.addEventListener('ViewShowing', viewShowingListener);
+				menu.setAttribute('menufilter-listeneradded', 'true');
 				menu = menu.querySelector('.panel-subview-body');
 			} else {
-				menu.addEventListener('popupshowing', popupShowingListener, true);
-				menu.setAttribute('menufilter-listeneradded', true);
+				menu.addEventListener('popupshowing', popupShowingListener);
+				menu.setAttribute('menufilter-listeneradded', 'true');
 			}
 			MenuFilter.ensureItemsHaveIDs(menu);
 			menu._menufilter_list = list;
@@ -250,8 +250,8 @@ function unhideItems(document) {
 	}
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
-		menupopup.removeEventListener('ViewShowing', viewShowingListener, true);
-		menupopup.removeEventListener('popupshowing', popupShowingListener, true);
+		menupopup.removeEventListener('ViewShowing', viewShowingListener);
+		menupopup.removeEventListener('popupshowing', popupShowingListener);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
 }
