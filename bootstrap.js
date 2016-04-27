@@ -232,8 +232,11 @@ function hideItems(document) {
 
 			if (id == 'menuWebDeveloperPopup') {
 				// The toolbar Developer Tools panel is cloned from this menu when opened,
-				// so make sure we've already hidden items.
-				popupShowingListener({originalTarget: menu});
+				// so make sure we've already hidden items by listening to the parent node
+				// in the capturing phase.
+				let viewParent = document.getElementById('PanelUI-developer').parentNode;
+				viewParent.addEventListener('ViewShowing', devToolsListener, true);
+				viewParent.setAttribute('menufilter-listeneradded', 'true');
 			}
 		}
 	}).then(null, Components.utils.reportError);
@@ -251,6 +254,7 @@ function unhideItems(document) {
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
 		menupopup.removeEventListener('ViewShowing', viewShowingListener);
+		menupopup.removeEventListener('ViewShowing', devToolsListener, true);
 		menupopup.removeEventListener('popupshowing', popupShowingListener);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
@@ -272,6 +276,12 @@ function viewShowingListener({originalTarget: view}) {
 		if (menuitem) {
 			menuitem.classList.add('menufilter-hidden');
 		}
+	}
+}
+function devToolsListener({originalTarget: view}) {
+	if (view.id == 'PanelUI-developer') {
+		this.removeEventListener('ViewShowing', devToolsListener, true);
+		popupShowingListener({originalTarget: view.ownerDocument.getElementById('menuWebDeveloperPopup')});
 	}
 }
 function popupShowingListener({originalTarget: menu}) {
