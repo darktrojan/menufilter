@@ -276,8 +276,13 @@ function refreshItems() {
 function viewShowingListener({originalTarget: view}) {
 	let menu = view.querySelector('.panel-subview-body');
 	popupShowingListener({originalTarget: menu});
-	if (menu._menufilter_list && menu._menufilter_list.includes('PanelUI-historyMore')) {
-		let menuitem = view.querySelector('#PanelUI-historyMore');
+	if (menu._menufilter_list) {
+		let menuitem;
+		if (menu._menufilter_list.includes('panelMenu_showAllBookmarks')) {
+			menuitem = view.querySelector('#panelMenu_showAllBookmarks');
+		} else if (menu._menufilter_list.includes('PanelUI-historyMore')) {
+			menuitem = view.querySelector('#PanelUI-historyMore');
+		}
 		if (menuitem) {
 			menuitem.classList.add('menufilter-hidden');
 		}
@@ -327,7 +332,7 @@ function popupShowingListener({originalTarget: menu}) {
 	let seen = false;
 	for (let item of shownItems) {
 		item.classList.remove('menufilter-separator-hidden');
-		if (item.localName == 'menuseparator') {
+		if (item.localName == 'menuseparator' || item.localName == 'toolbarseparator') {
 			if (!seen) {
 				item.classList.add('menufilter-separator-hidden');
 			} else {

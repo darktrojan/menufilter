@@ -141,13 +141,28 @@ function _displayMenu(list) {
 			item.setAttribute('label', menuitem.label || menuitem.getAttribute('label') || menuitem.id);
 			break;
 		case 'menuseparator':
+		case 'toolbarseparator':
 			item.classList.add('separator');
 			break;
 		case 'menugroup':
 			if (menuitem.id == 'context-navigation') {
 				item.setAttribute('label', strings.GetStringFromName('context-navigation.label'));
+				break;
 			}
-			break;
+			continue;
+		// TODO: Figure out how to hide these items, then enable this code.
+		// case 'toolbaritem':
+		// 	if (menuitem.id == 'panelMenu_bookmarksMenu') {
+		// 		for (let bookmarkitem of menuitem.children) {
+		// 			if (bookmarkitem.hasAttribute('query')) {
+		// 				item = document.createElement('listitem');
+		// 				item.setAttribute('label', bookmarkitem.label);
+		// 				item.setAttribute('value', bookmarkitem.id);
+		// 				menuItemList.appendChild(item);
+		// 			}
+		// 		}
+		// 	}
+		// 	continue;
 		case 'vbox':
 			if (menuitem.id == 'PanelUI-recentlyClosedTabs') {
 				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllTabsSubview.label'));
@@ -156,7 +171,7 @@ function _displayMenu(list) {
 				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllWindowsSubview.label'));
 				break;
 			}
-			/* falls through */
+			continue;
 		default:
 			continue;
 		}
@@ -180,6 +195,15 @@ function _displayMenu(list) {
 			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
 			item.setAttribute('value', 'openintabs-menuitem');
 			if (list.includes('openintabs-menuitem')) {
+				item.classList.add('hidden');
+			}
+			menuItemList.appendChild(item);
+			break;
+		case 'PanelUI-bookmarks':
+			item = document.createElement('listitem');
+			item.setAttribute('label', domDocument.getElementById('panelMenu_showAllBookmarks').getAttribute('label'));
+			item.setAttribute('value', 'panelMenu_showAllBookmarks');
+			if (list.includes('panelMenu_showAllBookmarks')) {
 				item.classList.add('hidden');
 			}
 			menuItemList.appendChild(item);

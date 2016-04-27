@@ -121,7 +121,7 @@ let _hiddenItems = {
 
 /* exported MenuFilter */
 let MenuFilter = {
-	ensureItemsHaveIDs: function(menu) {
+	ensureItemsHaveIDs: function(menu, prefix='menufilter-') {
 		let i = 1;
 		for (let menuitem of menu.children) {
 			if (menuitem.classList.contains('bookmark-item') &&
@@ -131,19 +131,25 @@ let MenuFilter = {
 			if (menuitem.getAttribute('type') == 'radio') {
 				break;
 			}
+			// TODO: Figure out how to hide these items, then enable this code.
+			// if (menuitem.id == 'panelMenu_bookmarksMenu') {
+			// 	MenuFilter.ensureItemsHaveIDs(menuitem, 'menufilter-bookmarksMenu-');
+			// }
 			if (!menuitem.id) {
-				if (menuitem.localName == 'menuseparator') {
+				if (menuitem.localName == 'menuseparator' || menuitem.localName == 'toolbarseparator') {
 					let previous = menuitem.previousElementSibling;
 					if (previous) {
-						menuitem.id = 'menufilter-after-' + previous.id;
+						menuitem.id = previous.id.startsWith(prefix) ?
+							prefix + 'after-' + previous.id.substring(prefix.length) :
+							prefix + 'after-' + previous.id;
 					} else {
-						menuitem.id = 'menufilter-first';
+						menuitem.id = prefix + 'first';
 					}
 				} else if (menuitem.label || menuitem.hasAttribute('label')) {
 					let label = menuitem.label || menuitem.getAttribute('label');
-					menuitem.id = 'menufilter-' + label.replace(/\W/g, '-');
+					menuitem.id = prefix + label.replace(/\W/g, '-');
 				} else {
-					menuitem.id = 'menufilter-item-' + i++;
+					menuitem.id = prefix + 'item-' + i++;
 				}
 			}
 		}
