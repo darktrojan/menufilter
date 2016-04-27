@@ -290,6 +290,14 @@ function popupShowingListener({originalTarget: menu}) {
 		}
 	}
 
+	if (menu.id == 'BMB_bookmarksPopup' && menu._menufilter_list.indexOf('BMB_recentBookmarks') >= 0) {
+		let next = menu.querySelector('#BMB_recentBookmarks').nextElementSibling;
+		while (next && next.localName == 'menuitem') {
+			next.classList.add('menufilter-hidden');
+			next = next.nextElementSibling;
+		}
+	}
+
 	let shownItems = Array.filter(menu.children, function(i) {
 		return !i.hidden && !i.classList.contains('menufilter-hidden');
 	});
