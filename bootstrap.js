@@ -113,7 +113,7 @@ function paint(window) {
 	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
-	if (WINDOW_URLS.indexOf(location) >= 0) {
+	if (WINDOW_URLS.includes(location)) {
 		let document = window.document;
 		let pi = document.createProcessingInstruction('xml-stylesheet', cssData);
 		document.insertBefore(pi, document.documentElement);
@@ -129,7 +129,7 @@ function paint(window) {
 					window.switchToTabHavingURI(ABOUT_PAGE_URL, true);
 				} else if ('contentTabBaseType' in window) {
 					let whitelist = window.contentTabBaseType.inContentWhitelist;
-					if (whitelist.indexOf(ABOUT_PAGE_URL) < 0) {
+					if (!whitelist.includes(ABOUT_PAGE_URL)) {
 						whitelist.push(ABOUT_PAGE_URL);
 					}
 					window.openContentTab(ABOUT_PAGE_URL);
@@ -152,7 +152,7 @@ function unpaint(window) {
 	} else if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
-	if (WINDOW_URLS.indexOf(location) >= 0) {
+	if (WINDOW_URLS.includes(location)) {
 		let document = window.document;
 		if (document.menuCSSNode) {
 			document.removeChild(document.menuCSSNode);
@@ -208,7 +208,7 @@ function hideItems(document) {
 					menu.setAttribute('menufilter-openintabs-hidden', 'true');
 					continue;
 				}
-				if (location == MESSENGER_URL && ['mailContext', 'folderPaneContext'].indexOf(id) < 0) {
+				if (location == MESSENGER_URL && !['mailContext', 'folderPaneContext'].includes(id)) {
 					let idReplacements = new Map([
 						['appmenu_getAllNewMsg', 'appmenu_getNewMsgFor'],
 						['appmenu_getnextnmsg', 'appmenu_getNextNMsgs'],
@@ -257,7 +257,7 @@ function unhideItems(document) {
 }
 function refreshItems() {
 	enumerateWindows(function(window) {
-		if (WINDOW_URLS.indexOf(window.location.href) >= 0) {
+		if (WINDOW_URLS.includes(window.location.href)) {
 			let document = window.document;
 			unhideItems(document);
 			hideItems(document);
@@ -267,7 +267,7 @@ function refreshItems() {
 function viewShowingListener({originalTarget: view}) {
 	let menu = view.querySelector('.panel-subview-body');
 	popupShowingListener({originalTarget: menu});
-	if (menu._menufilter_list && menu._menufilter_list.indexOf('PanelUI-historyMore') >= 0) {
+	if (menu._menufilter_list && menu._menufilter_list.includes('PanelUI-historyMore')) {
 		let menuitem = view.querySelector('#PanelUI-historyMore');
 		if (menuitem) {
 			menuitem.classList.add('menufilter-hidden');
@@ -290,7 +290,7 @@ function popupShowingListener({originalTarget: menu}) {
 		}
 	}
 
-	if (menu.id == 'BMB_bookmarksPopup' && menu._menufilter_list.indexOf('BMB_recentBookmarks') >= 0) {
+	if (menu.id == 'BMB_bookmarksPopup' && menu._menufilter_list.includes('BMB_recentBookmarks')) {
 		let next = menu.querySelector('#BMB_recentBookmarks').nextElementSibling;
 		while (next && next.localName == 'menuitem') {
 			next.classList.add('menufilter-hidden');

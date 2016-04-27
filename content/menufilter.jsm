@@ -60,7 +60,7 @@ let _hiddenItems = {
 		}
 		this.getList(windowURL, menuID).then(function(list) {
 			for (let id of ids) {
-				if (list.indexOf(id) < 0) {
+				if (!list.includes(id)) {
 					list.push(id);
 				}
 			}

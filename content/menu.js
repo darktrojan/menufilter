@@ -127,7 +127,7 @@ function _displayMenu(list) {
 		if ((menuID == 'goPopup' || menuID == 'windowPopup') && menuitem.getAttribute('type') == 'radio') {
 			break;
 		}
-		if (IS_OSX && MenuFilter.osXSpecialItems.indexOf(menuitem.id) >= 0) {
+		if (IS_OSX && MenuFilter.osXSpecialItems.includes(menuitem.id)) {
 			continue;
 		}
 
@@ -162,7 +162,7 @@ function _displayMenu(list) {
 		}
 		if (menuitem.id) {
 			item.setAttribute('value', menuitem.id);
-			if (list.indexOf(menuitem.id) >= 0) {
+			if (list.includes(menuitem.id)) {
 				item.classList.add('hidden');
 			}
 		} else {
@@ -179,7 +179,7 @@ function _displayMenu(list) {
 			item = document.createElement('listitem');
 			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
 			item.setAttribute('value', 'openintabs-menuitem');
-			if (list.indexOf('openintabs-menuitem') >= 0) {
+			if (list.includes('openintabs-menuitem')) {
 				item.classList.add('hidden');
 			}
 			menuItemList.appendChild(item);
@@ -188,7 +188,7 @@ function _displayMenu(list) {
 			item = document.createElement('listitem');
 			item.setAttribute('label', domDocument.getElementById('PanelUI-historyMore').getAttribute('label'));
 			item.setAttribute('value', 'PanelUI-historyMore');
-			if (list.indexOf('PanelUI-historyMore') >= 0) {
+			if (list.includes('PanelUI-historyMore')) {
 				item.classList.add('hidden');
 			}
 			menuItemList.appendChild(item);
