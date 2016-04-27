@@ -193,6 +193,15 @@ function _displayMenu(list) {
 			}
 			menuItemList.appendChild(item);
 			break;
+		case 'menuWebDeveloperPopup':
+			item = document.createElement('listitem');
+			item.setAttribute('label', domDocument.getElementById('goOfflineMenuitem').getAttribute('label'));
+			item.setAttribute('value', 'workoffline-menuitem');
+			if (list.includes('workoffline-menuitem')) {
+				item.classList.add('hidden');
+			}
+			menuItemList.appendChild(item);
+			break;
 		}
 	}
 

@@ -8,7 +8,9 @@ const cssData =
 	'href="data:text/css,' + encodeURIComponent(
 		'.menufilter-hidden, .menufilter-separator-hidden, ' +
 		'menupopup[menufilter-openintabs-hidden] .bookmarks-actions-menuseparator, ' +
-		'menupopup[menufilter-openintabs-hidden] .openintabs-menuitem {' +
+		'menupopup[menufilter-openintabs-hidden] .openintabs-menuitem, ' +
+		'panelview[menufilter-workoffline-hidden] toolbarbutton:last-child, ' +
+		'panelview[menufilter-workoffline-hidden] menuseparator:last-of-type {' +
 		' display: none; ' +
 		'}'
 	) + '" type="text/css"';
@@ -248,8 +250,11 @@ function unhideItems(document) {
 			menuitem.collapsed = false;
 		}
 	}
-	for (let menupopup of document.querySelectorAll('[menufilter-openintabs-hidden]')) {
+	for (let menupopup of document.querySelectorAll(
+		'[menufilter-openintabs-hidden], [menufilter-workoffline-hidden]'
+	)) {
 		menupopup.removeAttribute('menufilter-openintabs-hidden');
+		menupopup.removeAttribute('menufilter-workoffline-hidden');
 	}
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
@@ -281,7 +286,14 @@ function viewShowingListener({originalTarget: view}) {
 function devToolsListener({originalTarget: view}) {
 	if (view.id == 'PanelUI-developer') {
 		this.removeEventListener('ViewShowing', devToolsListener, true);
-		popupShowingListener({originalTarget: view.ownerDocument.getElementById('menuWebDeveloperPopup')});
+
+		let document = view.ownerDocument;
+		let menu = document.getElementById('menuWebDeveloperPopup');
+		popupShowingListener({originalTarget: menu});
+
+		if (menu._menufilter_list.includes('workoffline-menuitem')) {
+			document.getElementById('PanelUI-developer').setAttribute('menufilter-workoffline-hidden', 'true');
+		}
 	}
 }
 function popupShowingListener({originalTarget: menu}) {
