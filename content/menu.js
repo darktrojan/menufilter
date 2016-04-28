@@ -194,38 +194,28 @@ function _displayMenu(list) {
 			item = document.createElement('listitem');
 			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
 			item.setAttribute('value', 'openintabs-menuitem');
-			if (list.includes('openintabs-menuitem')) {
-				item.classList.add('hidden');
-			}
-			menuItemList.appendChild(item);
 			break;
 		case 'PanelUI-bookmarks':
 			item = document.createElement('listitem');
 			item.setAttribute('label', domDocument.getElementById('panelMenu_showAllBookmarks').getAttribute('label'));
 			item.setAttribute('value', 'panelMenu_showAllBookmarks');
-			if (list.includes('panelMenu_showAllBookmarks')) {
-				item.classList.add('hidden');
-			}
-			menuItemList.appendChild(item);
 			break;
 		case 'PanelUI-history':
 			item = document.createElement('listitem');
 			item.setAttribute('label', domDocument.getElementById('PanelUI-historyMore').getAttribute('label'));
 			item.setAttribute('value', 'PanelUI-historyMore');
-			if (list.includes('PanelUI-historyMore')) {
-				item.classList.add('hidden');
-			}
-			menuItemList.appendChild(item);
 			break;
 		case 'menuWebDeveloperPopup':
 			item = document.createElement('listitem');
 			item.setAttribute('label', domDocument.getElementById('goOfflineMenuitem').getAttribute('label'));
 			item.setAttribute('value', 'workoffline-menuitem');
-			if (list.includes('workoffline-menuitem')) {
+			break;
+		}
+		if (item) {
+			if (list.includes(item.getAttribute('value'))) {
 				item.classList.add('hidden');
 			}
 			menuItemList.appendChild(item);
-			break;
 		}
 	}
 
