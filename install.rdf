@@ -2,7 +2,7 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>menufilter@darktrojan.net</em:id>
-		<em:version>15</em:version>
+		<em:version>16</em:version>
 		<em:type>2</em:type>
 		<em:bootstrap>true</em:bootstrap>
 		<em:name>Menu Filter</em:name>
@@ -10,19 +10,20 @@
 		<em:creator>Geoff Lankow</em:creator>
 		<em:optionsURL>about:menufilter</em:optionsURL>
 		<em:optionsType>3</em:optionsType>
+		<em:multiprocessCompatible>true</em:multiprocessCompatible>
 
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>45.0</em:minVersion>
-				<em:maxVersion>48.*</em:maxVersion>
+				<em:maxVersion>49.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
 			<Description>
 				<em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
 				<em:minVersion>45.0</em:minVersion>
-				<em:maxVersion>48.*</em:maxVersion>
+				<em:maxVersion>49.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
