@@ -232,13 +232,19 @@ function hideItems(document) {
 				}
 			}
 
-			if (id == 'menuWebDeveloperPopup') {
+			let viewParent = document.getElementById('PanelUI-multiView');
+			switch (id) {
+			case 'menuWebDeveloperPopup':
 				// The toolbar Developer Tools panel is cloned from this menu when opened,
 				// so make sure we've already hidden items by listening to the parent node
 				// in the capturing phase.
-				let viewParent = document.getElementById('PanelUI-developer').parentNode;
 				viewParent.addEventListener('ViewShowing', devToolsListener, true);
-				viewParent.setAttribute('menufilter-listeneradded', 'true');
+				break;
+			case 'menu_HelpPopup':
+				if (viewParent) { // Not in Thunderbird.
+					viewParent.addEventListener('ViewShowing', helpListener);
+				}
+				break;
 			}
 		}
 	}).then(null, Components.utils.reportError);
@@ -259,9 +265,13 @@ function unhideItems(document) {
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
 		menupopup.removeEventListener('ViewShowing', viewShowingListener);
-		menupopup.removeEventListener('ViewShowing', devToolsListener, true);
 		menupopup.removeEventListener('popupshowing', popupShowingListener);
 		menupopup.removeAttribute('menufilter-listeneradded');
+	}
+	let viewParent = document.getElementById('PanelUI-multiView');
+	if (viewParent) {
+		viewParent.removeEventListener('ViewShowing', devToolsListener, true);
+		viewParent.removeEventListener('ViewShowing', helpListener);
 	}
 }
 function refreshItems() {
@@ -275,8 +285,8 @@ function refreshItems() {
 }
 function viewShowingListener({originalTarget: view}) {
 	let menu = view.querySelector('.panel-subview-body');
-	popupShowingListener({originalTarget: menu});
 	if (menu._menufilter_list) {
+		popupShowingListener({originalTarget: menu});
 		let menuitem;
 		if (menu._menufilter_list.includes('panelMenu_showAllBookmarks')) {
 			menuitem = view.querySelector('#panelMenu_showAllBookmarks');
@@ -298,6 +308,26 @@ function devToolsListener({originalTarget: view}) {
 
 		if (menu._menufilter_list.includes('workoffline-menuitem')) {
 			document.getElementById('PanelUI-developer').setAttribute('menufilter-workoffline-hidden', 'true');
+		}
+	}
+}
+function helpListener({originalTarget: view}) {
+	if (view.id == 'PanelUI-helpView') {
+		let menu = view.ownerDocument.getElementById('menu_HelpPopup');
+		if (menu._menufilter_list) {
+			popupShowingListener({originalTarget: menu});
+
+			let menubarItems = menu.querySelectorAll('menuitem:not([hidden])');
+			let panelItems = view.querySelectorAll('.panel-subview-body > toolbarbutton');
+			// panelItems has the same items as menubarItems, so we can just iterate.
+			for (let i = 0; i < menubarItems.length; i++) {
+				if (menubarItems[i].classList.contains('menufilter-hidden')) {
+					panelItems[i].classList.add('menufilter-hidden');
+				}
+				if (menubarItems[i].classList.contains('menufilter-separator-hidden')) {
+					panelItems[i].classList.add('menufilter-separator-hidden');
+				}
+			}
 		}
 	}
 }
