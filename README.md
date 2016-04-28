@@ -13,4 +13,4 @@ To translate, you can:
 
 ## Donate
 
-Your donations make future development possible. To donate by either PayPal or BitCoin, see [this page](https://addons.mozilla.org/addon/menu-filter/contribute/installed/) for details. Thank you!
+Your donations make future development possible. To donate by either PayPal or BitCoin, see [this page](https://darktrojan.github.io/donate.html?menufilter) for details. Thank you!
