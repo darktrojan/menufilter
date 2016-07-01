@@ -29,6 +29,8 @@
 <!ENTITY menuid.list.bookmarksPanel.label "Panel Bookmarks Menu">
 <!ENTITY menuid.list.developer.label "Developer Tools Menu">
 
+<!ENTITY search.label "Search this menu:">
+
 <!ENTITY show.button.label "Show Selected">
 <!ENTITY hide.button.label "Hide Selected">
 

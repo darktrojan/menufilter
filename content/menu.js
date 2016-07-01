@@ -18,9 +18,11 @@ var IS_OSX = Services.appinfo.OS == 'Darwin';
 var windowURL, windowType, menuID;
 var windowTypeList = document.getElementById('windowtype');
 var menuIDList = document.getElementById('menuid');
+var searchText = document.getElementById('search');
 var menuItemList = document.getElementById('menu');
 var showButton = document.getElementById('show');
 var hideButton = document.getElementById('hide');
+var itemsInCurrentList;
 
 switch (Services.appinfo.name) {
 case 'Firefox':
@@ -219,6 +221,26 @@ function _displayMenu(list) {
 		}
 	}
 
+	menuItemList.scrollToIndex(1);
+	menuItemList.scrollToIndex(0);
+	itemsInCurrentList = [...menuItemList.children];
+
+	if (searchText.value) {
+		search(searchText.value);
+	}
+}
+
+function search(filter) {
+	while (menuItemList.lastElementChild) {
+		menuItemList.removeChild(menuItemList.lastElementChild);
+	}
+	filter = filter.toLowerCase();
+	for (let i of itemsInCurrentList) {
+		if (i.getAttribute('label').toLowerCase().includes(filter)) {
+			menuItemList.appendChild(i);
+			i.removeAttribute('current');
+		}
+	}
 	menuItemList.scrollToIndex(1);
 	menuItemList.scrollToIndex(0);
 }

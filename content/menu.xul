@@ -51,6 +51,8 @@
 					<menuitem value="BMB_bookmarksPopup" class="firefox" label="&menuid.list.bookmarksToolbarPanel.label;" />
 				</menupopup>
 			</menulist>
+			<label control="search" value="&search.label;" />
+			<textbox id="search" type="search" oncommand="search(this.value);" />
 			<spacer flex="1" />
 			<vbox id="donatewrapper">
 				<description id="donatelabel">&donate.label.text;</description>
