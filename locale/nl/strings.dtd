@@ -29,6 +29,8 @@
 <!ENTITY menuid.list.bookmarksPanel.label "Paneel-bladwijzersmenu">
 <!ENTITY menuid.list.developer.label "Ontwikkelaarshulpmiddelen-menu">
 
+<!ENTITY search.label "Search this menu:">
+
 <!ENTITY show.button.label "Geselecteerde weergeven">
 <!ENTITY hide.button.label "Geselecteerde verbergen">
 
