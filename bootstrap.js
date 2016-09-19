@@ -232,6 +232,7 @@ function hideItems(document) {
 				}
 			}
 
+			let viewParent = document.getElementById('PanelUI-multiView');
 			switch (id) {
 			case 'menuWebDeveloperPopup':
 				// The toolbar Developer Tools panel is cloned from this menu when opened,
@@ -240,10 +241,12 @@ function hideItems(document) {
 				document.documentElement.addEventListener('ViewShowing', devToolsListener, true);
 				break;
 			case 'menu_HelpPopup':
-				let viewParent = document.getElementById('PanelUI-multiView');
 				if (viewParent) { // Not in Thunderbird.
 					viewParent.addEventListener('ViewShowing', helpListener);
 				}
+				break;
+			case 'PanelUI-bookmarks':
+				viewParent.addEventListener('ViewShowing', bookmarksPanelListener);
 				break;
 			}
 		}
@@ -272,6 +275,7 @@ function unhideItems(document) {
 	let viewParent = document.getElementById('PanelUI-multiView');
 	if (viewParent) {
 		viewParent.removeEventListener('ViewShowing', helpListener);
+		viewParent.removeEventListener('ViewShowing', bookmarksPanelListener);
 	}
 }
 function refreshItems() {
@@ -330,6 +334,14 @@ function helpListener({originalTarget: view}) {
 			}
 		}
 	}
+}
+function bookmarksPanelListener({originalTarget: view}) {
+	let menu = view.querySelector('.panel-subview-body');
+	let submenu = view.querySelector('#panelMenu_bookmarksMenu');
+	submenu._menufilter_list = menu._menufilter_list;
+
+	MenuFilter.ensureItemsHaveIDs(submenu,'menufilter-bookmarksMenu-');
+	popupShowingListener({originalTarget: submenu});
 }
 function popupShowingListener({originalTarget: menu}) {
 	if (!menu._menufilter_list) {

@@ -151,19 +151,18 @@ function _displayMenu(list) {
 				break;
 			}
 			continue;
-		// TODO: Figure out how to hide these items, then enable this code.
-		// case 'toolbaritem':
-		// 	if (menuitem.id == 'panelMenu_bookmarksMenu') {
-		// 		for (let bookmarkitem of menuitem.children) {
-		// 			if (bookmarkitem.hasAttribute('query')) {
-		// 				item = document.createElement('listitem');
-		// 				item.setAttribute('label', bookmarkitem.label);
-		// 				item.setAttribute('value', bookmarkitem.id);
-		// 				menuItemList.appendChild(item);
-		// 			}
-		// 		}
-		// 	}
-		// 	continue;
+		case 'toolbaritem':
+			if (menuitem.id == 'panelMenu_bookmarksMenu') {
+				for (let bookmarkitem of menuitem.children) {
+					if (bookmarkitem.hasAttribute('query')) {
+						item = document.createElement('listitem');
+						item.setAttribute('label', bookmarkitem.label);
+						item.setAttribute('value', bookmarkitem.id);
+						menuItemList.appendChild(item);
+					}
+				}
+			}
+			continue;
 		case 'vbox':
 			if (menuitem.id == 'PanelUI-recentlyClosedTabs') {
 				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllTabsSubview.label'));

@@ -130,10 +130,9 @@ let MenuFilter = {
 			if (menuitem.getAttribute('type') == 'radio') {
 				break;
 			}
-			// TODO: Figure out how to hide these items, then enable this code.
-			// if (menuitem.id == 'panelMenu_bookmarksMenu') {
-			// 	MenuFilter.ensureItemsHaveIDs(menuitem, 'menufilter-bookmarksMenu-');
-			// }
+			if (menuitem.id == 'panelMenu_bookmarksMenu') {
+				MenuFilter.ensureItemsHaveIDs(menuitem, 'menufilter-bookmarksMenu-');
+			}
 			if (!menuitem.id) {
 				if (menuitem.localName == 'menuseparator' || menuitem.localName == 'toolbarseparator') {
 					let previous = menuitem.previousElementSibling;
