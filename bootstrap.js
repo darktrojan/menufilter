@@ -232,15 +232,15 @@ function hideItems(document) {
 				}
 			}
 
-			let viewParent = document.getElementById('PanelUI-multiView');
 			switch (id) {
 			case 'menuWebDeveloperPopup':
 				// The toolbar Developer Tools panel is cloned from this menu when opened,
-				// so make sure we've already hidden items by listening to the parent node
+				// so make sure we've already hidden items by listening to an ancestor
 				// in the capturing phase.
-				viewParent.addEventListener('ViewShowing', devToolsListener, true);
+				document.documentElement.addEventListener('ViewShowing', devToolsListener, true);
 				break;
 			case 'menu_HelpPopup':
+				let viewParent = document.getElementById('PanelUI-multiView');
 				if (viewParent) { // Not in Thunderbird.
 					viewParent.addEventListener('ViewShowing', helpListener);
 				}
@@ -268,9 +268,9 @@ function unhideItems(document) {
 		menupopup.removeEventListener('popupshowing', popupShowingListener);
 		menupopup.removeAttribute('menufilter-listeneradded');
 	}
+	document.documentElement.removeEventListener('ViewShowing', devToolsListener, true);
 	let viewParent = document.getElementById('PanelUI-multiView');
 	if (viewParent) {
-		viewParent.removeEventListener('ViewShowing', devToolsListener, true);
 		viewParent.removeEventListener('ViewShowing', helpListener);
 	}
 }
