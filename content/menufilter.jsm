@@ -124,8 +124,7 @@ let MenuFilter = {
 	ensureItemsHaveIDs: function(menu, prefix='menufilter-') {
 		let i = 1;
 		for (let menuitem of menu.children) {
-			if (menuitem.classList.contains('bookmark-item') &&
-					!menuitem.id.startsWith('BMB_') && !menuitem.hasAttribute('query')) {
+			if (menuitem.classList.contains('bookmark-item') && !menuitem.hasAttribute('query')) {
 				continue;
 			}
 			if (menuitem.getAttribute('type') == 'radio') {

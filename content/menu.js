@@ -122,8 +122,7 @@ function _displayMenu(list) {
 
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
-		if (menuitem.classList.contains('bookmark-item') &&
-				!menuitem.id.startsWith('BMB_') && !menuitem.hasAttribute('query')) {
+		if (menuitem.classList.contains('bookmark-item') && !menuitem.id) {
 			continue;
 		}
 		if ((menuID == 'goPopup' || menuID == 'windowPopup') && menuitem.getAttribute('type') == 'radio') {
