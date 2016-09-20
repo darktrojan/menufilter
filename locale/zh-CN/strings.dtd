@@ -29,7 +29,7 @@
 <!ENTITY menuid.list.bookmarksPanel.label "面板书签菜单">
 <!ENTITY menuid.list.developer.label "开发者工具菜单">
 
-<!ENTITY search.label "Search this menu:">
+<!ENTITY search.label "搜索此菜单：">
 
 <!ENTITY show.button.label "显示选中">
 <!ENTITY hide.button.label "隐藏选中">
