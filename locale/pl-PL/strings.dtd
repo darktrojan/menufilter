@@ -1,38 +1,38 @@
 <!ENTITY page.title "Menu Filter">
 
-        <!ENTITY windowtype.list.label "Wybierz okno:">
-        <!ENTITY windowtype.list.browser "Przeglądarka">
-        <!ENTITY windowtype.list.mail "Wiadomości">
-        <!ENTITY windowtype.list.composer "Kompozytor">
+<!ENTITY windowtype.list.label "Wybierz okno:">
+<!ENTITY windowtype.list.browser "Przeglądarka">
+<!ENTITY windowtype.list.mail "Wiadomości">
+<!ENTITY windowtype.list.composer "Kompozytor">
 
-        <!ENTITY menuid.list.label "Wybierz menu do edycji:">
-        <!ENTITY menuid.list.contentContext.label "Menu kontekstowe główne">
-        <!ENTITY menuid.list.tabContext.label "Menu kontekstowe kart">
-        <!ENTITY menuid.list.placesContext.label "Menu kontekstowe zakładek">
-        <!ENTITY menuid.list.folderPaneContext.label "Menu kontekstowe folderów">
-        <!ENTITY menuid.list.file.label "Plik">
-        <!ENTITY menuid.list.edit.label "Edycja">
-        <!ENTITY menuid.list.view.label "Widok">
-        <!ENTITY menuid.list.go.label "Przejdź">
-        <!ENTITY menuid.list.history.label "Historia">
-        <!ENTITY menuid.list.message.label "Wiadomości">
-        <!ENTITY menuid.list.bookmarks.label "Zakładki">
-        <!ENTITY menuid.list.lightning.label "Wydarzenia i zadania">
-        <!ENTITY menuid.list.insert.label "Wstaw">
-        <!ENTITY menuid.list.format.label "Format">
-        <!ENTITY menuid.list.table.label "Tabela">
-        <!ENTITY menuid.list.tools.label "Narzędzia">
-        <!ENTITY menuid.list.window.label "Okno">
-        <!ENTITY menuid.list.help.label "Pomoc">
-        <!ENTITY menuid.list.historyPanel.label "Pasek/panel historii">
-        <!ENTITY menuid.list.bookmarksToolbarPanel.label "Pasek narzędzi zakładek">
-        <!ENTITY menuid.list.bookmarksPanel.label "Panel zakładek">
-        <!ENTITY menuid.list.developer.label "Narzędzia developerskie">
+<!ENTITY menuid.list.label "Wybierz menu do edycji:">
+<!ENTITY menuid.list.contentContext.label "Menu kontekstowe główne">
+<!ENTITY menuid.list.tabContext.label "Menu kontekstowe kart">
+<!ENTITY menuid.list.placesContext.label "Menu kontekstowe zakładek">
+<!ENTITY menuid.list.folderPaneContext.label "Menu kontekstowe folderów">
+<!ENTITY menuid.list.file.label "Plik">
+<!ENTITY menuid.list.edit.label "Edycja">
+<!ENTITY menuid.list.view.label "Widok">
+<!ENTITY menuid.list.go.label "Przejdź">
+<!ENTITY menuid.list.history.label "Historia">
+<!ENTITY menuid.list.message.label "Wiadomości">
+<!ENTITY menuid.list.bookmarks.label "Zakładki">
+<!ENTITY menuid.list.lightning.label "Wydarzenia i zadania">
+<!ENTITY menuid.list.insert.label "Wstaw">
+<!ENTITY menuid.list.format.label "Format">
+<!ENTITY menuid.list.table.label "Tabela">
+<!ENTITY menuid.list.tools.label "Narzędzia">
+<!ENTITY menuid.list.window.label "Okno">
+<!ENTITY menuid.list.help.label "Pomoc">
+<!ENTITY menuid.list.historyPanel.label "Pasek/panel historii">
+<!ENTITY menuid.list.bookmarksToolbarPanel.label "Pasek narzędzi zakładek">
+<!ENTITY menuid.list.bookmarksPanel.label "Panel zakładek">
+<!ENTITY menuid.list.developer.label "Narzędzia developerskie">
 
-        <!ENTITY search.label "Wyszukaj elementy:">
+<!ENTITY search.label "Wyszukaj elementy:">
 
-        <!ENTITY show.button.label "Pokaż zaznaczone">
-        <!ENTITY hide.button.label "Ukryj zaznaczone">
+<!ENTITY show.button.label "Pokaż zaznaczone">
+<!ENTITY hide.button.label "Ukryj zaznaczone">
 
-        <!ENTITY donate.label.text "Menu Filter istnieje, bo ludzie tacy jak Ty wspierają jego rozwój.">
-        <!ENTITY donate.button.label "Pomóż teraz!">
+<!ENTITY donate.label.text "Menu Filter istnieje, bo ludzie tacy jak Ty wspierają jego rozwój.">
+<!ENTITY donate.button.label "Pomóż teraz!">
