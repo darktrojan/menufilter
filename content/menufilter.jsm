@@ -5,14 +5,13 @@ Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 const KEY_PROFILEDIR = 'ProfD';
 const FILE_DATABASE = 'menufilter.json';
 
-/* globals FileUtils, OS, DeferredSave */
+/* globals FileUtils, OS */
 XPCOMUtils.defineLazyModuleGetter(this, 'FileUtils', 'resource://gre/modules/FileUtils.jsm');
 XPCOMUtils.defineLazyModuleGetter(this, 'OS', 'resource://gre/modules/osfile.jsm');
-XPCOMUtils.defineLazyModuleGetter(this, 'DeferredSave', 'resource://gre/modules/DeferredSave.jsm');
 
 let jsonFile = FileUtils.getFile(KEY_PROFILEDIR, [FILE_DATABASE], true);
 let _list = null;
-let _saver = new DeferredSave(jsonFile.path, function() {
+function save() {
 	for (let windowURL of Object.keys(_list)) {
 		let menus = _list[windowURL];
 		for (let menuID of Object.keys(menus)) {
@@ -22,8 +21,8 @@ let _saver = new DeferredSave(jsonFile.path, function() {
 			}
 		}
 	}
-	return JSON.stringify(_list);
-});
+	OS.File.writeAtomic(jsonFile.path, JSON.stringify(_list));
+}
 let _listener = null;
 
 function ensureList() {
@@ -71,7 +70,7 @@ let _hiddenItems = {
 				_list[windowURL][menuID] = list;
 			}
 			_listener();
-			_saver.saveChanges();
+			save();
 		}).then(null, Components.utils.reportError);
 	},
 	remove: function(windowURL, menuID, ids) {
@@ -91,7 +90,7 @@ let _hiddenItems = {
 				}
 			}
 			_listener();
-			_saver.saveChanges();
+			save();
 		}).then(null, Components.utils.reportError);
 	},
 	getList: function(windowURL, menuID) {
