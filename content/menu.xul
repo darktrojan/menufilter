@@ -60,7 +60,7 @@
 					value="&donate.button.label;" onclick="doDonate()" />
 			</vbox>
 		</vbox>
-		<listbox id="menu" seltype="multiple" onselect="selectionChanged()" ondblclick="toggleItem(event.target)" />
+		<richlistbox id="menu" seltype="multiple" onselect="selectionChanged()" ondblclick="toggleItem(event.target)" />
 		<vbox>
 			<button id="show" onclick="showSelection()" label="&show.button.label;" />
 			<button id="hide" onclick="hideSelection()" label="&hide.button.label;" />

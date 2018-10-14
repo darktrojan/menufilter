@@ -27,26 +27,27 @@ page.isseamonkey .seamonkey {
 #donatebutton {
 	text-align: center;
 }
-listbox#menu {
+richlistbox#menu {
 	width: 25em;
 }
-listitem {
+richlistitem {
 	padding: 2px;
 	-moz-binding: url("chrome://menufilter/content/menu.xml#listitem");
 }
-listitem.menu {
+richlistitem.menu {
 	-moz-binding: url("chrome://menufilter/content/menu.xml#listmenu");
 }
-listitem.separator {
+richlistitem.separator {
 	-moz-binding: url("chrome://menufilter/content/menu.xml#listseparator");
 }
-listitem.separator hbox {
+richlistitem.separator hbox {
+	margin-top: 0.5em;
 	border-top: 1px windowtext solid;
 }
-listitem.hidden {
+richlistitem.hidden {
 	color: graytext;
 }
-listitem.hidden.separator hbox {
+richlistitem.hidden.separator hbox {
 	border-top: 1px graytext solid;
 }
 .eyeball {

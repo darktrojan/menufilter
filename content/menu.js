@@ -132,7 +132,7 @@ function _displayMenu(list) {
 			continue;
 		}
 
-		let item = document.createElement('listitem');
+		let item = document.createElement('richlistitem');
 		switch (menuitem.localName) {
 		case 'menu':
 			item.classList.add('menu');
@@ -155,7 +155,7 @@ function _displayMenu(list) {
 			if (menuitem.id == 'panelMenu_bookmarksMenu') {
 				for (let bookmarkitem of menuitem.children) {
 					if (bookmarkitem.hasAttribute('query')) {
-						item = document.createElement('listitem');
+						item = document.createElement('richlistitem');
 						item.setAttribute('label', bookmarkitem.label);
 						item.setAttribute('value', bookmarkitem.id);
 						menuItemList.appendChild(item);
@@ -191,22 +191,22 @@ function _displayMenu(list) {
 		switch (menuID) {
 		case 'bookmarksMenuPopup':
 		case 'BMB_bookmarksPopup':
-			item = document.createElement('listitem');
+			item = document.createElement('richlistitem');
 			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
 			item.setAttribute('value', 'openintabs-menuitem');
 			break;
 		case 'PanelUI-bookmarks':
-			item = document.createElement('listitem');
+			item = document.createElement('richlistitem');
 			item.setAttribute('label', domDocument.getElementById('panelMenu_showAllBookmarks').getAttribute('label'));
 			item.setAttribute('value', 'panelMenu_showAllBookmarks');
 			break;
 		case 'PanelUI-history':
-			item = document.createElement('listitem');
+			item = document.createElement('richlistitem');
 			item.setAttribute('label', domDocument.getElementById('PanelUI-historyMore').getAttribute('label'));
 			item.setAttribute('value', 'PanelUI-historyMore');
 			break;
 		case 'menuWebDeveloperPopup':
-			item = document.createElement('listitem');
+			item = document.createElement('richlistitem');
 			item.setAttribute('label', domDocument.getElementById('goOfflineMenuitem').getAttribute('label'));
 			item.setAttribute('value', 'workoffline-menuitem');
 			break;
@@ -286,7 +286,7 @@ function hideSelection() {
 }
 
 function toggleItem(target) {
-	if (target.localName != 'listitem') {
+	if (target.localName != 'richlistitem') {
 		return;
 	}
 	if (target.classList.contains('hidden')) {

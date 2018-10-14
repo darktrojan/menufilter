@@ -1,11 +1,9 @@
 <?xml version="1.0" ?>
 <bindings xmlns="http://www.mozilla.org/xbl" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xbl="http://www.mozilla.org/xbl">
-	<binding id="listitem" extends="chrome://global/content/bindings/listbox.xml#listitem">
+	<binding id="listitem" extends="chrome://global/content/bindings/richlistbox.xml#richlistitem">
 		<content>
-			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
-				<xul:image class="eyeball" />
-				<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
-			</xul:listcell>
+			<xul:image class="eyeball" />
+			<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
 		</content>
 		<implementation>
 			<field name="eyeball">document.getAnonymousElementByAttribute(this, "class", "eyeball")</field>
@@ -24,19 +22,15 @@
 	</binding>
 	<binding id="listseparator" extends="#listitem">
 		<content>
-			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
-				<xul:image class="eyeball" />
-				<xul:hbox flex="1" />
-			</xul:listcell>
+			<xul:image class="eyeball" />
+			<xul:hbox flex="1" />
 		</content>
 	</binding>
 	<binding id="listmenu" extends="#listitem">
 		<content>
-			<xul:listcell xbl:inherits="label,crop,disabled,flexlabel">
-				<xul:image class="eyeball" />
-				<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
-				<xul:image class="menuarrow" />
-			</xul:listcell>
+			<xul:image class="eyeball" />
+			<xul:label class="listcell-label" flex="1" xbl:inherits="value=label" />
+			<xul:image class="menuarrow" />
 		</content>
 	</binding>
 </bindings>

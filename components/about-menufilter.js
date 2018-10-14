@@ -1,6 +1,7 @@
 /* globals Components, Services, XPCOMUtils */
 Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
+const generateQI = 'generateQI' in XPCOMUtils ? XPCOMUtils.generateQI : ChromeUtils.generateQI;
 
 function MenuFilterAboutHandler() {
 }
@@ -22,7 +23,7 @@ MenuFilterAboutHandler.prototype = {
 	classDescription: 'About MenuFilter Page',
 	classID: Components.ID('4895bc0b-72f3-48a3-ab89-ff079f51b32d'),
 	contractID: '@mozilla.org/network/protocol/about;1?what=menufilter',
-	QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIAboutModule])
+	QueryInterface: generateQI([Components.interfaces.nsIAboutModule])
 };
 
 this.NSGetFactory = XPCOMUtils.generateNSGetFactory([MenuFilterAboutHandler]);
