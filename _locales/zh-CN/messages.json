@@ -1,0 +1,8 @@
+{
+  "extensionName": {
+    "message": "菜单过滤器"
+  },
+  "extensionDescription": {
+    "message": "过滤掉从不使用的菜单，保持菜单清洁。"
+  }
+}

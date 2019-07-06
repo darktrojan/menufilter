@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "applications": {
+    "gecko": {
+      "id": "menufilter@darktrojan.net",
+      "strict_min_version": "68.0a1"
+    }
+  },
+  "version": "22",
+  "legacy": {
+    "type": "bootstrap",
+    "options": {
+      "page": "about:menufilter",
+      "open_in_tab": true
+    }
+  },
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "author": "Geoff Lankow",
+  "default_locale": "en"
+}
