@@ -122,7 +122,7 @@ function paint(window) {
 		document.menuCSSNode = pi;
 
 		if ('switchToTabHavingURI' in window || 'contentTabBaseType' in window) {
-			let menuitem = document.createElement('menuitem');
+			let menuitem = document.createXULElement('menuitem');
 			menuitem.id = 'tools-menufilter';
 			menuitem.className = 'menuitem-iconic';
 			menuitem.setAttribute('label', strings.GetStringFromName('toolsmenuitem.label'));
