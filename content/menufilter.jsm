@@ -123,14 +123,8 @@ let MenuFilter = {
 	ensureItemsHaveIDs: function(menu, prefix='menufilter-') {
 		let i = 1;
 		for (let menuitem of menu.children) {
-			if (menuitem.classList.contains('bookmark-item') && !menuitem.hasAttribute('query')) {
-				continue;
-			}
 			if (menuitem.getAttribute('type') == 'radio') {
 				break;
-			}
-			if (menuitem.id == 'panelMenu_bookmarksMenu') {
-				MenuFilter.ensureItemsHaveIDs(menuitem, 'menufilter-bookmarksMenu-');
 			}
 			if (!menuitem.id) {
 				if (menuitem.localName == 'menuseparator' || menuitem.localName == 'toolbarseparator') {

@@ -5,18 +5,16 @@ Components.utils.import('resource://gre/modules/Services.jsm');
 Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 Components.utils.import('chrome://menufilter/content/menufilter.jsm');
 
-/* globals browserStrings, strings */
-XPCOMUtils.defineLazyGetter(this, 'browserStrings', function() {
-	return Services.strings.createBundle('chrome://browser/locale/browser.properties');
-});
+/* globals strings */
 XPCOMUtils.defineLazyGetter(this, 'strings', function() {
 	return Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
 });
 
 var IS_OSX = Services.appinfo.OS == 'Darwin';
 
-var windowURL, windowType, menuID;
-var windowTypeList = document.getElementById('windowtype');
+var menuID;
+var windowURL = 'chrome://messenger/content/messenger.xul';
+var windowType = 'mail:3pane';
 var menuIDList = document.getElementById('menuid');
 var searchText = document.getElementById('search');
 var menuItemList = document.getElementById('menu');
@@ -24,70 +22,11 @@ var showButton = document.getElementById('show');
 var hideButton = document.getElementById('hide');
 var itemsInCurrentList;
 
-switch (Services.appinfo.name) {
-case 'Firefox':
-	windowURL = 'chrome://browser/content/browser.xul';
-	windowType = 'navigator:browser';
-	document.documentElement.classList.add('isfirefox');
-	break;
-case 'Thunderbird':
-	windowURL = 'chrome://messenger/content/messenger.xul';
-	windowType = 'mail:3pane';
-	document.documentElement.classList.add('isthunderbird');
-	break;
-case 'SeaMonkey':
-	windowURL = 'chrome://navigator/content/navigator.xul';
-	windowType = 'navigator:browser';
-	document.documentElement.classList.add('isseamonkey');
-	windowTypeList.selectedItem = windowTypeList.getItemAtIndex(0);
-	break;
-}
-
-var windowObserver = {
-	observe: function(subject, topic) {
-		if (topic == 'domwindowopened') {
-			subject.addEventListener('load', function windowLoad() {
-				subject.removeEventListener('load', windowLoad);
-				windowObserver.iterate();
-			});
-		} else {
-			this.iterate();
-		}
-	},
-	iterate: function() {
-		for (let i = 0; i < windowTypeList.itemCount; i++) {
-			let item = windowTypeList.getItemAtIndex(i);
-			item.disabled = !Services.wm.getMostRecentWindow(item.value);
-		}
-	}
-};
-
 onload = function() {
 	showButton.disabled = hideButton.disabled = true;
 	updateMenuIDList();
 	menuChosen(menuIDList.value);
-
-	windowObserver.iterate();
-	Services.ww.registerNotification(windowObserver);
 };
-
-onresize = function() {
-	let first = menuItemList.listBoxObject.getIndexOfFirstVisibleRow();
-	menuItemList.scrollToIndex(first + 1);
-	menuItemList.scrollToIndex(first);
-};
-
-onunload = function() {
-	Services.ww.unregisterNotification(windowObserver);
-};
-
-/* exported windowTypeChosen */
-function windowTypeChosen(item) {
-	windowType = item.value;
-	windowURL = item.getAttribute('url');
-	updateMenuIDList();
-	menuChosen(menuIDList.value);
-}
 
 function updateMenuIDList() {
 	let domWindow = Services.wm.getMostRecentWindow(windowType);
@@ -96,7 +35,7 @@ function updateMenuIDList() {
 		let item = menuIDList.getItemAtIndex(i);
 		item.disabled = !domDocument.getElementById(item.value);
 	}
-	menuIDList.selectedItem = menuIDList.querySelector('.' + Services.appinfo.name.toLowerCase() + ':not([disabled])');
+	menuIDList.selectedItem = menuIDList.querySelector(':not([disabled])');
 }
 
 function menuChosen(id) {
@@ -116,15 +55,8 @@ function _displayMenu(list) {
 	let domDocument = domWindow.document;
 	let menu = domDocument.getElementById(menuID);
 
-	if (menu.id == 'PanelUI-bookmarks' || menu.id == 'PanelUI-history') {
-		menu = menu.querySelector('.panel-subview-body');
-	}
-
 	MenuFilter.ensureItemsHaveIDs(menu);
 	for (let menuitem of menu.children) {
-		if (menuitem.classList.contains('bookmark-item') && !menuitem.id) {
-			continue;
-		}
 		if ((menuID == 'goPopup' || menuID == 'windowPopup') && menuitem.getAttribute('type') == 'radio') {
 			break;
 		}
@@ -151,27 +83,6 @@ function _displayMenu(list) {
 				break;
 			}
 			continue;
-		case 'toolbaritem':
-			if (menuitem.id == 'panelMenu_bookmarksMenu') {
-				for (let bookmarkitem of menuitem.children) {
-					if (bookmarkitem.hasAttribute('query')) {
-						item = document.createXULElement('richlistitem');
-						item.setAttribute('label', bookmarkitem.label);
-						item.setAttribute('value', bookmarkitem.id);
-						menuItemList.appendChild(item);
-					}
-				}
-			}
-			continue;
-		case 'vbox':
-			if (menuitem.id == 'PanelUI-recentlyClosedTabs') {
-				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllTabsSubview.label'));
-				break;
-			} else if (menuitem.id == 'PanelUI-recentlyClosedWindows') {
-				item.setAttribute('label', browserStrings.GetStringFromName('menuRestoreAllWindowsSubview.label'));
-				break;
-			}
-			continue;
 		default:
 			continue;
 		}
@@ -184,39 +95,6 @@ function _displayMenu(list) {
 			item.setAttribute('disabled', 'true');
 		}
 		menuItemList.appendChild(item);
-	}
-
-	if (Services.appinfo.name == 'Firefox') {
-		let item;
-		switch (menuID) {
-		case 'bookmarksMenuPopup':
-		case 'BMB_bookmarksPopup':
-			item = document.createXULElement('richlistitem');
-			item.setAttribute('label', browserStrings.GetStringFromName('menuOpenAllInTabs.label'));
-			item.setAttribute('value', 'openintabs-menuitem');
-			break;
-		case 'PanelUI-bookmarks':
-			item = document.createXULElement('richlistitem');
-			item.setAttribute('label', domDocument.getElementById('panelMenu_showAllBookmarks').getAttribute('label'));
-			item.setAttribute('value', 'panelMenu_showAllBookmarks');
-			break;
-		case 'PanelUI-history':
-			item = document.createXULElement('richlistitem');
-			item.setAttribute('label', domDocument.getElementById('PanelUI-historyMore').getAttribute('label'));
-			item.setAttribute('value', 'PanelUI-historyMore');
-			break;
-		case 'menuWebDeveloperPopup':
-			item = document.createXULElement('richlistitem');
-			item.setAttribute('label', domDocument.getElementById('goOfflineMenuitem').getAttribute('label'));
-			item.setAttribute('value', 'workoffline-menuitem');
-			break;
-		}
-		if (item) {
-			if (list.includes(item.getAttribute('value'))) {
-				item.classList.add('hidden');
-			}
-			menuItemList.appendChild(item);
-		}
 	}
 
 	menuItemList.scrollToIndex(1);
@@ -301,12 +179,6 @@ function toggleItem(target) {
 
 function doDonate() {
 	let uri = 'https://darktrojan.github.io/donate.html?menufilter';
-
-	let browserWindow = Services.wm.getMostRecentWindow('navigator:browser');
-	if (browserWindow) {
-		browserWindow.switchToTabHavingURI(uri, true);
-		return;
-	}
 
 	let mailWindow = Services.wm.getMostRecentWindow('mail:3pane');
 	if (mailWindow) {

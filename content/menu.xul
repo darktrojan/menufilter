@@ -8,51 +8,23 @@
 		xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	<hbox flex="1" pack="center">
 		<vbox>
-			<label class="seamonkey" control="windowtype" value="&windowtype.list.label;" />
-			<menulist id="windowtype" class="seamonkey" oncommand="windowTypeChosen(this.selectedItem)">
-				<menupopup>
-					<menuitem label="&windowtype.list.browser;"
-						value="navigator:browser" url="chrome://navigator/content/navigator.xul" />
-					<menuitem label="&windowtype.list.mail;"
-						value="mail:3pane" url="chrome://messenger/content/messenger.xul" />
-					<menuitem label="&windowtype.list.composer;"
-						value="composer:html" url="chrome://editor/content/editor.xul" />
-				</menupopup>
-			</menulist>
 			<label control="menuid" value="&menuid.list.label;" />
 			<menulist id="menuid" oncommand="menuChosen(this.value)">
 				<menupopup>
-					<menuitem value="mailContext" class="thunderbird seamonkey" label="&menuid.list.contentContext.label;" />
-					<menuitem value="contentAreaContextMenu" class="firefox seamonkey" label="&menuid.list.contentContext.label;" />
-					<menuitem value="folderPaneContext" class="thunderbird seamonkey" label="&menuid.list.folderPaneContext.label;" />
-					<menuitem value="tabContextMenu" class="firefox" label="&menuid.list.tabContext.label;" />
-					<menuitem value="placesContext" class="firefox" label="&menuid.list.placesContext.label;" />
-					<menuitem value="menu_FilePopup" class="firefox thunderbird seamonkey" label="&menuid.list.file.label;" />
-					<menuitem value="menu_EditPopup" class="firefox thunderbird seamonkey" label="&menuid.list.edit.label;" />
-					<menuitem value="menu_viewPopup" class="firefox" label="&menuid.list.view.label;" />
-					<menuitem value="menu_View_Popup" class="thunderbird seamonkey" label="&menuid.list.view.label;" />
-					<menuitem value="menu_GoPopup" class="thunderbird seamonkey" label="&menuid.list.go.label;" />
-					<menuitem value="goPopup" class="seamonkey" label="&menuid.list.go.label;" />
-					<menuitem value="goPopup" class="firefox" label="&menuid.list.history.label;" />
-					<menuitem value="messageMenuPopup" class="thunderbird seamonkey" label="&menuid.list.message.label;" />
-					<menuitem value="bookmarksMenuPopup" class="firefox seamonkey" label="&menuid.list.bookmarks.label;" />
-					<menuitem value="menu_Event_Task_Popup" class="thunderbird" label="&menuid.list.lightning.label;" />
-					<menuitem value="insertMenuPopup" class="seamonkey" label="&menuid.list.insert.label;" />
-					<menuitem value="formatMenuPopup" class="seamonkey" label="&menuid.list.format.label;" />
-					<menuitem value="tableMenuPopup" class="seamonkey" label="&menuid.list.table.label;" />
-					<menuitem value="menu_ToolsPopup" class="firefox" label="&menuid.list.tools.label;" />
-					<menuitem value="menuWebDeveloperPopup" class="firefox" label="&menuid.list.developer.label;" />
-					<menuitem value="taskPopup" class="thunderbird seamonkey" label="&menuid.list.tools.label;" />
-					<menuitem value="windowPopup" class="seamonkey" label="&menuid.list.window.label;" />
-					<menuitem value="menu_HelpPopup" class="firefox thunderbird" label="&menuid.list.help.label;" />
-					<menuitem value="helpPopup" class="seamonkey" label="&menuid.list.help.label;" />
-					<menuitem value="PanelUI-history" class="firefox" label="&menuid.list.historyPanel.label;" />
-					<menuitem value="PanelUI-bookmarks" class="firefox" label="&menuid.list.bookmarksPanel.label;" />
-					<menuitem value="BMB_bookmarksPopup" class="firefox" label="&menuid.list.bookmarksToolbarPanel.label;" />
+					<menuitem value="mailContext" label="&menuid.list.contentContext.label;" />
+					<menuitem value="folderPaneContext" label="&menuid.list.folderPaneContext.label;" />
+					<menuitem value="menu_FilePopup" label="&menuid.list.file.label;" />
+					<menuitem value="menu_EditPopup" label="&menuid.list.edit.label;" />
+					<menuitem value="menu_View_Popup" label="&menuid.list.view.label;" />
+					<menuitem value="menu_GoPopup" label="&menuid.list.go.label;" />
+					<menuitem value="messageMenuPopup" label="&menuid.list.message.label;" />
+					<menuitem value="menu_Event_Task_Popup" label="&menuid.list.lightning.label;" />
+					<menuitem value="taskPopup" label="&menuid.list.tools.label;" />
+					<menuitem value="menu_HelpPopup" label="&menuid.list.help.label;" />
 				</menupopup>
 			</menulist>
 			<label control="search" value="&search.label;" />
-			<textbox id="search" type="search" oncommand="search(this.value);" />
+			<textbox id="search" oninput="search(this.value);" />
 			<spacer flex="1" />
 			<vbox id="donatewrapper">
 				<description id="donatelabel">&donate.label.text;</description>

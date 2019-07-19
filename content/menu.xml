@@ -10,7 +10,7 @@
 		</implementation>
 		<handlers>
 			<handler event="click" button="0"><![CDATA[
-				if (event.screenX - this.eyeball.boxObject.screenX < this.eyeball.boxObject.width + 2) {
+				if (event.originalTarget == this.eyeball) {
 					if (this.classList.toggle("hidden")) {
 						MenuFilter.hiddenItems.add(windowURL, menuID, this.value);
 					} else {

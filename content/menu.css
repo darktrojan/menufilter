@@ -4,16 +4,6 @@ page {
 #menuid > menupopup > menuitem[disabled] {
 	display: none;
 }
-.firefox,
-.thunderbird,
-.seamonkey {
-	display: none;
-}
-page.isfirefox .firefox,
-page.isthunderbird .thunderbird,
-page.isseamonkey .seamonkey {
-	display: initial;
-}
 #donatewrapper {
 	margin: 2px 4px;
 	padding: 4px;

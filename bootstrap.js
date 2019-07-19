@@ -4,37 +4,30 @@ Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 /* globals idleService */
 XPCOMUtils.defineLazyServiceGetter(this, 'idleService', '@mozilla.org/widget/idleservice;1', 'nsIIdleService');
 
+Components.utils.importGlobalProperties(["btoa"]);
+
 const cssData =
-	'href="data:text/css,' + encodeURIComponent(
-		'.menufilter-hidden, .menufilter-separator-hidden, ' +
-		'menupopup[menufilter-openintabs-hidden] .bookmarks-actions-menuseparator, ' +
-		'menupopup[menufilter-openintabs-hidden] .openintabs-menuitem, ' +
-		'panelview[menufilter-workoffline-hidden] toolbarbutton:last-child, ' +
-		'panelview[menufilter-workoffline-hidden] menuseparator:last-of-type {' +
-		' display: none; ' +
-		'}'
+	'href="data:text/css;base64,' + btoa(
+		".menufilter-hidden, .menufilter-separator-hidden { display: none; }"
 	) + '" type="text/css"';
 
 let aboutPage = {};
 let strings = Services.strings.createBundle('chrome://menufilter/locale/strings.properties');
 
 let ABOUT_PAGE_URL = 'about:menufilter';
-let BROWSER_URL = 'chrome://browser/content/browser.xul';
-let CHANGELOG_URL = 'https://addons.mozilla.org/addon/menu-filter/versions/';
+let CHANGELOG_URL = 'https://addons.thunderbird.net/addon/menu-filter/versions/';
 let DONATE_URL = 'https://darktrojan.github.io/donate.html?menufilter';
 let IDLE_TIMEOUT = 9;
-let LIBRARY_URL = 'chrome://browser/content/places/places.xul';
 let MESSAGE_WINDOW_URL = 'chrome://messenger/content/messageWindow.xul';
 let MESSENGER_URL = 'chrome://messenger/content/messenger.xul';
-let NAVIGATOR_URL = 'chrome://navigator/content/navigator.xul';
 let PREF_REMINDER = 'extensions.menufilter.donationreminder';
 let PREF_VERSION = 'extensions.menufilter.version';
-let WINDOW_URLS = [BROWSER_URL, LIBRARY_URL, MESSAGE_WINDOW_URL, MESSENGER_URL, NAVIGATOR_URL];
+let WINDOW_URLS = [MESSAGE_WINDOW_URL, MESSENGER_URL];
 
 let IS_OSX = Services.appinfo.OS == 'Darwin';
 
 /* exported install, uninstall, startup, shutdown */
-/* globals APP_STARTUP, APP_SHUTDOWN, ADDON_INSTALL, ADDON_UPGRADE */
+/* globals APP_SHUTDOWN, ADDON_INSTALL, ADDON_UPGRADE */
 function install(params, reason) {
 	if (reason == ADDON_UPGRADE && !Services.prefs.prefHasUserValue(PREF_VERSION)) {
 		Services.prefs.setCharPref(PREF_VERSION, params.oldVersion);
@@ -43,18 +36,6 @@ function install(params, reason) {
 function uninstall() {
 }
 function startup(params, reason) {
-	if (reason == APP_STARTUP && Services.appinfo.name == 'Firefox') {
-		Services.obs.addObserver({
-			observe: function() {
-				Services.obs.removeObserver(this, 'browser-delayed-startup-finished');
-				realStartup(params, reason);
-			}
-		}, 'browser-delayed-startup-finished', false);
-	} else {
-		realStartup(params, reason);
-	}
-}
-function realStartup(params, reason) {
 	/* globals MenuFilter */
 	Components.utils.import('chrome://menufilter/content/menufilter.jsm');
 	MenuFilter.hiddenItems.registerListener(refreshItems);
@@ -89,13 +70,6 @@ function shutdown(params, reason) {
 		case ABOUT_PAGE_URL:
 			window.close();
 			break;
-		case BROWSER_URL:
-			for (let tab of window.gBrowser.tabs) {
-				if (tab.linkedBrowser.currentURI.spec == ABOUT_PAGE_URL) {
-					window.gBrowser.removeTab(tab);
-				}
-			}
-			break;
 		}
 	});
 
@@ -110,9 +84,7 @@ function shutdown(params, reason) {
 
 function paint(window) {
 	let location = window.location.href;
-	if (location == LIBRARY_URL) {
-		location = BROWSER_URL;
-	} else if (location == MESSAGE_WINDOW_URL) {
+	if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.includes(location)) {
@@ -121,37 +93,12 @@ function paint(window) {
 		document.insertBefore(pi, document.documentElement);
 		document.menuCSSNode = pi;
 
-		if ('switchToTabHavingURI' in window || 'contentTabBaseType' in window) {
-			let menuitem = document.createXULElement('menuitem');
-			menuitem.id = 'tools-menufilter';
-			menuitem.className = 'menuitem-iconic';
-			menuitem.setAttribute('label', strings.GetStringFromName('toolsmenuitem.label'));
-			menuitem.addEventListener('command', function() {
-				if ('switchToTabHavingURI' in window) {
-					window.switchToTabHavingURI(ABOUT_PAGE_URL, true);
-				} else if ('contentTabBaseType' in window) {
-					let whitelist = window.contentTabBaseType.inContentWhitelist;
-					if (!whitelist.includes(ABOUT_PAGE_URL)) {
-						whitelist.push(ABOUT_PAGE_URL);
-					}
-					window.openContentTab(ABOUT_PAGE_URL);
-				}
-			});
-
-			let toolsPopup = document.getElementById('menu_ToolsPopup') || document.getElementById('taskPopup');
-			if (toolsPopup) {
-				toolsPopup.appendChild(menuitem);
-			}
-		}
-
 		hideItems(document);
 	}
 }
 function unpaint(window) {
 	let location = window.location.href;
-	if (location == LIBRARY_URL) {
-		location = BROWSER_URL;
-	} else if (location == MESSAGE_WINDOW_URL) {
+	if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	if (WINDOW_URLS.includes(location)) {
@@ -161,11 +108,6 @@ function unpaint(window) {
 		}
 
 		unhideItems(document);
-
-		let menuitem = document.getElementById('tools-menufilter');
-		if (menuitem) {
-			menuitem.remove();
-		}
 	}
 }
 function enumerateWindows(callback) {
@@ -176,9 +118,7 @@ function enumerateWindows(callback) {
 }
 function hideItems(document) {
 	let location = document.location;
-	if (location == LIBRARY_URL) {
-		location = BROWSER_URL;
-	} else if (location == MESSAGE_WINDOW_URL) {
+	if (location == MESSAGE_WINDOW_URL) {
 		location = MESSENGER_URL;
 	}
 	MenuFilter.hiddenItems.getList(location).then(function(menus) {
@@ -192,24 +132,12 @@ function hideItems(document) {
 			if (!menu) {
 				continue;
 			}
-			if (menu.id == 'PanelUI-bookmarks' || menu.id == 'PanelUI-history') {
-				menu.addEventListener('ViewShowing', viewShowingListener);
-				menu.setAttribute('menufilter-listeneradded', 'true');
-				menu = menu.querySelector('.panel-subview-body');
-			} else {
-				menu.addEventListener('popupshowing', popupShowingListener);
-				menu.setAttribute('menufilter-listeneradded', 'true');
-			}
+			menu.addEventListener('popupshowing', popupShowingListener);
+			menu.setAttribute('menufilter-listeneradded', 'true');
+
 			MenuFilter.ensureItemsHaveIDs(menu);
 			menu._menufilter_list = list;
 			for (let item of list) {
-				if (item == 'openintabs-menuitem') {
-					// TODO:
-					// #BMB_bookmarksPopup doesn't exist if Bookmarks is not on the toolbar
-					// and this attribute won't get added if that changes.
-					menu.setAttribute('menufilter-openintabs-hidden', 'true');
-					continue;
-				}
 				if (location == MESSENGER_URL && !['mailContext', 'folderPaneContext'].includes(id)) {
 					let idReplacements = new Map([
 						['appmenu_getAllNewMsg', 'appmenu_getNewMsgFor'],
@@ -231,24 +159,6 @@ function hideItems(document) {
 					}
 				}
 			}
-
-			let viewParent = document.getElementById('PanelUI-multiView');
-			switch (id) {
-			case 'menuWebDeveloperPopup':
-				// The toolbar Developer Tools panel is cloned from this menu when opened,
-				// so make sure we've already hidden items by listening to an ancestor
-				// in the capturing phase.
-				document.documentElement.addEventListener('ViewShowing', devToolsListener, true);
-				break;
-			case 'menu_HelpPopup':
-				if (viewParent) { // Not in Thunderbird.
-					viewParent.addEventListener('ViewShowing', helpListener);
-				}
-				break;
-			case 'PanelUI-bookmarks':
-				viewParent.addEventListener('ViewShowing', bookmarksPanelListener);
-				break;
-			}
 		}
 	}).then(null, Components.utils.reportError);
 }
@@ -259,23 +169,10 @@ function unhideItems(document) {
 			menuitem.collapsed = false;
 		}
 	}
-	for (let menupopup of document.querySelectorAll(
-		'[menufilter-openintabs-hidden], [menufilter-workoffline-hidden]'
-	)) {
-		menupopup.removeAttribute('menufilter-openintabs-hidden');
-		menupopup.removeAttribute('menufilter-workoffline-hidden');
-	}
 	for (let menupopup of document.querySelectorAll('[menufilter-listeneradded]')) {
 		delete menupopup._menufilter_list;
-		menupopup.removeEventListener('ViewShowing', viewShowingListener);
 		menupopup.removeEventListener('popupshowing', popupShowingListener);
 		menupopup.removeAttribute('menufilter-listeneradded');
-	}
-	document.documentElement.removeEventListener('ViewShowing', devToolsListener, true);
-	let viewParent = document.getElementById('PanelUI-multiView');
-	if (viewParent) {
-		viewParent.removeEventListener('ViewShowing', helpListener);
-		viewParent.removeEventListener('ViewShowing', bookmarksPanelListener);
 	}
 }
 function refreshItems() {
@@ -286,62 +183,6 @@ function refreshItems() {
 			hideItems(document);
 		}
 	});
-}
-function viewShowingListener({originalTarget: view}) {
-	let menu = view.querySelector('.panel-subview-body');
-	if (menu._menufilter_list) {
-		popupShowingListener({originalTarget: menu});
-		let menuitem;
-		if (menu._menufilter_list.includes('panelMenu_showAllBookmarks')) {
-			menuitem = view.querySelector('#panelMenu_showAllBookmarks');
-		} else if (menu._menufilter_list.includes('PanelUI-historyMore')) {
-			menuitem = view.querySelector('#PanelUI-historyMore');
-		}
-		if (menuitem) {
-			menuitem.classList.add('menufilter-hidden');
-		}
-	}
-}
-function devToolsListener({originalTarget: view}) {
-	if (view.id == 'PanelUI-developer') {
-		this.removeEventListener('ViewShowing', devToolsListener, true);
-
-		let document = view.ownerDocument;
-		let menu = document.getElementById('menuWebDeveloperPopup');
-		popupShowingListener({originalTarget: menu});
-
-		if (menu._menufilter_list.includes('workoffline-menuitem')) {
-			document.getElementById('PanelUI-developer').setAttribute('menufilter-workoffline-hidden', 'true');
-		}
-	}
-}
-function helpListener({originalTarget: view}) {
-	if (view.id == 'PanelUI-helpView') {
-		let menu = view.ownerDocument.getElementById('menu_HelpPopup');
-		if (menu._menufilter_list) {
-			popupShowingListener({originalTarget: menu});
-
-			let menubarItems = menu.querySelectorAll('menuitem:not([hidden])');
-			let panelItems = view.querySelectorAll('.panel-subview-body > toolbarbutton');
-			// panelItems has the same items as menubarItems, so we can just iterate.
-			for (let i = 0; i < menubarItems.length; i++) {
-				if (menubarItems[i].classList.contains('menufilter-hidden')) {
-					panelItems[i].classList.add('menufilter-hidden');
-				}
-				if (menubarItems[i].classList.contains('menufilter-separator-hidden')) {
-					panelItems[i].classList.add('menufilter-separator-hidden');
-				}
-			}
-		}
-	}
-}
-function bookmarksPanelListener({originalTarget: view}) {
-	let menu = view.querySelector('.panel-subview-body');
-	let submenu = view.querySelector('#panelMenu_bookmarksMenu');
-	submenu._menufilter_list = menu._menufilter_list;
-
-	MenuFilter.ensureItemsHaveIDs(submenu,'menufilter-bookmarksMenu-');
-	popupShowingListener({originalTarget: submenu});
 }
 function popupShowingListener({originalTarget: menu}) {
 	if (!menu._menufilter_list) {
@@ -359,15 +200,7 @@ function popupShowingListener({originalTarget: menu}) {
 		}
 	}
 
-	if (menu.id == 'BMB_bookmarksPopup' && menu._menufilter_list.includes('BMB_recentBookmarks')) {
-		let next = menu.querySelector('#BMB_recentBookmarks').nextElementSibling;
-		while (next && next.localName == 'menuitem') {
-			next.classList.add('menufilter-hidden');
-			next = next.nextElementSibling;
-		}
-	}
-
-	let shownItems = Array.filter(menu.children, function(i) {
+	let shownItems = [...menu.children].filter(function(i) {
 		return !i.hidden && !i.classList.contains('menufilter-hidden');
 	});
 
@@ -434,26 +267,14 @@ var donationReminder = {
 		let donateAccessKey = strings.GetStringFromName('donate.button.accesskey');
 		let notificationBox, callback;
 
-		let recentWindow = Services.wm.getMostRecentWindow('navigator:browser');
+		let recentWindow = Services.wm.getMostRecentWindow('mail:3pane');
 		if (recentWindow) {
-			let browser = recentWindow.gBrowser;
-			notificationBox = recentWindow.document.getElementById('global-notificationbox') ||
-				browser.getNotificationBox();
+			notificationBox = recentWindow.specialTabs.msgNotificationBar;
 			callback = function(url) {
 				return function() {
-					browser.selectedTab = browser.addTab(url);
+					recentWindow.openLinkExternally(url);
 				};
 			};
-		} else {
-			recentWindow = Services.wm.getMostRecentWindow('mail:3pane');
-			if (recentWindow) {
-				notificationBox = recentWindow.document.getElementById('mail-notification-box');
-				callback = function(url) {
-					return function() {
-						recentWindow.openLinkExternally(url);
-					};
-				};
-			}
 		}
 
 		if (notificationBox) {
