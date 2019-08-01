@@ -40,7 +40,15 @@ function startup(params, reason) {
 	Components.utils.import('chrome://menufilter/content/menufilter.jsm');
 	MenuFilter.hiddenItems.registerListener(refreshItems);
 
-	enumerateWindows(paint);
+	enumerateWindows(function(window) {
+		if (['interactive', 'complete'].includes(window.document.readyState)) {
+			paint(window);
+		} else {
+			window.addEventListener('load', function() {
+				paint(window);
+			}, { once: true });
+		}
+	});
 	Services.ww.registerNotification(windowObserver);
 
 	Services.scriptloader.loadSubScript(params.resourceURI.spec + 'components/about-menufilter.js', aboutPage);
